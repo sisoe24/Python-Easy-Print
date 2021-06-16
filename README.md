@@ -4,7 +4,7 @@ VSCode extension for easy commands of Python most useful prints.
 
 ---
 
-**NOTE** for Python 2: Because the extension uses an utf-8 character to create statements, Python2 developers must declare the encoding the the beginning of the file: `#coding: utf-8`. More info [here](https://www.python.org/dev/peps/pep-0263/).
+**NOTE** for Python 2: Because the extension uses a utf-8 character to create statements, Python2 developers must declare the encoding (`#coding: utf-8`) at the beginning of the file. More info [here](https://www.python.org/dev/peps/pep-0263/).
 
 ---
 
@@ -14,13 +14,10 @@ VSCode extension for easy commands of Python most useful prints.
 * Commands can be activate by selecting the whole word/s or just by hovering the cursor over.
 * Comment, uncomment and delete statements made by extension.
 
-Multiple helpers:
 [<img title="Multiple helpers" src="/images/example_statements4.gif" width="500"/>](/images/example_statements4.gif)
 
-Hover or select:
 [<img title="Select or Hover" src="/images/hover_selection.gif" width="500"/>](/images/hover_selection.gif)
 
-Comment, uncomment and delete:
 [<img title="Comment, uncomment and delete" src="/images/comment_uncomment_delete.gif" width="500"/>](/images/comment_uncomment_delete.gif)
 
 ## Extension Settings

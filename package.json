@@ -1,7 +1,7 @@
 {
   "name": "python-easy-print",
   "displayName": "Python Easy Print",
-  "description": "Easy access to Python prints - bla bla",
+  "description": "Easy commands for some of Python most useful prints.",
   "version": "0.0.1",
   "publisher": "virgilsisoe",
   "icon": "images/python_icon_256px.png",
