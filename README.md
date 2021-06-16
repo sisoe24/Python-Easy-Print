@@ -1,6 +1,6 @@
-# python-easy-print README
+# Python Easy Print README
 
-Easy commands for some of Python most useful prints.
+VSCode extension for easy commands of Python most useful prints.
 
 ---
 

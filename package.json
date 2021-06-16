@@ -4,11 +4,19 @@
   "description": "Easy access to Python prints - bla bla",
   "version": "0.0.1",
   "publisher": "virgilsisoe",
-  "homepage": "",
-  "icon": "/images/python_icon_128px.png",
+  "icon": "images/python_icon_256px.png",
+  "galleryBanner": {
+    "color": "#347AB4",
+    "theme": "dark"
+  },
+  "homepage": "https://github.com/sisoe24/Python-Easy-Print",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/sisoe24/Python-Easy-Print.git"
+  },
+  "bugs": {
+    "email": "virgilsisoe@gmail.com",
+    "url": "https://github.com/sisoe24/Python-Easy-Print/issues"
   },
   "keywords": [
     "python",
