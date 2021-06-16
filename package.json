@@ -1,0 +1,147 @@
+{
+  "name": "python-easy-print",
+  "displayName": "Python Easy Print",
+  "description": "Easy access to Python prints - bla bla",
+  "version": "0.0.1",
+  "publisher": "virgilsisoe",
+  "homepage": "",
+  "icon": "/images/python_icon_128px.png",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "python",
+    "debug",
+    "print",
+    "quick",
+    "easy",
+    "helper",
+    "comment",
+    "uncomment"
+  ],
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:python-easy-print.easyPrint",
+    "onCommand:python-easy-print.easyPrintDir",
+    "onCommand:python-easy-print.easyPrintType",
+    "onCommand:python-easy-print.easyHelp",
+    "onCommand:python-easy-print.commentPrintLines",
+    "onCommand:python-easy-print.uncommentPrintLines",
+    "onCommand:python-easy-print.deletePrintLines"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "python-easy-print.easyPrint",
+        "title": "Python EasyPrint"
+      },
+      {
+        "command": "python-easy-print.easyPrintDir",
+        "title": "Python EasyPrint: dir"
+      },
+      {
+        "command": "python-easy-print.easyPrintType",
+        "title": "Python EasyPrint: type"
+      },
+      {
+        "command": "python-easy-print.easyHelp",
+        "title": "Python EasyPrint: help"
+      },
+      {
+        "command": "python-easy-print.commentPrintLines",
+        "title": "Python EasyPrint: Comment print lines"
+      },
+      {
+        "command": "python-easy-print.uncommentPrintLines",
+        "title": "Python EasyPrint: Uncomment print lines"
+      },
+      {
+        "command": "python-easy-print.deletePrintLines",
+        "title": "Python EasyPrint: Delete print lines"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "python-easy-print.easyPrint",
+        "key": "ctrl+shift+l p",
+        "mac": "cmd+shift+l p",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyPrintDir",
+        "key": "ctrl+shift+l d",
+        "mac": "cmd+shift+l d",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyPrintType",
+        "key": "ctrl+shift+l t",
+        "mac": "cmd+shift+l t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyHelp",
+        "key": "ctrl+shift+l h",
+        "mac": "cmd+shift+l h",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.commentPrintLines",
+        "key": "ctrl+shift+l c",
+        "mac": "cmd+shift+l c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.uncommentPrintLines",
+        "key": "ctrl+shift+l u",
+        "mac": "cmd+shift+l u",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.deletePrintLines",
+        "key": "ctrl+shift+l x",
+        "mac": "cmd+shift+l x",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Python EasyPrint",
+      "properties": {
+        "pythonEasyPrint.customizeLogMessage": {
+          "type": "string",
+          "default": "",
+          "description": "Custom log messsage for the print. Placeholder variables:\n%f - File name\n%t - Time\n%l - Line Number"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.46.0",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.15.0",
+    "glob": "^7.1.6",
+    "mocha": "^8.1.3",
+    "typescript": "^4.1.2",
+    "vscode-test": "^1.4.1"
+  }
+}
