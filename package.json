@@ -20,13 +20,16 @@
   },
   "keywords": [
     "python",
-    "debug",
     "print",
+    "debug",
     "quick",
     "easy",
     "helper",
     "comment",
-    "uncomment"
+    "uncomment",
+    "delete",
+    "repr",
+    "pep"
   ],
   "engines": {
     "vscode": "^1.46.0"
@@ -39,6 +42,7 @@
     "onCommand:python-easy-print.easyPrint",
     "onCommand:python-easy-print.easyPrintDir",
     "onCommand:python-easy-print.easyPrintType",
+    "onCommand:python-easy-print.easyPrintRepr",
     "onCommand:python-easy-print.easyHelp",
     "onCommand:python-easy-print.commentPrintLines",
     "onCommand:python-easy-print.uncommentPrintLines",
@@ -62,6 +66,10 @@
       {
         "command": "python-easy-print.easyHelp",
         "title": "Python EasyPrint: help"
+      },
+      {
+        "command": "python-easy-print.easyHelp",
+        "title": "Python EasyPrint: repr"
       },
       {
         "command": "python-easy-print.commentPrintLines",
@@ -93,6 +101,12 @@
         "command": "python-easy-print.easyPrintType",
         "key": "ctrl+shift+l t",
         "mac": "cmd+shift+l t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyPrintRepr",
+        "key": "ctrl+shift+l r",
+        "mac": "cmd+shift+l r",
         "when": "editorTextFocus"
       },
       {

@@ -157,46 +157,42 @@ function printStatement(msg: string, type?: string) {
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-    let disposable = vscode.commands.registerCommand('python-easy-print.easyPrint', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyPrint', () => {
         const msg = `print("${symbol} text :", text)`;
         printStatement(msg);
-    });
+    }));
 
-    let disposable2 = vscode.commands.registerCommand('python-easy-print.easyPrintType', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyPrintType', () => {
         const msg = `print("${symbol} text type :", type(text))`;
-        printStatement(msg, 'type');
-    });
+        printStatement(msg, ')type');
+    }));
 
-    let disposable3 = vscode.commands.registerCommand('python-easy-print.easyPrintDir', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyPrintDir', () => {
         const msg = `print("${symbol} text dir :", dir(text))`;
-        printStatement(msg, 'dir');
-    });
+        printStatement(msg, ')dir');
+    }));
 
-    let disposable4 = vscode.commands.registerCommand('python-easy-print.easyHelp', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyPrintRepr', () => {
+        const msg = `print("${symbol} text repr :", repr(text))`;
+        printStatement(msg, ')repr');
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyHelp', () => {
         const msg = 'help(text)';
-        printStatement(msg, 'help');
-    });
+        printStatement(msg, ')help');
+    }));
 
-    let disposable5 = vscode.commands.registerCommand('python-easy-print.commentPrintLines', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.commentPrintLines', () => {
         lineParser('comment');
-    });
+    }));
 
-    let disposable6 = vscode.commands.registerCommand('python-easy-print.uncommentPrintLines', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.uncommentPrintLines', () => {
         lineParser('uncomment');
-    });
+    }));
 
-    let disposable7 = vscode.commands.registerCommand('python-easy-print.deletePrintLines', () => {
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.deletePrintLines', () => {
         lineParser('delete');
-    });
-
-    // XXX: not sure about this
-    context.subscriptions.push(disposable);
-    context.subscriptions.push(disposable2);
-    context.subscriptions.push(disposable3);
-    context.subscriptions.push(disposable4);
-    context.subscriptions.push(disposable5);
-    context.subscriptions.push(disposable6);
-    context.subscriptions.push(disposable7);
+    }));
 }
 
 // this method is called when your extension is deactivated
