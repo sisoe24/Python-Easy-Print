@@ -44,6 +44,7 @@
     "onCommand:python-easy-print.easyPrintType",
     "onCommand:python-easy-print.easyPrintRepr",
     "onCommand:python-easy-print.easyHelp",
+    "onCommand:python-easy-print.easyPrintPy2",
     "onCommand:python-easy-print.commentPrintLines",
     "onCommand:python-easy-print.uncommentPrintLines",
     "onCommand:python-easy-print.deletePrintLines"
@@ -68,8 +69,12 @@
         "title": "Python EasyPrint: help"
       },
       {
-        "command": "python-easy-print.easyHelp",
+        "command": "python-easy-print.easyPrintRepr",
         "title": "Python EasyPrint: repr"
+      },
+      {
+        "command": "python-easy-print.easyPrintPy2",
+        "title": "Python EasyPrint: Easy print settings for Python2"
       },
       {
         "command": "python-easy-print.commentPrintLines",

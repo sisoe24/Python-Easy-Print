@@ -4,10 +4,10 @@ VSCode extension for easy commands of Python most useful prints.
 
 ---
 
-**NOTE** Python 2 developers should start their file with:
+**NOTE** Python 2 developers should start their file with the following declaration or use the included command when using this extension:
 
 ```py
-# -*- coding: utf-8 -*-
+# coding: utf-8
 from __future__ import print_function
 ```
 
@@ -20,6 +20,7 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
 * Fast commands to automatically print some helpful information like: `dir`, `type`, `repr`, `help` and normal `print`.
 * Commands can be activate by selecting the whole word/s or just by hovering the cursor over.
 * Comment, uncomment and delete statements made by extension.
+* Quick command to initiate a Python2 file with the declarations needed to use the Python3 `print` and decode `utf-8` unicode characters.
 
 ## Commands & Key bindings
 
@@ -27,16 +28,17 @@ The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the 
 
  `p` for `print`, `d` for `dir`, `t` for `type` and so. The only different is `x` for delete
 
-| Command ID                              | Key              |
-| --------------------------------------- | ---------------- |
-| `python-easy-print.easyPrint`           | `ctrl+shift+l p` |
-| `python-easy-print.easyPrintDir`        | `ctrl+shift+l d` |
-| `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
-| `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
-| `python-easy-print.easyHelp`            | `ctrl+shift+l h` |
-| `python-easy-print.commentPrintLines`   | `ctrl+shift+l c` |
-| `python-easy-print.uncommentPrintLines` | `ctrl+shift+l u` |
-| `python-easy-print.deletePrintLines`    | `ctrl+shift+l x` |
+| Description                       | Command ID                              | Key              |
+| --------------------------------- | --------------------------------------- | ---------------- |
+| Simple `print()`                  | `python-easy-print.easyPrint`           | `ctrl+shift+l p` |
+| Print `dir()`                     | `python-easy-print.easyPrintDir`        | `ctrl+shift+l d` |
+| Print `type()`                    | `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
+| Print `repr()`                    | `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
+| Call `help()`                     | `python-easy-print.easyHelp`            | `ctrl+shift+l h` |
+| Init Python2 header declaration   | `python-easy-print.easyPrintPython2`    |                  |
+| Comment lines made by extension   | `python-easy-print.commentPrintLines`   | `ctrl+shift+l c` |
+| Uncomment lines made by extension | `python-easy-print.uncommentPrintLines` | `ctrl+shift+l u` |
+| Delete lines made by extension    | `python-easy-print.deletePrintLines`    | `ctrl+shift+l x` |
 
 MacOS: `ctrl` == `cmd`
 

@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 
 // TODO: should be nice if user could change this but what if uses simple chars? 
 // the delete,comment,uncomment commands will likely create problems
+// TODO: this also creates problem in python2
 const symbol = "\u{27A1}";
 
 
@@ -151,7 +152,17 @@ function printStatement(msg: string, type?: string) {
     });
 }
 
+// Quick startup command for python 2
+function initPrintPython2() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) { return; }
 
+    const startupStatement = "# coding: utf-8\nfrom __future__ import print_function\n";
+
+    editor.edit(editBuilder => {
+        editBuilder.insert(new vscode.Position(0, 0), startupStatement);
+    });
+}
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -180,6 +191,10 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyHelp', () => {
         const msg = 'help(text)';
         printStatement(msg, ')help');
+    }));
+
+    context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.easyPrintPy2', () => {
+        initPrintPython2();
     }));
 
     context.subscriptions.push(vscode.commands.registerCommand('python-easy-print.commentPrintLines', () => {
