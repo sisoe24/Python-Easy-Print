@@ -137,7 +137,7 @@
         "pythonEasyPrint.customizeLogMessage": {
           "type": "string",
           "default": "",
-          "description": "Custom log messsage for the print. Placeholder variables:\n%f - File name\n%t - Time\n%l - Line Number"
+          "description": "Custom log message for the print. Placeholder variables:\n%f - File name\n%t - Time\n%l - Line Number"
         }
       }
     }
