@@ -39,15 +39,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:python-easy-print.easyPrint",
-    "onCommand:python-easy-print.easyPrintDir",
-    "onCommand:python-easy-print.easyPrintType",
-    "onCommand:python-easy-print.easyPrintRepr",
-    "onCommand:python-easy-print.easyHelp",
-    "onCommand:python-easy-print.easyPrintPy2",
-    "onCommand:python-easy-print.commentPrintLines",
-    "onCommand:python-easy-print.uncommentPrintLines",
-    "onCommand:python-easy-print.deletePrintLines"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
