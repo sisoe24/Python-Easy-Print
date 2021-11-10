@@ -10,6 +10,7 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
+				"${workspaceFolder}/demo",
 				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
 			"outFiles": [
@@ -22,6 +23,8 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
+				"${workspaceFolder}/demo",
+				"--disable-extensions",
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
 			],
