@@ -1,15 +1,31 @@
-import * as assert from 'assert';
+import * as assert from "assert";
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+import * as utils from "../../utils";
+import * as testUtils from "./test_utils";
 
-suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
+suite("Extension Settings", () => {
+    suiteSetup("Clean settings", () => {
+        testUtils.cleanSettings();
+    });
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
-	});
+    test("Test settings name", () => {
+        const config = utils.pepConfig("customizeLogMessage");
+        assert.strictEqual(typeof config, "string");
+    });
+
+    test("Test settings invalid configuration name", () => {
+        assert.throws(() => {
+            utils.pepConfig("customizeLogMessages");
+        }, Error);
+    });
+
+    test("Test settings name", async () => {
+        await testUtils.updateConfig("customizeLogMessage", "test1");
+        const config = utils.pepConfig("customizeLogMessage");
+        assert.strictEqual(config, "test1");
+    });
+
+    suiteTeardown("Clean settings", () => {
+        testUtils.cleanSettings();
+    });
 });
