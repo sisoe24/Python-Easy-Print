@@ -61,10 +61,9 @@ export async function run(): Promise<void> {
     const mocha = new Mocha({
         ui: "tdd",
         timeout: 10 * 1000,
+        color: true,
+        require: ["choma"], // TODO: how to make it work?
     });
-
-    // Color the stdout
-    mocha.options.color = true;
 
     // Add all files to the test suite
     const files = glob.sync("**/*.test.js", { cwd: testsRoot });
