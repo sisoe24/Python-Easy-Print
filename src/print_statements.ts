@@ -59,7 +59,7 @@ export function getPrintStatement(statement: string): string {
 }
 
 export function convertPlaceholders(): string {
-    let customMsg = utils.pepConfig("customizeLogMessage") as string;
+    let customMsg = utils.pepConfig("customizePrintMessage") as string;
     const placeholderMatch = customMsg.match(/%[flt]/g);
 
     const editor = vscode.window.activeTextEditor;

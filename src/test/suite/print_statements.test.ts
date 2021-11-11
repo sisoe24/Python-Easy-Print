@@ -53,19 +53,19 @@ suite("Print Statements template", async () => {
 
 suite("Construct statement", () => {
     test("Print statement", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "line: %l");
+        await testUtils.updateConfig("customizePrintMessage", "line: %l");
         const replace = prints.constructPrintStatement("name", "print");
         assert.strictEqual(replace, `print("${prints.symbol} line: 1 name :", name)`);
     });
 
     test("Type statement", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "line: %l");
+        await testUtils.updateConfig("customizePrintMessage", "line: %l");
         const replace = prints.constructPrintStatement("name", "type");
         assert.strictEqual(replace, `print("${prints.symbol} line: 1 name type :", type(name))`);
     });
 
     test("Dir statement", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "%f");
+        await testUtils.updateConfig("customizePrintMessage", "%f");
         const replace = prints.constructPrintStatement("name", "dir");
         assert.strictEqual(replace, `print("${prints.symbol} demo_file.py name dir :", dir(name))`);
     });
@@ -73,7 +73,7 @@ suite("Construct statement", () => {
     // XXX: shouldn't need to test other statements as they are identical to the one above
 
     test("Help statement", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "line: %l");
+        await testUtils.updateConfig("customizePrintMessage", "line: %l");
         const replace = prints.constructPrintStatement("name", "help");
         assert.strictEqual(replace, `help(name)`);
     });
@@ -81,19 +81,19 @@ suite("Construct statement", () => {
 
 suite("Placeholder Constructor", () => {
     test("No placeholders", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "debug");
+        await testUtils.updateConfig("customizePrintMessage", "debug");
         const placeholder = prints.convertPlaceholders();
         assert.strictEqual(placeholder, "debug");
     });
 
     test("Replace %f for file.", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "%f - debug");
+        await testUtils.updateConfig("customizePrintMessage", "%f - debug");
         const placeholder = prints.convertPlaceholders();
         assert.strictEqual(placeholder, "demo_file.py - debug");
     });
 
     test("Replace %l for line.", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "line: %l");
+        await testUtils.updateConfig("customizePrintMessage", "line: %l");
         const placeholder = prints.convertPlaceholders();
         assert.strictEqual(placeholder, "line: 1");
     });

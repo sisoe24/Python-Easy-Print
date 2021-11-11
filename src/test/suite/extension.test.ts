@@ -9,19 +9,19 @@ suite("Extension Settings", () => {
     });
 
     test("Test settings name", () => {
-        const config = utils.pepConfig("customizeLogMessage");
+        const config = utils.pepConfig("customizePrintMessage");
         assert.strictEqual(typeof config, "string");
     });
 
     test("Test settings invalid configuration name", () => {
         assert.throws(() => {
-            utils.pepConfig("customizeLogMessages");
+            utils.pepConfig("customizePrintMessages");
         }, Error);
     });
 
     test("Test settings name", async () => {
-        await testUtils.updateConfig("customizeLogMessage", "test1");
-        const config = utils.pepConfig("customizeLogMessage");
+        await testUtils.updateConfig("customizePrintMessage", "test1");
+        const config = utils.pepConfig("customizePrintMessage");
         assert.strictEqual(config, "test1");
     });
 

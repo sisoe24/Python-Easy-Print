@@ -48,7 +48,7 @@ Every command can be re-assigned to a new shortcut. (see [docs](https://code.vis
 
 ## Extension Settings
 
-* `pythonEasyPrint.customizeLogMessage`: Customize the print message by adding some extra information like custom string or by using one of the placeholder provided: `%t`: time, `%f`: filename, `%l`: line num.
+* `pythonEasyPrint.customizePrintMessage`: Customize the print message by adding some extra information like custom string or by using one of the placeholder provided: `%t`: time, `%f`: filename, `%l`: line num.
 
 ## Known Issues
 
