@@ -54,7 +54,70 @@ export function getDemoFolder(file?: string): string {
  * vscode to register the changes.
  */
 export async function cleanSettings(): Promise<void> {
-    const settings = path.join(getDemoFolder(), ".vscode", "settings.json");
+    const settings = getDemoFolder(path.join(".vscode", "settings.json"));
     writeFileSync(settings, "{}");
     // await sleep(100);
+}
+
+/**
+ * Clean the settings.json file inside the demo folder.
+ *
+ * Method will wait for 200ms before completing. This is to give enough time to
+ * vscode to register the changes.
+ */
+export async function cleanDemoFile(): Promise<void> {
+    const settings = getDemoFolder("demo_file.py");
+    writeFileSync(settings, "");
+    await sleep(50);
+}
+
+/**
+ * Open and focus the demo file.
+ *
+ * Will also put cursor at the beginning of the file so the placeholder %l which
+ * should be: 1
+ *
+ */
+export async function focusDemoFile(): Promise<void> {
+    const demoFile = getDemoFolder("demo_file.py");
+    const document = await vscode.workspace.openTextDocument(demoFile);
+    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One });
+
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+        // put cursor at line 1, char 0
+        const startOfFile = new vscode.Position(0, 0);
+        editor.selection = new vscode.Selection(startOfFile, startOfFile);
+    }
+}
+
+/**
+ * Write content to the demo file.
+ *
+ * @param lines string of objects to write into the file so to make it clear to
+ * understand which line of text should check for tests. Example: `{line1: 'hello'}`
+ */
+export async function writeDemoFile(lines: object) {
+    await cleanDemoFile();
+
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+        let msg = "";
+
+        for (const v of Object.values(lines)) {
+            msg += v;
+        }
+
+        const startOfFile = new vscode.Position(0, 0);
+        await editor.edit((editBuilder) => {
+            // replace all text
+            editBuilder.replace(
+                new vscode.Range(startOfFile, new vscode.Position(editor.document.lineCount, 0)),
+                msg
+            );
+        });
+
+        // deselect any text
+        editor.selection = new vscode.Selection(startOfFile, startOfFile);
+    }
 }
