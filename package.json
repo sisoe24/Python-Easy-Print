@@ -21,6 +21,8 @@
   "keywords": [
     "python",
     "print",
+    "logging",
+    "log",
     "debug",
     "quick",
     "easy",
@@ -46,7 +48,7 @@
     "commands": [
       {
         "command": "python-easy-print.easyPrint",
-        "title": "Python EasyPrint"
+        "title": "Python EasyPrint: print"
       },
       {
         "command": "python-easy-print.easyPrintDir",
@@ -63,6 +65,26 @@
       {
         "command": "python-easy-print.easyPrintRepr",
         "title": "Python EasyPrint: repr"
+      },
+      {
+        "command": "python-easy-print.easyLogDebug",
+        "title": "Python EasyLog: debug"
+      },
+      {
+        "command": "python-easy-print.easyLogInfo",
+        "title": "Python EasyLog: info"
+      },
+      {
+        "command": "python-easy-print.easyLogWarning",
+        "title": "Python EasyLog: warning"
+      },
+      {
+        "command": "python-easy-print.easyLogError",
+        "title": "Python EasyLog: error"
+      },
+      {
+        "command": "python-easy-print.easyLogCritical",
+        "title": "Python EasyLog: critical"
       },
       {
         "command": "python-easy-print.easyPrintPy2",
@@ -134,10 +156,20 @@
     "configuration": {
       "title": "Python EasyPrint",
       "properties": {
-        "pythonEasyPrint.customizeLogMessage": {
+        "pythonEasyPrint.customizePrintMessage": {
           "type": "string",
           "default": "",
-          "description": "Custom log message for the print. Placeholder variables:\n%f - File name\n%t - Time\n%l - Line Number"
+          "description": "Custom log message for the print statements. Placeholder variables:\n%f - File name\n%l - Line Number"
+        },
+        "pythonEasyPrint.customLogName": {
+          "type": "string",
+          "default": "",
+          "description": "Custom logger instance name."
+        },
+        "pythonEasyPrint.useReprToLog": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name)`"
         }
       }
     }
