@@ -2,8 +2,6 @@ import * as vscode from "vscode";
 import * as utils from "./utils";
 import * as path from "path";
 
-export const symbol = "\u{27A1}";
-
 class PlaceholdersConverter {
     private editor;
 
@@ -69,10 +67,10 @@ class PrintConstructor {
      */
     constructor(statement: string) {
         const statementsTypes: { [statement: string]: string } = {
-            print: `print("${symbol} {@} {text} :", {text})`,
-            type: `print("${symbol} {@} {text} type :", type({text}))`,
-            dir: `print("${symbol} {@} {text} dir :", dir({text}))`,
-            repr: `print("${symbol} {@} {text} repr :", repr({text}))`,
+            print: `print("${utils.symbol} {@} {text} :", {text})`,
+            type: `print("${utils.symbol} {@} {text} type :", type({text}))`,
+            dir: `print("${utils.symbol} {@} {text} dir :", dir({text}))`,
+            repr: `print("${utils.symbol} {@} {text} repr :", repr({text}))`,
             help: "help({text})",
         };
 

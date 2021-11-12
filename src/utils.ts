@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 
+export const symbol = "\u{27A1}";
+
 /**
  * Get configuration property value.
  *
