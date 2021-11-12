@@ -21,10 +21,10 @@ class PlaceholdersConverter {
 
     getFuncName() {
         const currentLine = this.editor.selection.active.line;
-        const currentLineSpace =
+        const lineIndentation =
             this.editor.document.lineAt(currentLine).firstNonWhitespaceCharacterIndex;
 
-        if (currentLineSpace === 0) {
+        if (lineIndentation === 0) {
             return "";
         }
 
@@ -34,7 +34,7 @@ class PlaceholdersConverter {
             const pattern = new RegExp(/def\s(\w+)\(\):/);
             const match = pattern.exec(lineObj.text);
 
-            if (match && currentLineSpace > lineObj.firstNonWhitespaceCharacterIndex) {
+            if (match && lineIndentation > lineObj.firstNonWhitespaceCharacterIndex) {
                 return match[1];
             }
         }
