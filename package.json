@@ -161,6 +161,16 @@
           "default": "",
           "description": "Custom log message for the print statements. Placeholder variables:\n%f - File name\n%l - Line Number"
         },
+        "pythonEasyPrint.includeParentCall": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When hovering over the `bar` of `foo.bar`, print `foo.bar`."
+        },
+        "pythonEasyPrint.includeParenthesis": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When hovering over `foo()`, print `foo()`."
+        },
         "pythonEasyPrint.customLogName": {
           "type": "string",
           "default": "",

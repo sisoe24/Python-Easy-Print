@@ -133,20 +133,43 @@ export function logConstructor(statement: string): string {
 }
 
 export function getSelectedText(editor: vscode.TextEditor): string | null {
-    function getWordUnderCursor(): string | null {
-        const wordUnderCursor = document.getWordRangeAtPosition(editor.selection.active);
+    function addExtraMatch(rangeUnderCursor: vscode.Range, pattern: RegExp): string | null {
+        const line = document.lineAt(rangeUnderCursor.start.line).text;
+        const match = pattern.exec(line);
 
-        // if no word is under cursor will return undefined, but document.getText(undefined)
-        // will return the all document text.
-        if (wordUnderCursor) {
-            return document.getText(wordUnderCursor);
+        if (match) {
+            return match[0];
         }
         return null;
     }
+
+    function getTextUnderCursor(): string | null {
+        const rangeUnderCursor = document.getWordRangeAtPosition(editor.selection.active);
+
+        // if no word is under cursor will return undefined, but document.getText(undefined)
+        // will return the all document text.
+        if (rangeUnderCursor) {
+            let word = document.getText(rangeUnderCursor);
+
+            if (utils.pepConfig("includeParentCall")) {
+                const pattern = new RegExp("(?:(?:\\w+.)*)" + word);
+                word = addExtraMatch(rangeUnderCursor, pattern) || word;
+            }
+
+            if (utils.pepConfig("includeCallable")) {
+                const pattern = new RegExp(word + "\\(.*\\)");
+                word = addExtraMatch(rangeUnderCursor, pattern) || word;
+            }
+
+            return word;
+        }
+        return null;
+    }
+
     const document = editor.document;
     const selection = editor.selection;
 
-    return document.getText(selection) || getWordUnderCursor();
+    return document.getText(selection) || getTextUnderCursor();
 }
 
 export function statementConstructor(statement: string): string {
