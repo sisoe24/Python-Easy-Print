@@ -31,7 +31,7 @@ class PlaceholdersConverter {
         for (let line = currentLine; line >= 0; --line) {
             const lineObj = this.editor.document.lineAt(line);
 
-            const pattern = new RegExp(/def\s(\w+)\(\):/);
+            const pattern = new RegExp(/def\s(\w+)\(.*\):/);
             const match = pattern.exec(lineObj.text);
 
             if (match && lineIndentation > lineObj.firstNonWhitespaceCharacterIndex) {
@@ -152,7 +152,7 @@ export function getSelectedText(editor: vscode.TextEditor): string | null {
             let word = document.getText(rangeUnderCursor);
 
             if (utils.pepConfig("includeParentCall")) {
-                const pattern = new RegExp("(?:(?:\\w+.)*)" + word);
+                const pattern = new RegExp("(?:(?:\\w+\\.)*)" + word);
                 word = addExtraMatch(rangeUnderCursor, pattern) || word;
             }
 
@@ -180,6 +180,14 @@ export function statementConstructor(statement: string): string {
     }
 }
 
+function isCodeBlock(editor: vscode.TextEditor) {
+    const line = editor.document.lineAt(editor.selection.start.line);
+    if (line.text.match(/=\s[{([]/)) {
+        return true;
+    }
+    return false;
+}
+
 export async function executeCommand(statement: string): Promise<string | void> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -200,10 +208,14 @@ export async function executeCommand(statement: string): Promise<string | void> 
         const stringStatement = statementConstructor(statement);
         const insertText = stringStatement.replace(/\{text\}/g, match);
 
+        if (isCodeBlock(editor)) {
+            await vscode.commands.executeCommand("editor.action.jumpToBracket");
+            await vscode.commands.executeCommand("editor.action.jumpToBracket");
+        }
+
         await vscode.commands.executeCommand("editor.action.insertLineAfter").then(() => {
             editor.edit((editBuilder) => {
                 const selection = editor.selection;
-
                 const cursorPosition = selection.start.line;
                 const charPosition = selection.start.character;
 
