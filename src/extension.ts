@@ -3,17 +3,30 @@ import * as utils from "./utils";
 import * as prints from "./print_statements";
 import * as doc from "./document_parser";
 
+const printCommands = {
+    print: "python-easy-print.easyPrint",
+    type: "python-easy-print.easyPrintType",
+    dir: "python-easy-print.easyPrintDir",
+    repr: "python-easy-print.easyPrintRepr",
+    help: "python-easy-print.easyHelp",
+};
+
+const logCommands = {
+    debug: "python-easy-print.easyLogDebug",
+    info: "python-easy-print.easyLogInfo",
+    warning: "python-easy-print.easyLogWarning",
+    error: "python-easy-print.easyLogError",
+    critical: "python-easy-print.easyLogCritical",
+};
+
+const documentCommands = {
+    comment: "python-easy-print.commentPrintLines",
+    uncomment: "python-easy-print.uncommentPrintLines",
+    delete: "python-easy-print.deletePrintLines",
+};
 
 export function activate(context: vscode.ExtensionContext): void {
-    // Print Statements
-    const printCommands = {
-        print: "python-easy-print.easyPrint",
-        type: "python-easy-print.easyPrintType",
-        dir: "python-easy-print.easyPrintDir",
-        repr: "python-easy-print.easyPrintRepr",
-        help: "python-easy-print.easyHelp",
-    };
-
+    // Print Commands
     for (const [statement, command] of Object.entries(printCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
@@ -22,15 +35,7 @@ export function activate(context: vscode.ExtensionContext): void {
         );
     }
 
-    // Log Statements
-    const logCommands = {
-        debug: "python-easy-print.easyLogDebug",
-        info: "python-easy-print.easyLogInfo",
-        warning: "python-easy-print.easyLogWarning",
-        error: "python-easy-print.easyLogError",
-        critical: "python-easy-print.easyLogCritical",
-    };
-
+    // Log Commands
     for (const [statement, command] of Object.entries(logCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
@@ -39,13 +44,8 @@ export function activate(context: vscode.ExtensionContext): void {
         );
     }
 
+    
     // Document parser
-    const documentCommands = {
-        comment: "python-easy-print.commentPrintLines",
-        uncomment: "python-easy-print.uncommentPrintLines",
-        delete: "python-easy-print.deletePrintLines",
-    };
-
     for (const [action, command] of Object.entries(documentCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
