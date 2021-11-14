@@ -27,7 +27,7 @@ class PlaceholdersConverter {
         if (lineIndentation === 0) {
             return "";
         }
-
+        // TODO: not working?
         for (let line = currentLine; line >= 0; --line) {
             const lineObj = this.editor.document.lineAt(line);
 
@@ -156,7 +156,7 @@ export function getSelectedText(editor: vscode.TextEditor): string | null {
                 word = addExtraMatch(rangeUnderCursor, pattern) || word;
             }
 
-            if (utils.pepConfig("includeCallable")) {
+            if (utils.pepConfig("includeParenthesis")) {
                 const pattern = new RegExp(word + "\\(.*\\)");
                 word = addExtraMatch(rangeUnderCursor, pattern) || word;
             }
@@ -180,30 +180,36 @@ export function statementConstructor(statement: string): string {
     }
 }
 
-export function executeCommand(statement: string): string | void {
+export async function executeCommand(statement: string): Promise<string | void> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return;
     }
 
     const text = getSelectedText(editor);
-    // TODO: check here if there are more words selected so can iterate over them
-    // and create a statement for each.
+    if (!text) {
+        return;
+    }
 
-    if (text) {
+    let matchText = [text];
+    if (utils.pepConfig("multipleStatements")) {
+        matchText = text.match(/\w+(?:\.\w+)*(?:\(.*?\))?/g) || matchText;
+    }
+
+    for (const match of matchText) {
         const stringStatement = statementConstructor(statement);
-        const insertText = stringStatement.replace(/\{text\}/g, text);
+        const insertText = stringStatement.replace(/\{text\}/g, match);
 
-        vscode.commands.executeCommand("editor.action.insertLineAfter").then(() => {
+        await vscode.commands.executeCommand("editor.action.insertLineAfter").then(() => {
             editor.edit((editBuilder) => {
                 const selection = editor.selection;
+
                 const cursorPosition = selection.start.line;
                 const charPosition = selection.start.character;
 
                 editBuilder.insert(new vscode.Position(cursorPosition, charPosition), insertText);
             });
         });
-        return insertText;
     }
-    return;
+    // return;
 }

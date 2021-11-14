@@ -171,6 +171,11 @@
           "default": true,
           "markdownDescription": "When hovering over `foo()`, print `foo()`."
         },
+        "pythonEasyPrint.multipleStatements": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When selecting multiple declaration, print each them into a separate statement."
+        },
         "pythonEasyPrint.customLogName": {
           "type": "string",
           "default": "",
