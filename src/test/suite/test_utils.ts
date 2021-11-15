@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { writeFileSync, existsSync } from "fs";
+import { writeFileSync, existsSync, writeFile, createWriteStream } from "fs";
+
+const demoPath = path.join(path.resolve(__dirname, "../../../"), "demo");
 
 /**
  * Some tests will need to wait for vscode to register the actions. An example will
@@ -26,39 +28,13 @@ export async function updateConfig(name: string, value: unknown): Promise<void> 
 }
 
 /**
- * Get the tmp folder path in rootDir.
- *
- * @param file - optional file name to get from the demo folder. If file does not exist,
- * will get created.
- * @returns path of the tmp directory or undefined if it couldn't resolve.
- */
-export function getDemoFolder(file?: string): string {
-    const cwd = vscode.extensions.getExtension("virgilsisoe.python-easy-print")?.extensionPath;
-    if (cwd) {
-        const demoPath = path.join(cwd, "demo");
-
-        if (file) {
-            const filepath = path.join(demoPath, file);
-            if (!existsSync(filepath)) {
-                writeFileSync(filepath, "");
-            }
-            return filepath;
-        }
-        return demoPath;
-    }
-
-    // TODO: this does not throw an error when called by setup/teardown
-    throw new Error("Could not resolve the tmp folder path");
-}
-
-/**
  * Clean the settings.json file inside the demo folder.
  *
  * Method will wait for 200ms before completing. This is to give enough time to
  * vscode to register the changes.
  */
 export async function cleanSettings(): Promise<void> {
-    const settings = getDemoFolder(path.join(".vscode", "settings.json"));
+    const settings = path.join(demoPath, ".vscode", "settings.json");
     writeFileSync(settings, "{}");
     // await sleep(100);
 }
@@ -70,17 +46,10 @@ export async function cleanSettings(): Promise<void> {
  * vscode to register the changes.
  */
 export async function cleanDemoFile(): Promise<void> {
-    const settings = getDemoFolder("demo_file.py");
-    writeFileSync(settings, "");
+    const filepath = path.join(demoPath, "demo_file.py");
+    writeFileSync(filepath, "");
     await sleep(50);
 }
-
-/**
- *
- * Will also put cursor at the beginning of the file so the placeholder %l which
- * should be: 1
- *
- */
 
 /**
  * Open and focus a demo file.
@@ -90,16 +59,20 @@ export async function cleanDemoFile(): Promise<void> {
  * @param char optional character position for the cursor to start at when opening the file.
  * Defaults to `0`
  */
-export async function focusDemoFile(filename: string, line = 0, char = 0): Promise<void> {
-    const demoFile = getDemoFolder(filename);
-    const document = await vscode.workspace.openTextDocument(demoFile);
-    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One });
+export async function focusDemoFile(
+    filename: string,
+    line = 0,
+    char = 0
+): Promise<vscode.TextEditor> {
+    const filepath = path.join(demoPath, filename);
+    const document = await vscode.workspace.openTextDocument(filepath);
 
-    const editor = vscode.window.activeTextEditor;
-    if (editor) {
-        const startOfFile = new vscode.Position(line, char);
-        editor.selection = new vscode.Selection(startOfFile, startOfFile);
-    }
+    const selection = new vscode.Position(line, char);
+    const editor = await vscode.window.showTextDocument(document, {
+        selection: new vscode.Selection(selection, selection),
+    });
+
+    return editor;
 }
 
 /**
@@ -131,4 +104,10 @@ export async function writeDemoFile(lines: object) {
         // deselect any text
         editor.selection = new vscode.Selection(startOfFile, startOfFile);
     }
+}
+
+export async function createDemoContent(filename: string, content: string) {
+    const filepath = path.join(demoPath, filename);
+    const f = createWriteStream(filepath);
+    f.write(content);
 }
