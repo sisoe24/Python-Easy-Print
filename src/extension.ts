@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
-import * as prints from "./print_statements";
+import * as selectedText from "./selected_text";
 import * as doc from "./document_parser";
 
 const printCommands = {
@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [statement, command] of Object.entries(printCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                prints.executeCommand(statement);
+                selectedText.executeCommand(statement);
             })
         );
     }
@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [statement, command] of Object.entries(logCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                prints.executeCommand(statement);
+                selectedText.executeCommand(statement);
             })
         );
     }
