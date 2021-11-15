@@ -2,54 +2,101 @@ import * as vscode from "vscode";
 import * as utils from "./utils";
 import * as path from "path";
 
-class PlaceholdersConverter {
+/**
+ * Convert placeholders symbols from the configuration settings.
+ */
+export class PlaceholdersConverter {
     private editor;
 
+    /**
+     * yo bro
+     * @param editor
+     */
     constructor(editor: vscode.TextEditor) {
         this.editor = editor;
     }
 
+    /**
+     * Convert the placeholders symbols from the configuration settings.
+     *
+     * @param key the placeholder key to convert:
+     * `%f`: filename, `%F`: function name, `%l`: line number.
+     * @returns the converted placeholder.
+     */
     convert(key: string) {
-        const obj: { [key: string]: string } = {
+        const placeholders: { [key: string]: string } = {
             "%f": this.getFilename(),
             "%F": this.getFuncName(),
             "%l": this.getLineNum(),
         };
 
-        return obj[key];
+        if (!Object.prototype.hasOwnProperty.call(placeholders, key)) {
+            throw new Error(`Invalid statement type: ${key}`);
+        }
+
+        return placeholders[key];
     }
 
+    /**
+     * Get the function for the print statement.
+     *
+     * Method will traverse n reverse the document to search the first matching `def`
+     * that is less indented. If statement has no function definition then method
+     * will do nothing and return an empty string.
+     *
+     * @returns the function name or an empty string if no function is found.
+     */
     getFuncName() {
-        const currentLine = this.editor.selection.active.line;
-        const lineIndentation =
-            this.editor.document.lineAt(currentLine).firstNonWhitespaceCharacterIndex;
+        const startLine = this.editor.selection.active.line;
+        const startLineIndentation =
+            this.editor.document.lineAt(startLine).firstNonWhitespaceCharacterIndex;
 
-        if (lineIndentation === 0) {
+        if (startLineIndentation === 0) {
             return "";
         }
-        // TODO: not working?
-        for (let line = currentLine; line >= 0; --line) {
+
+        for (let line = startLine; line >= 0; --line) {
             const lineObj = this.editor.document.lineAt(line);
 
             const pattern = new RegExp(/def\s(\w+)\(.*\):/);
             const match = pattern.exec(lineObj.text);
 
-            if (match && lineIndentation > lineObj.firstNonWhitespaceCharacterIndex) {
+            const currentLineIndentation = lineObj.firstNonWhitespaceCharacterIndex;
+
+            if (match && startLineIndentation > currentLineIndentation) {
                 return match[1];
+            }
+
+            if (currentLineIndentation === 0) {
+                break;
             }
         }
         return "";
     }
 
+    /**
+     * Get the file name.
+     *
+     * @returns basename of the current active file text with extension.
+     */
     getFilename(): string {
         return path.basename(this.editor.document.fileName);
     }
 
+    /**
+     * Get line position of the cursor.
+     *
+     * @returns string line number of the cursor last active position: "1".
+     */
     getLineNum(): string {
         return String(this.editor.selection.start.line + 1);
     }
 }
-class PrintConstructor {
+
+/**
+ * Print Constructor class for the prints commands.
+ */
+export class PrintConstructor {
     private statement: string;
 
     /**
@@ -63,7 +110,6 @@ class PrintConstructor {
      * utf-8 character.
      *
      * @param statement type of print statement to get
-     * @returns
      */
     constructor(statement: string) {
         const statementsTypes: { [statement: string]: string } = {
@@ -81,13 +127,21 @@ class PrintConstructor {
         this.statement = statementsTypes[statement];
     }
 
-    private convertPlaceholders(): string {
+    /**
+     * Convert the placeholders from the settings option.
+     *
+     * If there are no custom placeholders will do nothing and return an empty string.
+     * If placeholders are present will convert them via the class: `PlaceholdersConverter`
+     *
+     * @returns the converted placeholders
+     */
+    convertPlaceholders(): string {
         let customMsg = utils.pepConfig("customizePrintMessage") as string;
-        // todo: match should be dynamic
+        // todo: match should be based on settings
         const placeholderMatch = customMsg.match(/%[flF]/g);
 
+        // TODO: maybe should pass the editor from executeCommand
         const editor = vscode.window.activeTextEditor;
-
         if (!placeholderMatch || !editor) {
             return customMsg;
         }
@@ -100,6 +154,13 @@ class PrintConstructor {
         return customMsg;
     }
 
+    /**
+     * Get the string statement for the print command.
+     *
+     * Will also convert the placeholders from the configuration settings if any.
+     *
+     * @returns the template statement: `print("➡ {text} :", {text})`
+     */
     string(): string {
         const placeholders = this.convertPlaceholders();
 
@@ -110,6 +171,15 @@ class PrintConstructor {
     }
 }
 
+/**
+ * Construct the logging statement to print when invoking the command.
+ *
+ * Before returning the statement, will also replace the placeholder based on the
+ * `useReprToLog` configuration setting.
+ *
+ * @param statement name of the logging level: `debug, info, warning, error, critical`.
+ * @returns the template statement: `LOGGER.debug("{text} : %s", repr({text}))`
+ */
 export function logConstructor(statement: string): string {
     const logger = utils.pepConfig("customLogName") || "logging";
 
@@ -132,96 +202,19 @@ export function logConstructor(statement: string): string {
     return statementsTypes[statement].replace("{@text}", "{text}");
 }
 
-export function getSelectedText(editor: vscode.TextEditor): string | null {
-    function addExtraMatch(rangeUnderCursor: vscode.Range, pattern: RegExp): string | null {
-        const line = document.lineAt(rangeUnderCursor.start.line).text;
-        const match = pattern.exec(line);
-
-        if (match) {
-            return match[0];
-        }
-        return null;
-    }
-
-    function getTextUnderCursor(): string | null {
-        const rangeUnderCursor = document.getWordRangeAtPosition(editor.selection.active);
-
-        // if no word is under cursor will return undefined, but document.getText(undefined)
-        // will return the all document text.
-        if (rangeUnderCursor) {
-            let word = document.getText(rangeUnderCursor);
-
-            if (utils.pepConfig("includeParentCall")) {
-                const pattern = new RegExp("(?:(?:\\w+\\.)*)" + word);
-                word = addExtraMatch(rangeUnderCursor, pattern) || word;
-            }
-
-            if (utils.pepConfig("includeParenthesis")) {
-                const pattern = new RegExp(word + "\\(.*\\)");
-                word = addExtraMatch(rangeUnderCursor, pattern) || word;
-            }
-
-            return word;
-        }
-        return null;
-    }
-
-    const document = editor.document;
-    const selection = editor.selection;
-
-    return document.getText(selection) || getTextUnderCursor();
-}
-
+/**
+ * Construct the template statement for the command.
+ *
+ * Based on which statement is supplied as argument, the function will return either
+ * a print statement or a log statement.
+ *
+ * @param statement name of the statement to get. Could be log or prints
+ * @returns the template statement.
+ */
 export function statementConstructor(statement: string): string {
     try {
         return new PrintConstructor(statement).string();
     } catch (error) {
         return logConstructor(statement);
     }
-}
-
-function isCodeBlock(editor: vscode.TextEditor) {
-    const line = editor.document.lineAt(editor.selection.start.line);
-    if (line.text.match(/=\s[{([]/)) {
-        return true;
-    }
-    return false;
-}
-
-export async function executeCommand(statement: string): Promise<string | void> {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        return;
-    }
-
-    const text = getSelectedText(editor);
-    if (!text) {
-        return;
-    }
-
-    let matchText = [text];
-    if (utils.pepConfig("multipleStatements")) {
-        matchText = text.match(/\w+(?:\.\w+)*(?:\(.*?\))?/g) || matchText;
-    }
-
-    for (const match of matchText) {
-        const stringStatement = statementConstructor(statement);
-        const insertText = stringStatement.replace(/\{text\}/g, match);
-
-        if (isCodeBlock(editor)) {
-            await vscode.commands.executeCommand("editor.action.jumpToBracket");
-            await vscode.commands.executeCommand("editor.action.jumpToBracket");
-        }
-
-        await vscode.commands.executeCommand("editor.action.insertLineAfter").then(() => {
-            editor.edit((editBuilder) => {
-                const selection = editor.selection;
-                const cursorPosition = selection.start.line;
-                const charPosition = selection.start.character;
-
-                editBuilder.insert(new vscode.Position(cursorPosition, charPosition), insertText);
-            });
-        });
-    }
-    // return;
 }
