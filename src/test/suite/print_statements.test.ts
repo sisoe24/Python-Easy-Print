@@ -15,197 +15,237 @@ teardown("Clean Demo files", async () => {
 });
 
 suiteSetup("Open demo file", async () => {
-    await testUtils.focusDemoFile();
+    await testUtils.focusDemoFile("demo_file.py");
 });
 
-suite("Print Statements template", async () => {
-    test("Basic print", () => {
-        const statement = prints.getPrintStatement("print");
-        assert.strictEqual(statement, `print("${prints.symbol} {@} {text} :", {text})`);
+suite("PlaceholderConverter", () => {
+    suiteSetup("Open demo file", async () => {
+        await testUtils.focusDemoFile("placeholder_demo.py");
     });
 
-    test("Type print", () => {
-        const statement = prints.getPrintStatement("type");
-        assert.strictEqual(statement, `print("${prints.symbol} {@} {text} type :", type({text}))`);
+    test("Get function name one level depth", async () => {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 1, 0);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+
+            assert.strictEqual(placeholder.getFuncName(), "placeholders_function");
+        }
     });
 
-    test("Dir print", () => {
-        const statement = prints.getPrintStatement("dir");
-        assert.strictEqual(statement, `print("${prints.symbol} {@} {text} dir :", dir({text}))`);
+    test("Get function name one level depth", async () => {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 1, 0);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+            assert.strictEqual(placeholder.getFuncName(), "placeholders_function");
+        }
     });
 
-    test("Repr print", () => {
-        const statement = prints.getPrintStatement("repr");
-        assert.strictEqual(statement, `print("${prints.symbol} {@} {text} repr :", repr({text}))`);
+    test("Get function name two level depth", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 3, 0);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+            assert.strictEqual(placeholder.getFuncName(), "inner_func");
+        }
     });
 
-    test("Help print", () => {
-        const statement = prints.getPrintStatement("help");
-        assert.strictEqual(statement, "help({text})");
+    test("Get function return two level depth", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 4, 0);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+            assert.strictEqual(placeholder.getFuncName(), "placeholders_function");
+        }
     });
 
-    test("Invalid statement", () => {
+    test("Get function name", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 7, 4);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+            assert.strictEqual(placeholder.getFuncName(), "");
+            assert.strictEqual(placeholder.convert("%F"), "");
+        }
+    });
+
+    test("Get file name ", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py");
+            const placeholder = new prints.PlaceholdersConverter(editor);
+            assert.strictEqual(placeholder.getFilename(), "placeholder_demo.py");
+            assert.strictEqual(placeholder.convert("%f"), "placeholder_demo.py");
+        }
+    });
+
+    test("Get line number ", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 1);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+            assert.strictEqual(placeholder.getLineNum(), "2");
+            assert.strictEqual(placeholder.convert("%l"), "2");
+        }
+    });
+
+    test("Invalid placeholder key", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.focusDemoFile("placeholder_demo.py", 1);
+            const placeholder = new prints.PlaceholdersConverter(editor);
+
+            assert.throws(() => {
+                placeholder.convert("%t");
+            }, Error);
+        }
+    });
+});
+
+suite("PrintConstructor", () => {
+    suiteSetup("Open demo file", async () => {
+        await testUtils.focusDemoFile("demo_file.py");
+    });
+
+    test("Basic print statements", () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const statement = new prints.PrintConstructor("print");
+            assert.strictEqual(statement.string(), 'print("➡ {text} :", {text})');
+        }
+    });
+
+    test("Help statement", () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const statement = new prints.PrintConstructor("help");
+            assert.strictEqual(statement.string(), "help({text})");
+        }
+    });
+
+    test("Helpers print statements: dir, type, repr", () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const helpers = ["dir", "type", "repr"];
+            for (const print of helpers) {
+                const statement = new prints.PrintConstructor(print);
+                assert.strictEqual(
+                    statement.string(),
+                    `print("➡ {text} ${print} :", ${print}({text}))`
+                );
+            }
+        }
+    });
+
+    test("Invalid print level", () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            assert.throws(() => {
+                new prints.PrintConstructor("verbose");
+            }, Error);
+        }
+    });
+
+    test("Basic print with placeholders", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.updateConfig("customizePrintMessage", "DEBUG");
+            const statement = new prints.PrintConstructor("print");
+            assert.strictEqual(statement.string(), 'print("➡ DEBUG {text} :", {text})');
+        }
+    });
+
+    test("Help should not have any placeholders", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.updateConfig("customizePrintMessage", "DEBUG");
+            const statement = new prints.PrintConstructor("help");
+            assert.strictEqual(statement.string(), "help({text})");
+        }
+    });
+
+    test("Convert placeholders from config", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.updateConfig("customizePrintMessage", "%f %l DEBUG");
+            const statement = new prints.PrintConstructor("help");
+            const placeholders = statement.convertPlaceholders();
+            assert.strictEqual(placeholders, "demo_file.py 1 DEBUG");
+        }
+    });
+
+    test("Convert placeholders from config but no config", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.updateConfig("customizePrintMessage", "");
+            const statement = new prints.PrintConstructor("help");
+            const placeholders = statement.convertPlaceholders();
+            assert.strictEqual(placeholders, "");
+        }
+    });
+});
+
+suite("Log Constructor", () => {
+    suiteSetup("Open demo file", async () => {
+        await testUtils.focusDemoFile("demo_file.py");
+    });
+
+    test("Basic logging statements", () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const loggers = ["debug", "info", "warning", "error", "critical"];
+            for (const logger of loggers) {
+                const statement = prints.logConstructor(logger);
+                assert.strictEqual(statement, `logging.${logger}("{text} : %s", repr({text}))`);
+            }
+        }
+    });
+
+    test("Custom logging statement", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.updateConfig("customLogName", "LOGGER");
+            const statement = prints.logConstructor("debug");
+            assert.strictEqual(statement, 'LOGGER.debug("{text} : %s", repr({text}))');
+        }
+    });
+
+    test("Dont use repr", async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            await testUtils.updateConfig("useReprToLog", false);
+            const statement = prints.logConstructor("debug");
+            assert.strictEqual(statement, 'logging.debug("{text} : %s", {text})');
+        }
+    });
+
+    test("Invalid logging level", () => {
+        const editor = vscode.window.activeTextEditor;
+        if (editor) {
+            assert.throws(() => {
+                prints.logConstructor("verbose");
+            }, Error);
+        }
+    });
+});
+
+suite("Statement Constructor", () => {
+    test("Is PrintConstructor", () => {
+        const constructor = prints.statementConstructor("print");
+        assert.strictEqual(constructor, 'print("➡ {text} :", {text})');
+    });
+
+    test("Is LogConstructor", () => {
+        const constructor = prints.statementConstructor("debug");
+        assert.strictEqual(constructor, 'logging.debug("{text} : %s", repr({text}))');
+    });
+
+    test("Is invalid constructor", () => {
         assert.throws(() => {
-            prints.getPrintStatement("test");
+            prints.statementConstructor("verbose");
         }, Error);
-    });
-});
-
-suite("Construct statement", () => {
-    test("Print statement", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "line: %l");
-        const replace = prints.constructPrintStatement("name", "print");
-        assert.strictEqual(replace, `print("${prints.symbol} line: 1 name :", name)`);
-    });
-
-    test("Type statement", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "line: %l");
-        const replace = prints.constructPrintStatement("name", "type");
-        assert.strictEqual(replace, `print("${prints.symbol} line: 1 name type :", type(name))`);
-    });
-
-    test("Dir statement", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "%f");
-        const replace = prints.constructPrintStatement("name", "dir");
-        assert.strictEqual(replace, `print("${prints.symbol} demo_file.py name dir :", dir(name))`);
-    });
-
-    // XXX: shouldn't need to test other statements as they are identical to the one above
-
-    test("Help statement", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "line: %l");
-        const replace = prints.constructPrintStatement("name", "help");
-        assert.strictEqual(replace, `help(name)`);
-    });
-});
-
-suite("Placeholder Constructor", () => {
-    test("No placeholders", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "debug");
-        const placeholder = prints.convertPlaceholders();
-        assert.strictEqual(placeholder, "debug");
-    });
-
-    test("Replace %f for file.", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "%f - debug");
-        const placeholder = prints.convertPlaceholders();
-        assert.strictEqual(placeholder, "demo_file.py - debug");
-    });
-
-    test("Replace %l for line.", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "line: %l");
-        const placeholder = prints.convertPlaceholders();
-        assert.strictEqual(placeholder, "line: 1");
-    });
-});
-
-suite("Get document text", () => {
-    setup("Write to file", async () => {
-        await testUtils.writeDemoFile({
-            line1: "import random",
-            line2: "\n\n",
-            line3: "name='virgil'",
-        });
-    });
-
-    test("First word under cursor on first line", async () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            const word = prints.getDocumentText(editor);
-            assert.strictEqual(word, "import");
-        }
-    });
-
-    test("Second word under cursor on first line", async () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            // select first line
-            const firstLineStart = new vscode.Position(0, 7);
-            const firstLineEnd = editor.document.lineAt(0).range.end;
-
-            editor.selection = new vscode.Selection(firstLineStart, firstLineEnd);
-            const word = prints.getDocumentText(editor);
-            assert.strictEqual(word, "random");
-        }
-    });
-
-    test("Selected line1", async () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            // select first line
-            const firstLineStart = editor.document.lineAt(0).range.start;
-            const firstLineEnd = editor.document.lineAt(0).range.end;
-            editor.selection = new vscode.Selection(firstLineStart, firstLineEnd);
-
-            const word = prints.getDocumentText(editor);
-            assert.strictEqual(word, "import random");
-        }
-    });
-
-    test("No word under cursor", async () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            // select second line: empty line
-            const firstLineStart = editor.document.lineAt(1).range.start;
-            const firstLineEnd = editor.document.lineAt(1).range.end;
-            editor.selection = new vscode.Selection(firstLineStart, firstLineEnd);
-
-            const word = prints.getDocumentText(editor);
-            assert.strictEqual(word, "");
-        }
-    });
-});
-
-suite("Final Print Statement", () => {
-    setup("Write to file", async () => {
-        await testUtils.writeDemoFile({
-            line1: "import random",
-            line2: "\n\n",
-            line3: "name='virgil'",
-        });
-    });
-
-    test("Print Statement first word under cursor on first line", () => {
-        const statement = prints.executeCommand("print");
-        assert.strictEqual(statement, `print("${prints.symbol} import :", import)`);
-    });
-
-    test("Print Type Statement word under cursor", () => {
-        const statement = prints.executeCommand("type");
-        assert.strictEqual(statement, `print("${prints.symbol} import type :", type(import))`);
-    });
-
-    test("Help Statement word under cursor", () => {
-        const statement = prints.executeCommand("help");
-        assert.strictEqual(statement, "help(import)");
-    });
-
-    test("Selected line", async () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            // select first line
-            const firstLineStart = editor.document.lineAt(0).range.start;
-            const firstLineEnd = editor.document.lineAt(0).range.end;
-            editor.selection = new vscode.Selection(firstLineStart, firstLineEnd);
-
-            const statement = prints.executeCommand("print");
-            assert.strictEqual(
-                statement,
-                `print("${prints.symbol} import random :", import random)`
-            );
-        }
-    });
-
-    test("No word under cursor", async () => {
-        const editor = vscode.window.activeTextEditor;
-        if (editor) {
-            // select second line: empty line
-            const firstLineStart = editor.document.lineAt(1).range.start;
-            const firstLineEnd = editor.document.lineAt(1).range.end;
-            editor.selection = new vscode.Selection(firstLineStart, firstLineEnd);
-
-            const statement = prints.executeCommand("print");
-            assert.strictEqual(typeof statement, "undefined");
-        }
     });
 });
