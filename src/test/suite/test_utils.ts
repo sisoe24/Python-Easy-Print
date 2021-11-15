@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync } from "fs";
 
 /**
  * Some tests will need to wait for vscode to register the actions. An example will
@@ -28,7 +28,8 @@ export async function updateConfig(name: string, value: unknown): Promise<void> 
 /**
  * Get the tmp folder path in rootDir.
  *
- * @param file - optional file name to get from the demo folder.
+ * @param file - optional file name to get from the demo folder. If file does not exist,
+ * will get created.
  * @returns path of the tmp directory or undefined if it couldn't resolve.
  */
 export function getDemoFolder(file?: string): string {
@@ -36,9 +37,12 @@ export function getDemoFolder(file?: string): string {
     if (cwd) {
         const demoPath = path.join(cwd, "demo");
 
-        // TODO: should check if file exists first.
         if (file) {
-            return path.join(demoPath, file);
+            const filepath = path.join(demoPath, file);
+            if (!existsSync(filepath)) {
+                writeFileSync(filepath, "");
+            }
+            return filepath;
         }
         return demoPath;
     }
@@ -72,21 +76,28 @@ export async function cleanDemoFile(): Promise<void> {
 }
 
 /**
- * Open and focus the demo file.
  *
  * Will also put cursor at the beginning of the file so the placeholder %l which
  * should be: 1
  *
  */
-export async function focusDemoFile(): Promise<void> {
-    const demoFile = getDemoFolder("demo_file.py");
+
+/**
+ * Open and focus a demo file.
+ *
+ * @param filename the name of a file to open.
+ * @param line optional line number for the cursor to start at. Defaults to `0` which would be line `1`.
+ * @param char optional character position for the cursor to start at when opening the file.
+ * Defaults to `0`
+ */
+export async function focusDemoFile(filename: string, line = 0, char = 0): Promise<void> {
+    const demoFile = getDemoFolder(filename);
     const document = await vscode.workspace.openTextDocument(demoFile);
     await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.One });
 
     const editor = vscode.window.activeTextEditor;
     if (editor) {
-        // put cursor at line 1, char 0
-        const startOfFile = new vscode.Position(0, 0);
+        const startOfFile = new vscode.Position(line, char);
         editor.selection = new vscode.Selection(startOfFile, startOfFile);
     }
 }
