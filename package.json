@@ -166,7 +166,7 @@
           "default": true,
           "markdownDescription": "When hovering over the `bar` of `foo.bar`, print `foo.bar`."
         },
-        "pythonEasyPrint.includeParenthesis": {
+        "pythonEasyPrint.includeParentheses": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "When hovering over `foo()`, print `foo()`."
