@@ -4,9 +4,9 @@ import * as utils from "./utils";
 import { statementConstructor } from "./print_statements";
 
 export function getSelectedText(editor: vscode.TextEditor): string | null {
-    function addExtraMatch(rangeUnderCursor: vscode.Range, pattern: RegExp): string | null {
-        const line = document.lineAt(rangeUnderCursor.start.line).text;
-        const match = pattern.exec(line);
+    function addExtraMatch(lineRange: vscode.Range, pattern: RegExp): string | null {
+        const lineText = editor.document.getText(lineRange);
+        const match = pattern.exec(lineText);
 
         if (match) {
             return match[0];
@@ -20,20 +20,37 @@ export function getSelectedText(editor: vscode.TextEditor): string | null {
         // if no word is under cursor will return undefined, but document.getText(undefined)
         // will return the all document text.
         if (rangeUnderCursor) {
-            let word = document.getText(rangeUnderCursor);
+            const word = document.getText(rangeUnderCursor);
 
+            const selectedLineNum = rangeUnderCursor.start.line;
+
+            let parentCall = "";
             if (utils.pepConfig("includeParentCall")) {
-                const pattern = new RegExp("(?:(?:\\w+\\.)*)" + word);
-                word = addExtraMatch(rangeUnderCursor, pattern) || word;
+                const pattern = new RegExp(`(?:\\w+(?:\\(.*\\)|\\.)*)*${word}`);
+
+                const lineRange = new vscode.Range(
+                    new vscode.Position(selectedLineNum, 0),
+                    new vscode.Position(selectedLineNum, rangeUnderCursor.end.character)
+                );
+
+                parentCall = addExtraMatch(lineRange, pattern) || "";
             }
 
-            if (utils.pepConfig("includeParenthesis")) {
-                const pattern = new RegExp(word + "\\(.*\\)");
-                word = addExtraMatch(rangeUnderCursor, pattern) || word;
+            let funcCall = "";
+            if (utils.pepConfig("includeParentheses")) {
+                const pattern = new RegExp(`(?<=${word})(\\(.*?\\))`);
+
+                const lineRange = new vscode.Range(
+                    new vscode.Position(selectedLineNum, rangeUnderCursor.start.character),
+                    new vscode.Position(selectedLineNum + 1, 0)
+                );
+
+                funcCall = addExtraMatch(lineRange, pattern) || "";
             }
 
-            return word;
+            return (parentCall || word) + funcCall;
         }
+
         return null;
     }
 
@@ -63,6 +80,7 @@ export async function executeCommand(statement: string): Promise<string | void> 
     }
 
     let matchText = [text];
+    // TODO: foo.bar(1).bar(2).bar(3) created multiple statements. check why
     if (utils.pepConfig("multipleStatements")) {
         matchText = text.match(/\w+(?:\.\w+)*(?:\(.*?\))?/g) || matchText;
     }
