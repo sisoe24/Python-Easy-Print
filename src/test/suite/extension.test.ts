@@ -3,7 +3,7 @@ import * as assert from "assert";
 import * as utils from "../../utils";
 import * as testUtils from "./test_utils";
 
-suite("Extension Settings", () => {
+suite.skip("Extension Settings", () => {
     suiteSetup("Clean settings", () => {
         testUtils.cleanSettings();
     });
