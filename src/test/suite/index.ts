@@ -44,7 +44,7 @@ export async function run(): Promise<void> {
 
     // Check the modules already loaded and warn in case of race condition
     // (ideally, at this point the require cache should only contain one file - this module)
-    const myFilesRegex = /nuke-tools\/out/;
+    const myFilesRegex = /python-easy-print\/out/;
     const filterFn = myFilesRegex.test.bind(myFilesRegex);
     if (Object.keys(require.cache).filter(filterFn).length > 1) {
         console.warn(
