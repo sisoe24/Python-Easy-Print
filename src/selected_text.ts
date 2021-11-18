@@ -3,9 +3,27 @@ import * as utils from "./utils";
 
 import { statementConstructor } from "./print_statements";
 
-export function getSelectedText(editor: vscode.TextEditor): string | null {
-    function addExtraMatch(lineRange: vscode.Range, pattern: RegExp): string | null {
-        const lineText = editor.document.getText(lineRange);
+class SelectedText {
+    selection: vscode.Selection;
+    document: vscode.TextDocument;
+    editor: vscode.TextEditor;
+
+    hoverWord: string | undefined;
+
+    lineText: string;
+    lineNumber: number;
+
+    constructor(editor: vscode.TextEditor) {
+        this.editor = editor;
+        this.document = editor.document;
+        this.selection = editor.selection;
+
+        this.lineNumber = this.selection.active.line;
+        this.lineText = this.editor.document.lineAt(this.lineNumber).text;
+    }
+
+    private addExtraMatch(lineRange: vscode.Range, pattern: RegExp): string | null {
+        const lineText = this.editor.document.getText(lineRange);
         const match = pattern.exec(lineText);
 
         if (match) {
@@ -14,58 +32,70 @@ export function getSelectedText(editor: vscode.TextEditor): string | null {
         return null;
     }
 
-    function getTextUnderCursor(): string | null {
-        const rangeUnderCursor = document.getWordRangeAtPosition(editor.selection.active);
+    private includeParentCall(rangeUnderCursor: vscode.Range): string {
+        let parentCall = "";
 
-        // if no word is under cursor will return undefined, but document.getText(undefined)
-        // will return the all document text.
-        if (rangeUnderCursor) {
-            const word = document.getText(rangeUnderCursor);
+        if (utils.pepConfig("includeParentCall")) {
+            const pattern = new RegExp(`(?:\\w+(?:\\(.*\\)|\\.)*)*${this.hoverWord}`);
 
-            const selectedLineNum = rangeUnderCursor.start.line;
+            const lineRange = new vscode.Range(
+                new vscode.Position(this.lineNumber, 0),
+                new vscode.Position(this.lineNumber, rangeUnderCursor.end.character)
+            );
 
-            let parentCall = "";
-            if (utils.pepConfig("includeParentCall")) {
-                const pattern = new RegExp(`(?:\\w+(?:\\(.*\\)|\\.)*)*${word}`);
-
-                const lineRange = new vscode.Range(
-                    new vscode.Position(selectedLineNum, 0),
-                    new vscode.Position(selectedLineNum, rangeUnderCursor.end.character)
-                );
-
-                parentCall = addExtraMatch(lineRange, pattern) || "";
-            }
-
-            let funcCall = "";
-            if (utils.pepConfig("includeParentheses")) {
-                const pattern = new RegExp(`(?<=${word})(\\(.*?\\))`);
-
-                const lineRange = new vscode.Range(
-                    new vscode.Position(selectedLineNum, rangeUnderCursor.start.character),
-                    new vscode.Position(selectedLineNum + 1, 0)
-                );
-
-                funcCall = addExtraMatch(lineRange, pattern) || "";
-            }
-
-            return (parentCall || word) + funcCall;
+            parentCall = this.addExtraMatch(lineRange, pattern) || "";
         }
+        return parentCall;
+    }
 
+    private includeFuncCall(rangeUnderCursor: vscode.Range): string {
+        let funcCall = "";
+        if (utils.pepConfig("includeParentheses")) {
+            const pattern = new RegExp(`(?<=${this.hoverWord})(\\(.*?\\))`);
+
+            const lineRange = new vscode.Range(
+                new vscode.Position(this.lineNumber, rangeUnderCursor.start.character),
+                new vscode.Position(this.lineNumber + 1, 0)
+            );
+
+            funcCall = this.addExtraMatch(lineRange, pattern) || "";
+        }
+        return funcCall;
+    }
+
+    private textUnderCursor(): string | null {
+        const rangeUnderCursor = this.document.getWordRangeAtPosition(this.selection.active);
+
+        // document.getText(undefined) will return the all document text.
+        if (rangeUnderCursor) {
+            this.hoverWord = this.document.getText(rangeUnderCursor);
+
+            const parentCall = this.includeParentCall(rangeUnderCursor);
+            const funcCall = this.includeFuncCall(rangeUnderCursor);
+
+            return (parentCall || this.hoverWord) + funcCall;
+        }
         return null;
     }
 
-    const document = editor.document;
-    const selection = editor.selection;
-
-    return document.getText(selection) || getTextUnderCursor();
-}
-
-function isCodeBlock(editor: vscode.TextEditor) {
-    const line = editor.document.lineAt(editor.selection.start.line);
-    if (line.text.match(/=\s[{([]/)) {
-        return true;
+    private getSelectedText(): string | null {
+        return this.document.getText(this.selection) || this.textUnderCursor();
     }
-    return false;
+
+    hasCodeBlock() {
+        return Boolean(this.lineText.match(/=\s[{([]/));
+    }
+
+    text(): string[] | null {
+        const text = this.getSelectedText();
+
+        if (text) {
+            if (utils.pepConfig("multipleStatements")) {
+                return text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g) || [text];
+            }
+        }
+        return null;
+    }
 }
 
 export async function executeCommand(statement: string): Promise<string | void> {
@@ -74,22 +104,18 @@ export async function executeCommand(statement: string): Promise<string | void> 
         return;
     }
 
-    const text = getSelectedText(editor);
+    const selectedText = new SelectedText(editor);
+    const text = selectedText.text();
+
     if (!text) {
         return;
     }
 
-    let matchText = [text];
-    // TODO: foo.bar(1).bar(2).bar(3) created multiple statements. check why
-    if (utils.pepConfig("multipleStatements")) {
-        matchText = text.match(/\w+(?:\.\w+)*(?:\(.*?\))?/g) || matchText;
-    }
-
-    for (const match of matchText) {
+    for (const match of text) {
         const stringStatement = statementConstructor(statement);
         const insertText = stringStatement.replace(/\{text\}/g, match);
 
-        if (isCodeBlock(editor)) {
+        if (selectedText.hasCodeBlock()) {
             await vscode.commands.executeCommand("editor.action.jumpToBracket");
             await vscode.commands.executeCommand("editor.action.jumpToBracket");
         }
@@ -97,10 +123,10 @@ export async function executeCommand(statement: string): Promise<string | void> 
         await vscode.commands.executeCommand("editor.action.insertLineAfter").then(() => {
             editor.edit((editBuilder) => {
                 const selection = editor.selection;
-                const cursorPosition = selection.start.line;
+                const lineNumber = selection.start.line;
                 const charPosition = selection.start.character;
 
-                editBuilder.insert(new vscode.Position(cursorPosition, charPosition), insertText);
+                editBuilder.insert(new vscode.Position(lineNumber, charPosition), insertText);
             });
         });
     }
