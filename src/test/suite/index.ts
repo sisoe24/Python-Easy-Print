@@ -4,6 +4,7 @@ import * as path from "path";
 import * as Mocha from "mocha";
 import * as NYC from "nyc";
 import * as glob from "glob";
+import { rmdirSync } from "fs";
 
 // Simulates the recommended config option
 // extends: "@istanbuljs/nyc-config-typescript",
@@ -56,7 +57,11 @@ export async function run(): Promise<void> {
     // Debug which files will be included/excluded
     // console.log('Glob verification', await nyc.exclude.glob(nyc.cwd));
 
+    // XXX: coverage doesn't seem to update each run so I am deleting the folder
+    rmdirSync(path.join(nyc.cwd, nyc._tempDirectory), { recursive: true });
+
     await nyc.createTempDirectory();
+
     // Create the mocha test
     const mocha = new Mocha({
         ui: "tdd",
