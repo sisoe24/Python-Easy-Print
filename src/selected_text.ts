@@ -3,7 +3,7 @@ import * as utils from "./utils";
 
 import { statementConstructor } from "./print_statements";
 
-class SelectedText {
+export class SelectedText {
     selection: vscode.Selection;
     document: vscode.TextDocument;
     editor: vscode.TextEditor;
@@ -51,7 +51,7 @@ class SelectedText {
     private includeFuncCall(rangeUnderCursor: vscode.Range): string {
         let funcCall = "";
         if (utils.pepConfig("includeParentheses")) {
-            const pattern = new RegExp(`(?<=${this.hoverWord})(\\(.*?\\))`);
+            const pattern = new RegExp(`(?<=^${this.hoverWord})(\\(.*?\\))`);
 
             const lineRange = new vscode.Range(
                 new vscode.Position(this.lineNumber, rangeUnderCursor.start.character),
@@ -83,16 +83,18 @@ class SelectedText {
     }
 
     hasCodeBlock() {
-        return Boolean(this.lineText.match(/=\s[{([]/));
+        return Boolean(this.lineText.match(/[{([]/));
     }
 
     text(): string[] | null {
         const text = this.getSelectedText();
 
         if (text) {
+            let multipleStatements = null;
             if (utils.pepConfig("multipleStatements")) {
-                return text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g) || [text];
+                multipleStatements = text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g);
             }
+            return multipleStatements || [text];
         }
         return null;
     }
