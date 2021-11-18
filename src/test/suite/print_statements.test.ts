@@ -75,6 +75,24 @@ suite("PrintConstructor", () => {
     });
 });
 
+suite("Statement Constructor", () => {
+    test("Is PrintConstructor", () => {
+        const constructor = prints.statementConstructor("print");
+        assert.strictEqual(constructor, 'print("➡ {text} :", {text})');
+    });
+
+    test("Is LogConstructor", () => {
+        const constructor = prints.statementConstructor("debug");
+        assert.strictEqual(constructor, 'logging.debug("{text} : %s", repr({text}))');
+    });
+
+    test("Is invalid constructor", () => {
+        assert.throws(() => {
+            prints.statementConstructor("verbose");
+        }, Error);
+    });
+});
+
 suite("Log Constructor", () => {
     test("Basic logging statements", () => {
         for (const logger of ["debug", "info", "warning", "error", "critical"]) {
@@ -98,24 +116,6 @@ suite("Log Constructor", () => {
     test("Invalid logging level", () => {
         assert.throws(() => {
             prints.logConstructor("verbose");
-        }, Error);
-    });
-});
-
-suite("Statement Constructor", () => {
-    test("Is PrintConstructor", () => {
-        const constructor = prints.statementConstructor("print");
-        assert.strictEqual(constructor, 'print("➡ {text} :", {text})');
-    });
-
-    test("Is LogConstructor", () => {
-        const constructor = prints.statementConstructor("debug");
-        assert.strictEqual(constructor, 'logging.debug("{text} : %s", repr({text}))');
-    });
-
-    test("Is invalid constructor", () => {
-        assert.throws(() => {
-            prints.statementConstructor("verbose");
         }, Error);
     });
 });
