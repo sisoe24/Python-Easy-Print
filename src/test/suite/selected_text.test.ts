@@ -10,26 +10,29 @@ import * as testUtils from "./test_utils";
 const fileContent = `
 foo.bar.foo.bar(*args, **kwargs)
 foo-bar
-foo_bar.foo
 foo, bar
 
-foo.bar
-foo bar
+foo(0).bar(1).foo(2).bar(3)
+foo(0), bar(1), foo(2), bar(3)
 
-foo.bar_foo
-fooBar
+square = [
+    'test'
+]
+round = (
+    'test'
+)
+graph = {
+    'test'
+}
+round2 = (test)
 
-# callables
-foo.bar()
-foo.bar(x)
-foo.bar('x')
-foo.bar(x='x')
+name = 'test'
+
 `.trim();
 
 const demoFile = "selected_text_demo.py";
 
 setup("Clean Demo files", async () => {
-    console.log("cleaning yo");
     await testUtils.cleanSettings();
 });
 
@@ -41,120 +44,162 @@ suiteSetup("Open demo file", async () => {
     await testUtils.createDemoContent(demoFile, fileContent);
 });
 
-suite.only("Get hover text with no options", () => {
-    test("Hover text line 1: foo", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile);
+suite("SelectedText class", () => {
+    suite("Hover default options", () => {
+        test("Hover text line 1: word 1", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile);
 
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo");
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo"]);
+        });
+
+        test("Hover text line 1: word 2", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 4);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo.bar"]);
+        });
+
+        test("Hover text line 1: word 3", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 8);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo"]);
+        });
+
+        test("Hover text line 1: full line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar(*args, **kwargs)"]);
+        });
+
+        test("Hover text line 2: full line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 1);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo"]);
+        });
+
+        test("Hover text line 3: full line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 2);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo"]);
+        });
+
+        test("Hover text line 4: empty line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 3);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.strictEqual(text.text(), null);
+        });
+
+        test("Hover text line 4: full line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 4, 21);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo(0).bar(1).foo(2).bar(3)"]);
+        });
     });
 
-    test("Hover text line 1 second word: bar", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 4);
+    suite("Hover custom options", () => {
+        test("No parents", async () => {
+            await testUtils.updateConfig("includeParentCall", false);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
 
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "bar");
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["bar(*args, **kwargs)"]);
+        });
+
+        test("No parentheses", async () => {
+            await testUtils.updateConfig("includeParentheses", false);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar"]);
+        });
+
+        test("No parents and no parentheses", async () => {
+            await testUtils.updateConfig("includeParentCall", false);
+            await testUtils.updateConfig("includeParentheses", false);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["bar"]);
+        });
     });
 
-    test("Hover text line 2: foo", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 1);
+    suite("Manually selected text", () => {
+        test("Select text line 1: word 4", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 0, 15);
 
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo");
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar"]);
+        });
+
+        test("Select text line 1: full line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 0, 32);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar(*args, **kwargs)"]);
+        });
+
+        test("Select text line 1: full line with multipleStatements", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 2, 0, 8);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo", "bar"]);
+        });
+
+        test("Select text line 1: full line with no multipleStatements", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 5, 0, 30);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo(0)", "bar(1)", "foo(2)", "bar(3)"]);
+        });
+
+        test("Select text line 1: full line with no multipleStatements", async () => {
+            await testUtils.updateConfig("multipleStatements", false);
+            const editor = await testUtils.focusDemoFile(demoFile, 2, 0, 8);
+
+            const text = new selectedText.SelectedText(editor);
+            assert.deepStrictEqual(text.text(), ["foo, bar"]);
+        });
     });
 
-    test("Hover text line 3: foo_bar", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 2);
+    suite("Is Code Block", () => {
+        test("Is Code Block: [", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 7);
 
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo_bar");
-    });
+            const text = new selectedText.SelectedText(editor);
+            assert.ok(text.hasCodeBlock());
+        });
 
-    test("Hover text line 4: foo", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 3);
+        test("Is Code Block: (", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 10);
 
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo");
-    });
+            const text = new selectedText.SelectedText(editor);
+            assert.ok(text.hasCodeBlock());
+        });
 
-    test("Hover text line 5: empty", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 4);
+        test("Is Code Block: {", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 13);
 
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, null);
-    });
-});
+            const text = new selectedText.SelectedText(editor);
+            assert.ok(text.hasCodeBlock());
+        });
+        test("Is Code Block: ( same line", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 16);
 
-suite.only("Get hover text with options", () => {
-    // suiteSetup("Enable parent call", async () => {
-    // });
+            const text = new selectedText.SelectedText(editor);
+            assert.ok(text.hasCodeBlock());
+        });
 
-    test("Hover text line 1: default option value", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo.bar.foo.bar(*args, **kwargs)");
-    });
-
-    test("Hover text line 2: default options but word has no parent/caller ", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 1, 4);
-
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "bar");
-    });
-
-    test("Hover text line 1: no parentheses", async () => {
-        await testUtils.updateConfig("includeParentheses", false);
-
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
-
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo.bar.foo.bar");
-    });
-
-    test("Hover text line 1: no parentheses and no parent", async () => {
-        await testUtils.updateConfig("includeParentCall", false);
-        await testUtils.updateConfig("includeParentheses", false);
-
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
-
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "bar");
-    });
-});
-
-suite.skip("Get hover text with options", () => {
-    // suiteSetup("Enable parent call", async () => {
-    // });
-
-    test("Hover text line 1: default option value", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo.bar.foo.bar(*args, **kwargs)");
-    });
-
-    test("Hover text line 2: default options but word has no parent/caller ", async () => {
-        const editor = await testUtils.focusDemoFile(demoFile, 1, 4);
-
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "bar");
-    });
-
-    test("Hover text line 1: no parentheses", async () => {
-        await testUtils.updateConfig("includeParentheses", false);
-
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
-
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "foo.bar.foo.bar");
-    });
-
-    test("Hover text line 1: no parentheses and no parent", async () => {
-        await testUtils.updateConfig("includeParentCall", false);
-        await testUtils.updateConfig("includeParentheses", false);
-
-        const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
-
-        const text = selectedText.getSelectedText(editor);
-        assert.strictEqual(text, "bar");
+        test("Is NOT code block", async () => {
+            const editor = await testUtils.focusDemoFile(demoFile, 17);
+            const text = new selectedText.SelectedText(editor);
+            assert.ok(!text.hasCodeBlock());
+        });
     });
 });
