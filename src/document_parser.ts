@@ -36,7 +36,7 @@ export function commentLines(editor: vscode.TextEditor) {
 export function uncommentLines(editor: vscode.TextEditor) {
     editor.edit((editBuilder) => {
         for (const line of documentParser(editor)) {
-            editBuilder.replace(line.range, `${line.text.replace("# ", "").trim()} `);
+            editBuilder.replace(line.range, `${line.text.replace("# ", "").trim()}`);
         }
     });
 }
