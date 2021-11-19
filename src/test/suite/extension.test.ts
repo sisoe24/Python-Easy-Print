@@ -1,12 +1,13 @@
 import * as assert from "assert";
-
+import * as vscode from "vscode";
 import * as utils from "../../utils";
 import * as testUtils from "./test_utils";
 
-import { readFileSync } from "fs";
-import { join } from "path";
-
 suiteSetup("Clean settings", () => {
+    testUtils.cleanSettings();
+});
+
+suiteTeardown("Clean settings", () => {
     testUtils.cleanSettings();
 });
 
@@ -27,40 +28,30 @@ suite("Extension Settings", () => {
         const config = utils.pepConfig("prints.addCustomMessage");
         assert.strictEqual(config, "test1");
     });
-
-    suiteTeardown("Clean settings", () => {
-        testUtils.cleanSettings();
-    });
 });
 
 suite("Misc", () => {
     const demoFile = "py2_header_demo.py";
 
     suiteSetup("Open demo file", async () => {
-        testUtils.createDemoContent(demoFile, "\ntest\n\n");
-        await testUtils.sleep(500);
+        await testUtils.createDemoContent(demoFile, "\ntest\n\n");
     });
 
-    test("Python 2 print header", async () => {
-        await testUtils.focusDemoFile(demoFile);
-        const py2Statement = await utils.initPrintPython2();
-
+    test("Python 2 print header statements", async () => {
         assert.strictEqual(
-            py2Statement,
+            utils.py2Statement,
             "# coding: utf-8\nfrom __future__ import print_function\n"
         );
-
-        await testUtils.sleep(100);
     });
 
     test("Python 2 print header inside file", async () => {
-        await testUtils.focusDemoFile(demoFile);
+        const editor = await testUtils.focusDemoFile(demoFile);
 
-        await testUtils.sleep(1000);
+        await vscode.commands.executeCommand("python-easy-print.easyPrintPy2");
+        await testUtils.sleep(50);
 
-        const file = readFileSync(join(testUtils.demoPath, demoFile), "utf-8");
         assert.strictEqual(
-            file,
+            editor.document.getText(),
             "# coding: utf-8\nfrom __future__ import print_function\n\ntest\n\n"
         );
     });
