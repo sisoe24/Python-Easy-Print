@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { writeFileSync, existsSync, writeFile, createWriteStream } from "fs";
+import { writeFileSync, createWriteStream } from "fs";
 
 export const demoPath = path.join(path.resolve(__dirname, "../../../"), "demo");
 
@@ -30,25 +30,10 @@ export async function updateConfig(name: string, value: unknown): Promise<void> 
 /**
  * Clean the settings.json file inside the demo folder.
  *
- * Method will wait for 200ms before completing. This is to give enough time to
- * vscode to register the changes.
  */
 export async function cleanSettings(): Promise<void> {
-    const settings = path.join(demoPath, ".vscode", "settings.json");
-    writeFileSync(settings, "{}");
-    // await sleep(100);
-}
-
-/**
- * Clean the settings.json file inside the demo folder.
- *
- * Method will wait for 200ms before completing. This is to give enough time to
- * vscode to register the changes.
- */
-export async function cleanDemoFile(): Promise<void> {
-    const filepath = path.join(demoPath, "demo_file.py");
-    writeFileSync(filepath, "");
-    await sleep(50);
+    const file = path.join(".vscode", "settings.json");
+    createDemoContent(file, "{}");
 }
 
 /**
@@ -82,8 +67,12 @@ export async function focusDemoFile(
     return editor;
 }
 
-export function createDemoContent(filename: string, content: string) {
+export async function createDemoContent(filename: string, content: string) {
     const filepath = path.join(demoPath, filename);
-    const f = createWriteStream(filepath);
-    f.write(content);
+
+    const file = createWriteStream(filepath);
+    file.write(content);
+    file.close();
+
+    await sleep(50);
 }

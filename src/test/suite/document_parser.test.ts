@@ -1,10 +1,6 @@
 import * as assert from "assert";
 import * as docParser from "../../document_parser";
 import * as testUtils from "./test_utils";
-import * as vscode from "vscode";
-
-import { readFileSync } from "fs";
-import { join } from "path";
 
 /**
  * File content to write at the beginning of the test.
@@ -17,8 +13,7 @@ print("test :", test)
 const demoFile = "document_parser_demo.py";
 
 suiteSetup("Open demo file", async () => {
-    testUtils.createDemoContent(demoFile, fileContent);
-    await testUtils.sleep(100);
+    await testUtils.createDemoContent(demoFile, fileContent);
 });
 
 suite("Document Parser", () => {

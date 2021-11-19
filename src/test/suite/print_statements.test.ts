@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import * as vscode from "vscode";
 
 import * as prints from "../../print_statements";
 import * as testUtils from "./test_utils";
@@ -8,8 +7,8 @@ import * as testUtils from "./test_utils";
 
 const demoFile = "demo_file.py";
 
-suiteSetup("Open demo file", () => {
-    testUtils.createDemoContent(demoFile, "");
+suiteSetup("Open demo file", async () => {
+    await testUtils.createDemoContent(demoFile, "");
 });
 
 setup("Clean Demo files", async () => {

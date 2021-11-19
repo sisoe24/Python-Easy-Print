@@ -21,8 +21,8 @@ names = [
 const demoFile = "placeholder_demo.py";
 
 suite("PlaceholderConverter", () => {
-    suiteSetup("Open demo file", () => {
-        testUtils.createDemoContent(demoFile, fileContent);
+    suiteSetup("Open demo file", async () => {
+        await testUtils.createDemoContent(demoFile, fileContent);
     });
 
     setup("Clean Demo files", async () => {

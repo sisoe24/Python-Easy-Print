@@ -39,8 +39,8 @@ teardown("Clean Demo files", async () => {
     await testUtils.cleanSettings();
 });
 
-suiteSetup("Open demo file", () => {
-    testUtils.createDemoContent(demoFile, fileContent);
+suiteSetup("Open demo file", async () => {
+    await testUtils.createDemoContent(demoFile, fileContent);
 });
 
 suite("SelectedText class", () => {
