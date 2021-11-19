@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 
 export const symbol = "\u{27A1}";
+export const py2Statement = "# coding: utf-8\nfrom __future__ import print_function\n";
 
 /**
  * Get configuration property value.
@@ -38,11 +39,7 @@ export async function initPrintPython2(): Promise<void | string> {
         return;
     }
 
-    const startupStatement = "# coding: utf-8\nfrom __future__ import print_function\n";
-
     await editor.edit((editBuilder) => {
-        editBuilder.insert(new vscode.Position(0, 0), startupStatement);
+        editBuilder.insert(new vscode.Position(0, 0), py2Statement);
     });
-
-    return startupStatement;
 }
