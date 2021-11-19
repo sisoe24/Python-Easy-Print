@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import { writeFileSync, existsSync, writeFile, createWriteStream } from "fs";
 
-const demoPath = path.join(path.resolve(__dirname, "../../../"), "demo");
+export const demoPath = path.join(path.resolve(__dirname, "../../../"), "demo");
 
 /**
  * Some tests will need to wait for vscode to register the actions. An example will
@@ -82,38 +82,7 @@ export async function focusDemoFile(
     return editor;
 }
 
-/**
- * Write content to the demo file.
- *
- * @param lines string of objects to write into the file so to make it clear to
- * understand which line of text should check for tests. Example: `{line1: 'hello'}`
- */
-export async function writeDemoFile(lines: object) {
-    await cleanDemoFile();
-
-    const editor = vscode.window.activeTextEditor;
-    if (editor) {
-        let msg = "";
-
-        for (const v of Object.values(lines)) {
-            msg += v;
-        }
-
-        const startOfFile = new vscode.Position(0, 0);
-        await editor.edit((editBuilder) => {
-            // replace all text
-            editBuilder.replace(
-                new vscode.Range(startOfFile, new vscode.Position(editor.document.lineCount, 0)),
-                msg
-            );
-        });
-
-        // deselect any text
-        editor.selection = new vscode.Selection(startOfFile, startOfFile);
-    }
-}
-
-export async function createDemoContent(filename: string, content: string) {
+export function createDemoContent(filename: string, content: string) {
     const filepath = path.join(demoPath, filename);
     const f = createWriteStream(filepath);
     f.write(content);
