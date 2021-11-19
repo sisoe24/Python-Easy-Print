@@ -32,7 +32,7 @@ export function pepConfig(property: string): unknown {
  *
  * @returns void if command is called with no active text editor.
  */
-export function initPrintPython2(): void {
+export async function initPrintPython2(): Promise<void | string> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return;
@@ -40,7 +40,9 @@ export function initPrintPython2(): void {
 
     const startupStatement = "# coding: utf-8\nfrom __future__ import print_function\n";
 
-    editor.edit((editBuilder) => {
+    await editor.edit((editBuilder) => {
         editBuilder.insert(new vscode.Position(0, 0), startupStatement);
     });
+
+    return startupStatement;
 }
