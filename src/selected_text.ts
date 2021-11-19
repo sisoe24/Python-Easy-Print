@@ -67,7 +67,7 @@ export class SelectedText {
     private includeParentCall(endChar: number): string {
         let parentCall = "";
 
-        if (utils.pepConfig("includeParentCall")) {
+        if (utils.pepConfig("hover.includeParentCall")) {
             const pattern = new RegExp(`(?:\\w+(?:\\(.*\\)|\\.)*)*${this.hoverWord}`);
 
             const startPos = new vscode.Position(this.lineNumber, 0);
@@ -95,7 +95,7 @@ export class SelectedText {
      */
     private includeFuncCall(startChar: number): string {
         let funcCall = "";
-        if (utils.pepConfig("includeParentheses")) {
+        if (utils.pepConfig("hover.includeParentheses")) {
             const pattern = new RegExp(`(?<=^${this.hoverWord})(\\(.*?\\))`);
 
             const startPos = new vscode.Position(this.lineNumber, startChar);

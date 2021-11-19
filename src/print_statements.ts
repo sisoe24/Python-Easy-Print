@@ -136,7 +136,7 @@ export class PrintConstructor {
      * @returns the converted placeholders
      */
     convertPlaceholders(): string {
-        let customMsg = utils.pepConfig("customizePrintMessage") as string;
+        let customMsg = utils.pepConfig("prints.addCustomMessage") as string;
         // todo: match should be based on settings
         const placeholderMatch = customMsg.match(/%[flF]/g);
 
@@ -181,7 +181,7 @@ export class PrintConstructor {
  * @returns the template statement: `LOGGER.debug("{text} : %s", repr({text}))`
  */
 export function logConstructor(statement: string): string {
-    const logger = utils.pepConfig("customLogName") || "logging";
+    const logger = utils.pepConfig("logging.customLogName") || "logging";
 
     const statementsTypes: { [statement: string]: string } = {
         debug: `${logger}.debug("{text} : %s", {@text})`,
@@ -195,7 +195,7 @@ export function logConstructor(statement: string): string {
         throw new Error(`Invalid statement type: ${statement}`);
     }
 
-    if (utils.pepConfig("useReprToLog")) {
+    if (utils.pepConfig("logging.useRepr")) {
         return statementsTypes[statement].replace("{@text}", "repr({text})");
     }
 

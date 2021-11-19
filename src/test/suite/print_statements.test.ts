@@ -8,8 +8,8 @@ import * as testUtils from "./test_utils";
 
 const demoFile = "demo_file.py";
 
-suiteSetup("Open demo file", async () => {
-    await testUtils.createDemoContent(demoFile, "");
+suiteSetup("Open demo file", () => {
+    testUtils.createDemoContent(demoFile, "");
 });
 
 setup("Clean Demo files", async () => {
@@ -49,26 +49,26 @@ suite("PrintConstructor", () => {
     });
 
     test("Basic print with placeholders", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "DEBUG");
+        await testUtils.updateConfig("prints.addCustomMessage", "DEBUG");
         const statement = new prints.PrintConstructor("print");
         assert.strictEqual(statement.string(), 'print("➡ DEBUG {text} :", {text})');
     });
 
     test("Help should not have any placeholders", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "DEBUG");
+        await testUtils.updateConfig("prints.addCustomMessage", "DEBUG");
         const statement = new prints.PrintConstructor("help");
         assert.strictEqual(statement.string(), "help({text})");
     });
 
     test("Convert placeholders from config", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "%f %l DEBUG");
+        await testUtils.updateConfig("prints.addCustomMessage", "%f %l DEBUG");
         const statement = new prints.PrintConstructor("help");
         const placeholders = statement.convertPlaceholders();
         assert.strictEqual(placeholders, "demo_file.py 1 DEBUG");
     });
 
     test("Convert placeholders from config but no config", async () => {
-        await testUtils.updateConfig("customizePrintMessage", "");
+        await testUtils.updateConfig("prints.addCustomMessage", "");
         const statement = new prints.PrintConstructor("help");
         const placeholders = statement.convertPlaceholders();
         assert.strictEqual(placeholders, "");
@@ -102,13 +102,13 @@ suite("Log Constructor", () => {
     });
 
     test("Custom logging statement", async () => {
-        await testUtils.updateConfig("customLogName", "LOGGER");
+        await testUtils.updateConfig("logging.customLogName", "LOGGER");
         const statement = prints.logConstructor("debug");
         assert.strictEqual(statement, 'LOGGER.debug("{text} : %s", repr({text}))');
     });
 
     test("Dont use repr", async () => {
-        await testUtils.updateConfig("useReprToLog", false);
+        await testUtils.updateConfig("logging.useRepr", false);
         const statement = prints.logConstructor("debug");
         assert.strictEqual(statement, 'logging.debug("{text} : %s", {text})');
     });

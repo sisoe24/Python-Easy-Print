@@ -156,17 +156,17 @@
     "configuration": {
       "title": "Python EasyPrint",
       "properties": {
-        "pythonEasyPrint.customizePrintMessage": {
+        "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "",
           "description": "Custom log message for the print statements. Placeholder variables:\n%f - File name\n%l - Line Number"
         },
-        "pythonEasyPrint.includeParentCall": {
+        "pythonEasyPrint.hover.includeParentCall": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "When hovering over the `bar` of `foo.bar`, print `foo.bar`."
         },
-        "pythonEasyPrint.includeParentheses": {
+        "pythonEasyPrint.hover.includeParentheses": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "When hovering over `foo()`, print `foo()`."
@@ -176,12 +176,12 @@
           "default": true,
           "markdownDescription": "When selecting multiple declaration, print each them into a separate statement."
         },
-        "pythonEasyPrint.customLogName": {
+        "pythonEasyPrint.logging.customLogName": {
           "type": "string",
           "default": "",
           "description": "Custom logger instance name."
         },
-        "pythonEasyPrint.useReprToLog": {
+        "pythonEasyPrint.logging.useRepr": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name)`"

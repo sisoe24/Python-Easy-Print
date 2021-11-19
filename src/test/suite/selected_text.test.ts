@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import * as vscode from "vscode";
 
 import * as selectedText from "../../selected_text";
 import * as testUtils from "./test_utils";
@@ -40,8 +39,8 @@ teardown("Clean Demo files", async () => {
     await testUtils.cleanSettings();
 });
 
-suiteSetup("Open demo file", async () => {
-    await testUtils.createDemoContent(demoFile, fileContent);
+suiteSetup("Open demo file", () => {
+    testUtils.createDemoContent(demoFile, fileContent);
 });
 
 suite("SelectedText class", () => {
@@ -105,7 +104,7 @@ suite("SelectedText class", () => {
 
     suite("Hover custom options", () => {
         test("No parents", async () => {
-            await testUtils.updateConfig("includeParentCall", false);
+            await testUtils.updateConfig("hover.includeParentCall", false);
             const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
 
             const text = new selectedText.SelectedText(editor);
@@ -113,7 +112,7 @@ suite("SelectedText class", () => {
         });
 
         test("No parentheses", async () => {
-            await testUtils.updateConfig("includeParentheses", false);
+            await testUtils.updateConfig("hover.includeParentheses", false);
             const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
 
             const text = new selectedText.SelectedText(editor);
@@ -121,8 +120,8 @@ suite("SelectedText class", () => {
         });
 
         test("No parents and no parentheses", async () => {
-            await testUtils.updateConfig("includeParentCall", false);
-            await testUtils.updateConfig("includeParentheses", false);
+            await testUtils.updateConfig("hover.includeParentCall", false);
+            await testUtils.updateConfig("hover.includeParentheses", false);
             const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
 
             const text = new selectedText.SelectedText(editor);
