@@ -114,43 +114,43 @@
         "command": "python-easy-print.easyPrintDir",
         "key": "ctrl+shift+l d",
         "mac": "cmd+shift+l d",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintType",
         "key": "ctrl+shift+l t",
         "mac": "cmd+shift+l t",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
         "key": "ctrl+shift+l r",
         "mac": "cmd+shift+l r",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyHelp",
         "key": "ctrl+shift+l h",
         "mac": "cmd+shift+l h",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.commentPrintLines",
         "key": "ctrl+shift+l c",
         "mac": "cmd+shift+l c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.uncommentPrintLines",
         "key": "ctrl+shift+l u",
         "mac": "cmd+shift+l u",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.deletePrintLines",
         "key": "ctrl+shift+l x",
         "mac": "cmd+shift+l x",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       }
     ],
     "configuration": {
@@ -159,32 +159,32 @@
         "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "",
-          "description": "Custom log message for the print statements. Placeholder variables:\n%f - File name\n%l - Line Number"
+          "markdownDescription": "Custom log message for the print statements. Placeholder variables:\n`%f` - File name\n`%l` - Line Number\n`%F` - Function name."
         },
         "pythonEasyPrint.hover.includeParentCall": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "When hovering over the `bar` of `foo.bar`, print `foo.bar`."
+          "markdownDescription": "If `true`, when hovering over `bar` of `foo.bar`, print `foo.bar`."
         },
         "pythonEasyPrint.hover.includeParentheses": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "When hovering over `foo()`, print `foo()`."
+          "markdownDescription": "If `true`, when hovering over `foo` of `foo()`, print `foo()`"
         },
         "pythonEasyPrint.multipleStatements": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "When selecting multiple declaration, print each them into a separate statement."
+          "markdownDescription": "When selecting multiple declaration, print them individually."
         },
         "pythonEasyPrint.logging.customLogName": {
           "type": "string",
           "default": "",
-          "description": "Custom logger instance name."
+          "description": "Custom logger instance name. If left empty will default to: `logging`"
         },
         "pythonEasyPrint.logging.useRepr": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name)`"
+          "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name))`"
         }
       }
     }
