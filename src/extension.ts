@@ -3,7 +3,7 @@ import * as utils from "./utils";
 import * as selectedText from "./selected_text";
 import * as doc from "./document_parser";
 
-const printCommands = {
+export const printCommands = {
     print: "python-easy-print.easyPrint",
     type: "python-easy-print.easyPrintType",
     dir: "python-easy-print.easyPrintDir",
@@ -11,7 +11,7 @@ const printCommands = {
     help: "python-easy-print.easyHelp",
 };
 
-const logCommands = {
+export const logCommands = {
     debug: "python-easy-print.easyLogDebug",
     info: "python-easy-print.easyLogInfo",
     warning: "python-easy-print.easyLogWarning",
@@ -19,7 +19,7 @@ const logCommands = {
     critical: "python-easy-print.easyLogCritical",
 };
 
-const documentCommands = {
+export const documentCommands = {
     comment: "python-easy-print.commentPrintLines",
     uncomment: "python-easy-print.uncommentPrintLines",
     delete: "python-easy-print.deletePrintLines",
@@ -44,7 +44,6 @@ export function activate(context: vscode.ExtensionContext): void {
         );
     }
 
-    
     // Document parser
     for (const [action, command] of Object.entries(documentCommands)) {
         context.subscriptions.push(
