@@ -1,8 +1,32 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { writeFileSync, createWriteStream } from "fs";
+import { readFileSync, createWriteStream } from "fs";
 
-export const demoPath = path.join(path.resolve(__dirname, "../../../"), "demo");
+export const root = path.resolve(__dirname, "../../../");
+export const packageFile = readFileSync(path.join(root, "package.json"), "utf-8");
+
+export const demoPath = path.join(root, "demo");
+
+export function packageCommands(): string[] {
+    const _packageCommands = JSON.parse(packageFile).contributes.commands;
+
+    const commands: string[] = [];
+    for (const command of _packageCommands) {
+        commands.push(command.command);
+    }
+    return commands;
+}
+
+export function packageConfigurations(): string[] {
+    const _packageConfigs = JSON.parse(packageFile).contributes.configuration.properties;
+
+    const configurations: string[] = [];
+    for (const config of Object.keys(_packageConfigs)) {
+        configurations.push(config.replace("pythonEasyPrint.", ""));
+    }
+
+    return configurations;
+}
 
 /**
  * Some tests will need to wait for vscode to register the actions. An example will
@@ -74,5 +98,5 @@ export async function createDemoContent(filename: string, content: string) {
     file.write(content);
     file.close();
 
-    await sleep(50);
+    await sleep(100);
 }
