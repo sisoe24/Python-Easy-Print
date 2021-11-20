@@ -89,7 +89,7 @@ suite("Misc", () => {
 });
 
 suite("Commands name", () => {
-    const commands = testUtils.packageCommands();
+    const commands = testUtils.packageCommands() as string[];
 
     test("Print Commands", () => {
         for (const command of Object.values(printCommands)) {
@@ -119,7 +119,8 @@ suite("Configuration names", () => {
      * @param source string like path to parse for files
      */
     function parseDir(source: string) {
-        const configurations = testUtils.packageConfigurations();
+        const configurations = testUtils.packageConfigurations() as string[];
+
         readdirSync(source, { withFileTypes: true })
             .filter((dirent) => dirent.isFile())
             .map((dirent) => dirent.name)
