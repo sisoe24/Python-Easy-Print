@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [statement, command] of Object.entries(printCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                selectedText.executeCommand(statement);
+                void selectedText.executeCommand(statement);
             })
         );
     }
@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [statement, command] of Object.entries(logCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                selectedText.executeCommand(statement);
+                void selectedText.executeCommand(statement);
             })
         );
     }
@@ -48,7 +48,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [action, command] of Object.entries(documentCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                doc.executeCommand(action);
+                void doc.executeCommand(action);
             })
         );
     }
@@ -56,7 +56,7 @@ export function activate(context: vscode.ExtensionContext): void {
     // Misc
     context.subscriptions.push(
         vscode.commands.registerCommand("python-easy-print.easyPrintPy2", () => {
-            utils.initPrintPython2();
+            void utils.initPrintPython2();
         })
     );
 }
