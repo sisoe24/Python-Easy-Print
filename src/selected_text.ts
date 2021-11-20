@@ -15,7 +15,7 @@ export class SelectedText {
     document: vscode.TextDocument;
     editor: vscode.TextEditor;
 
-    hoverWord: string | undefined;
+    hoverWord: string;
 
     lineText: string;
     lineNumber: number;
@@ -30,6 +30,8 @@ export class SelectedText {
 
         this.document = editor.document;
         this.selection = editor.selection;
+
+        this.hoverWord = "";
 
         this.lineNumber = this.selection.active.line;
         this.lineText = this.editor.document.lineAt(this.lineNumber).text;
