@@ -89,7 +89,7 @@ suite("Misc", () => {
 });
 
 suite("Commands name", () => {
-    const commands = testUtils.packageCommands() as string[];
+    const commands = testUtils.packageCommands();
 
     test("Print Commands", () => {
         for (const command of Object.values(printCommands) as string[]) {
@@ -119,7 +119,7 @@ suite("Configuration names", () => {
      * @param source string like path to parse for files
      */
     function parseDir(source: string) {
-        const configurations = testUtils.packageConfigurations() as string[];
+        const configurations = testUtils.packageConfigurations();
 
         readdirSync(source, { withFileTypes: true })
             .filter((dirent) => dirent.isFile())
@@ -130,14 +130,14 @@ suite("Configuration names", () => {
 
                 const configs = fileContents.match(/(?<=pepConfig\(")(.+?)(?=")/g);
                 if (configs) {
-                    for (const config of configs) {
+                    for (const config of configs as string[]) {
                         // I test a wrong configuration so will certainly fail
                         if (config === "randomTest") {
                             continue;
                         }
                         assert.ok(
                             configurations.includes(config),
-                            `file: ${file} - configuration name mismatch: ${config as string}`
+                            `file: ${file as string} - configuration name mismatch: ${config}`
                         );
                     }
                 }
