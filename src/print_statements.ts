@@ -23,7 +23,7 @@ export class PlaceholdersConverter {
      * `%f`: filename, `%F`: function name, `%l`: line number.
      * @returns the converted placeholder.
      */
-    convert(key: string) {
+    convert(key: string): string {
         const placeholders: { [key: string]: string } = {
             "%f": this.getFilename(),
             "%F": this.getFuncName(),

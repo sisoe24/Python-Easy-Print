@@ -40,8 +40,8 @@ export function* documentParser(editor: vscode.TextEditor): Generator<{
  *
  * @param editor vscode active text editor
  */
-export async function commentLines(editor: vscode.TextEditor) {
-    await editor.edit((editBuilder) => {
+export function commentLines(editor: vscode.TextEditor): void {
+    editor.edit((editBuilder) => {
         for (const line of documentParser(editor)) {
             if (!line.text.startsWith("#")) {
                 editBuilder.replace(line.range, `# ${line.text}`);
@@ -55,7 +55,7 @@ export async function commentLines(editor: vscode.TextEditor) {
  *
  * @param editor vscode active text editor
  */
-export function uncommentLines(editor: vscode.TextEditor) {
+export function uncommentLines(editor: vscode.TextEditor): void {
     editor.edit((editBuilder) => {
         for (const line of documentParser(editor)) {
             editBuilder.replace(line.range, `${line.text.replace("# ", "").trim()}`);
@@ -68,7 +68,7 @@ export function uncommentLines(editor: vscode.TextEditor) {
  *
  * @param editor vscode active text editor
  */
-export function deleteLines(editor: vscode.TextEditor) {
+export function deleteLines(editor: vscode.TextEditor): void {
     editor.edit((editBuilder) => {
         for (const line of documentParser(editor)) {
             editBuilder.delete(line.rangeToNewLine);
@@ -83,7 +83,7 @@ export function deleteLines(editor: vscode.TextEditor) {
  * If action is not valid will throw an error.
  * @returns
  */
-export function executeCommand(action: string) {
+export function executeCommand(action: string): void {
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {

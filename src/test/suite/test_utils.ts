@@ -91,7 +91,7 @@ export async function focusDemoFile(
     return editor;
 }
 
-export async function createDemoContent(filename: string, content: string) {
+export async function createDemoContent(filename: string, content: string): Promise<void> {
     const filepath = path.join(demoPath, filename);
 
     const file = createWriteStream(filepath);
