@@ -92,19 +92,19 @@ suite("Commands name", () => {
     const commands = testUtils.packageCommands() as string[];
 
     test("Print Commands", () => {
-        for (const command of Object.values(printCommands)) {
+        for (const command of Object.values(printCommands) as string[]) {
             assert.ok(commands.includes(command), `Extension command name mismatched: ${command}`);
         }
     });
 
     test("Log Commands", () => {
-        for (const command of Object.values(logCommands)) {
+        for (const command of Object.values(logCommands) as string[]) {
             assert.ok(commands.includes(command), `Extension command name mismatched: ${command}`);
         }
     });
 
     test("Document Commands", () => {
-        for (const command of Object.values(documentCommands)) {
+        for (const command of Object.values(documentCommands) as string[]) {
             assert.ok(commands.includes(command), `Extension command name mismatched: ${command}`);
         }
     });
@@ -137,7 +137,7 @@ suite("Configuration names", () => {
                         }
                         assert.ok(
                             configurations.includes(config),
-                            `file: ${file} - configuration name mismatch: ${config}`
+                            `file: ${file} - configuration name mismatch: ${config as string}`
                         );
                     }
                 }
