@@ -154,7 +154,8 @@ export class SelectedText {
      * @returns true if code contains a code block, false otherwise.
      */
     hasCodeBlock(): boolean {
-        return Boolean(this.lineText.match(/[{([]/));
+        const pattern = /[{([]/;
+        return pattern.test(this.lineText);
     }
 
     /**
