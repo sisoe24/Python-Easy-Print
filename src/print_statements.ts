@@ -89,7 +89,8 @@ export class PlaceholdersConverter {
      * @returns string line number of the cursor last active position: "1".
      */
     getLineNum(): string {
-        return String(this.editor.selection.start.line + 1);
+        const lineNum = this.editor.selection.start.line + 1;
+        return lineNum.toString();
     }
 }
 
