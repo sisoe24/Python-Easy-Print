@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import * as docParser from "../../document_parser";
 import * as testUtils from "./test_utils";
+import * as vscode from "vscode";
 
 /**
  * File content to write at the beginning of the test.
@@ -20,7 +21,7 @@ suite("Document Parser", () => {
     test("Comment Lines", async () => {
         const editor = await testUtils.focusDemoFile(demoFile);
 
-        docParser.executeCommand("comment");
+        await vscode.commands.executeCommand("python-easy-print.commentPrintLines");
         await testUtils.sleep(50);
 
         assert.strictEqual(
