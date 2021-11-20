@@ -7,6 +7,11 @@ export const packageFile = readFileSync(path.join(root, "package.json"), "utf-8"
 
 export const demoPath = path.join(root, "demo");
 
+/**
+ * Get the package.json command names.
+ *
+ * @returns an array with all of the configurations options names.
+ */
 export function packageCommands(): string[] {
     const _packageCommands = JSON.parse(packageFile).contributes.commands;
 
@@ -17,6 +22,11 @@ export function packageCommands(): string[] {
     return commands;
 }
 
+/**
+ * Get the package.json configuration names.
+ *
+ * @returns an array with all of the configurations options names.
+ */
 export function packageConfigurations(): string[] {
     const _packageConfigs = JSON.parse(packageFile).contributes.configuration.properties;
 
@@ -52,15 +62,6 @@ export async function updateConfig(name: string, value: unknown): Promise<void> 
 }
 
 /**
- * Clean the settings.json file inside the demo folder.
- *
- */
-export function cleanSettings(): void {
-    const file = path.join(".vscode", "settings.json");
-    createDemoContent(file, "{}");
-}
-
-/**
  * Open and focus a demo file.
  *
  * @param filename the name of a file to open.
@@ -91,6 +92,15 @@ export async function focusDemoFile(
     return editor;
 }
 
+/**
+ * Create a demo file and write the content to it.
+ *
+ * If file doesn't exist, will get created, otherwise just updated with the new content.
+ * Function will sleep 100ms before returning.
+ *
+ * @param filename name of the file demo to write the content to.
+ * @param content  the content to write.
+ */
 export async function createDemoContent(filename: string, content: string): Promise<void> {
     const filepath = path.join(demoPath, filename);
 
@@ -99,4 +109,12 @@ export async function createDemoContent(filename: string, content: string): Prom
     file.close();
 
     await sleep(100);
+}
+
+/**
+ * Clean the settings.json file inside the demo folder.
+ */
+export function cleanSettings(): void {
+    const file = path.join(".vscode", "settings.json");
+    createDemoContent(file, "{}");
 }
