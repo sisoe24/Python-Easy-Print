@@ -9,8 +9,9 @@ export class PlaceholdersConverter {
     private editor;
 
     /**
-     * yo bro
-     * @param editor
+     * Init method to initialize the class.
+     *
+     * @param editor vscode active text editor
      */
     constructor(editor: vscode.TextEditor) {
         this.editor = editor;
@@ -31,7 +32,7 @@ export class PlaceholdersConverter {
         };
 
         if (!Object.prototype.hasOwnProperty.call(placeholders, key)) {
-            throw new Error(`Invalid statement type: ${key}`);
+            throw new Error(`Invalid placeholder type: ${key}`);
         }
 
         return placeholders[key];
@@ -46,7 +47,7 @@ export class PlaceholdersConverter {
      *
      * @returns the function name or an empty string if no function is found.
      */
-    getFuncName() {
+    getFuncName(): string {
         const startLine = this.editor.selection.active.line;
         const startLineIndentation =
             this.editor.document.lineAt(startLine).firstNonWhitespaceCharacterIndex;
