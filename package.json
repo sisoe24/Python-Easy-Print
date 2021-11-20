@@ -9,6 +9,18 @@
     "color": "#347AB4",
     "theme": "dark"
   },
+  "badges": [
+    {
+      "description": "Coverage",
+      "href": "https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&utm_medium=referral&utm_content=sisoe24/Python-Easy-Print&utm_campaign=Badge_Coverage",
+      "url": "https://app.codacy.com/project/badge/Coverage/1d2406e640f647978438e8634f4f7df3"
+    },
+    {
+      "description": "Code Quality",
+      "href": "https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sisoe24/Python-Easy-Print&amp;utm_campaign=Badge_Grade",
+      "url": "https://app.codacy.com/project/badge/Grade/1d2406e640f647978438e8634f4f7df3"
+    }
+  ],
   "homepage": "https://github.com/sisoe24/Python-Easy-Print",
   "repository": {
     "type": "git",
@@ -159,7 +171,7 @@
         "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "",
-          "markdownDescription": "Custom log message for the print statements. Placeholder variables:\n`%f` - File name\n`%l` - Line Number\n`%F` - Function name."
+          "markdownDescription": "Custom log message for the print statements. Placeholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
         },
         "pythonEasyPrint.hover.includeParentCall": {
           "type": "boolean",
@@ -169,7 +181,7 @@
         "pythonEasyPrint.hover.includeParentheses": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "If `true`, when hovering over `foo` of `foo()`, print `foo()`"
+          "markdownDescription": "If `true`, when hovering over `foo` of `foo()`, print `foo()`."
         },
         "pythonEasyPrint.multipleStatements": {
           "type": "boolean",
@@ -179,12 +191,12 @@
         "pythonEasyPrint.logging.customLogName": {
           "type": "string",
           "default": "",
-          "description": "Custom logger instance name. If left empty will default to: `logging`"
+          "markdownDescription": "Custom logger instance name. If left empty, will default to: `logging`."
         },
         "pythonEasyPrint.logging.useRepr": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name))`"
+          "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name))`."
         }
       }
     }
