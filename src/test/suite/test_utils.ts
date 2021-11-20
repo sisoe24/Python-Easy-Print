@@ -55,7 +55,7 @@ export async function updateConfig(name: string, value: unknown): Promise<void> 
  * Clean the settings.json file inside the demo folder.
  *
  */
-export async function cleanSettings(): Promise<void> {
+export function cleanSettings(): void {
     const file = path.join(".vscode", "settings.json");
     createDemoContent(file, "{}");
 }

@@ -6,6 +6,7 @@ import { readdirSync, readFileSync } from "fs";
 
 import * as utils from "../../utils";
 import * as testUtils from "./test_utils";
+
 import { printCommands, logCommands, documentCommands } from "../../extension";
 
 suiteSetup("Clean settings", () => {
@@ -67,7 +68,7 @@ suite("Misc", () => {
         await testUtils.createDemoContent(demoFile, "\ntest\n\n");
     });
 
-    test("Python 2 print header statements", async () => {
+    test("Python 2 print header statements", () => {
         assert.strictEqual(
             utils.py2Statement,
             "# coding: utf-8\nfrom __future__ import print_function\n"
