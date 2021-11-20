@@ -116,5 +116,5 @@ export async function createDemoContent(filename: string, content: string): Prom
  */
 export function cleanSettings(): void {
     const file = path.join(".vscode", "settings.json");
-    createDemoContent(file, "{}");
+    void createDemoContent(file, "{}");
 }
