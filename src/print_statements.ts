@@ -183,7 +183,7 @@ export class PrintConstructor {
  * @returns the template statement: `LOGGER.debug("{text} : %s", repr({text}))`
  */
 export function logConstructor(statement: string): string {
-    const logger = utils.pepConfig("logging.customLogName") || "logging";
+    const logger = (utils.pepConfig("logging.customLogName") as string) || "logging";
 
     const statementsTypes: { [statement: string]: string } = {
         debug: `${logger}.debug("{text} : %s", {@text})`,
