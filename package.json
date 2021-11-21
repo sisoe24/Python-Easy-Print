@@ -9,6 +9,18 @@
     "color": "#347AB4",
     "theme": "dark"
   },
+  "badges": [
+    {
+      "description": "Coverage",
+      "href": "https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&utm_medium=referral&utm_content=sisoe24/Python-Easy-Print&utm_campaign=Badge_Coverage",
+      "url": "https://app.codacy.com/project/badge/Coverage/1d2406e640f647978438e8634f4f7df3"
+    },
+    {
+      "description": "Code Quality",
+      "href": "https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sisoe24/Python-Easy-Print&amp;utm_campaign=Badge_Grade",
+      "url": "https://app.codacy.com/project/badge/Grade/1d2406e640f647978438e8634f4f7df3"
+    }
+  ],
   "homepage": "https://github.com/sisoe24/Python-Easy-Print",
   "repository": {
     "type": "git",
@@ -21,6 +33,8 @@
   "keywords": [
     "python",
     "print",
+    "logging",
+    "log",
     "debug",
     "quick",
     "easy",
@@ -39,22 +53,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:python-easy-print.easyPrint",
-    "onCommand:python-easy-print.easyPrintDir",
-    "onCommand:python-easy-print.easyPrintType",
-    "onCommand:python-easy-print.easyPrintRepr",
-    "onCommand:python-easy-print.easyHelp",
-    "onCommand:python-easy-print.easyPrintPy2",
-    "onCommand:python-easy-print.commentPrintLines",
-    "onCommand:python-easy-print.uncommentPrintLines",
-    "onCommand:python-easy-print.deletePrintLines"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "python-easy-print.easyPrint",
-        "title": "Python EasyPrint"
+        "title": "Python EasyPrint: print"
       },
       {
         "command": "python-easy-print.easyPrintDir",
@@ -73,8 +79,28 @@
         "title": "Python EasyPrint: repr"
       },
       {
+        "command": "python-easy-print.easyLogDebug",
+        "title": "Python EasyPrint: debug"
+      },
+      {
+        "command": "python-easy-print.easyLogInfo",
+        "title": "Python EasyPrint: info"
+      },
+      {
+        "command": "python-easy-print.easyLogWarning",
+        "title": "Python EasyPrint: warning"
+      },
+      {
+        "command": "python-easy-print.easyLogError",
+        "title": "Python EasyPrint: error"
+      },
+      {
+        "command": "python-easy-print.easyLogCritical",
+        "title": "Python EasyPrint: critical"
+      },
+      {
         "command": "python-easy-print.easyPrintPy2",
-        "title": "Python EasyPrint: Easy print settings for Python2"
+        "title": "Python EasyPrint: Add py2 header statement."
       },
       {
         "command": "python-easy-print.commentPrintLines",
@@ -100,52 +126,77 @@
         "command": "python-easy-print.easyPrintDir",
         "key": "ctrl+shift+l d",
         "mac": "cmd+shift+l d",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintType",
         "key": "ctrl+shift+l t",
         "mac": "cmd+shift+l t",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
         "key": "ctrl+shift+l r",
         "mac": "cmd+shift+l r",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyHelp",
         "key": "ctrl+shift+l h",
         "mac": "cmd+shift+l h",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.commentPrintLines",
         "key": "ctrl+shift+l c",
         "mac": "cmd+shift+l c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.uncommentPrintLines",
         "key": "ctrl+shift+l u",
         "mac": "cmd+shift+l u",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       },
       {
         "command": "python-easy-print.deletePrintLines",
         "key": "ctrl+shift+l x",
         "mac": "cmd+shift+l x",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == python"
       }
     ],
     "configuration": {
       "title": "Python EasyPrint",
       "properties": {
-        "pythonEasyPrint.customizeLogMessage": {
+        "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "",
-          "description": "Custom log messsage for the print. Placeholder variables:\n%f - File name\n%t - Time\n%l - Line Number"
+          "markdownDescription": "Custom log message for the print statements. Placeholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+        },
+        "pythonEasyPrint.hover.includeParentCall": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "If `true`, when hovering over `bar` of `foo.bar`, print `foo.bar`."
+        },
+        "pythonEasyPrint.hover.includeParentheses": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "If `true`, when hovering over `foo` of `foo()`, print `foo()`."
+        },
+        "pythonEasyPrint.multipleStatements": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "When selecting multiple declaration, print them individually."
+        },
+        "pythonEasyPrint.logging.customLogName": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Custom logger instance name. If left empty, will default to: `logging`."
+        },
+        "pythonEasyPrint.logging.useRepr": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name))`."
         }
       }
     }
@@ -159,16 +210,21 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.3",
-    "@types/mocha": "^8.0.4",
-    "@types/node": "^12.11.7",
-    "@types/vscode": "^1.46.0",
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
-    "@typescript-eslint/parser": "^4.9.0",
-    "eslint": "^7.15.0",
-    "glob": "^7.1.6",
-    "mocha": "^8.1.3",
-    "typescript": "^4.1.2",
-    "vscode-test": "^1.4.1"
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.7",
+    "@types/vscode": "^1.62.0",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "choma": "^1.2.1",
+    "eslint": "^8.2.0",
+    "glob": "^7.2.0",
+    "mocha": "^9.1.3",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.20",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4",
+    "vscode-test": "^1.6.1"
   }
 }
