@@ -31,12 +31,12 @@ name = 'test'
 
 const demoFile = "selected_text_demo.py";
 
-setup("Clean Demo files", async () => {
-    await testUtils.cleanSettings();
+setup("Clean Demo files", () => {
+    testUtils.cleanSettings();
 });
 
-teardown("Clean Demo files", async () => {
-    await testUtils.cleanSettings();
+teardown("Clean Demo files", () => {
+    testUtils.cleanSettings();
 });
 
 suiteSetup("Open demo file", async () => {
