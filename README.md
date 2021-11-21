@@ -5,7 +5,10 @@
 [![DeepSource](https://deepsource.io/gh/sisoe24/Python-Easy-Print.svg/?label=active+issues&show_trend=true&token=30uB5oEZbccV2AOoOX7AgXAT)](https://deepsource.io/gh/sisoe24/Python-Easy-Print/?ref=repository-badge)
 [![Last Update](https://img.shields.io/visual-studio-marketplace/last-updated/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
 
-VSCode extension for easy commands of Python most useful prints.
+[![Download](https://img.shields.io/badge/Marketplace-Download-blue)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
+
+Visual Studio Code extension for easy commands of Python most useful prints.
+
 
 ---
 
@@ -49,11 +52,11 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
 
 ### NOTE
 
-Default key bindings will be removed in the future version. This is avoid shortcuts conflicts and let the user decide which and what shortcut needs more.
+Default key bindings will be removed in the future version(`> 0.3.0`). This is avoid shortcuts conflicts and let the user decide which and what shortcut needs more.
 
 ---
 
-The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the action you will like tu execute:
+The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute:
 
  `p` for `print`, `d` for `dir`, `t` for `type` and so. The only different is `x` for delete
 
@@ -94,7 +97,7 @@ Example: `Debug - %f - %F line %l -` will result in: `print("➡ DEBUG - test.py
 
 ### `pythonEasyPrint.multipleStatements`: `boolean`
 
-If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each statement individually.
+If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
 
 ### `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
