@@ -63,14 +63,18 @@ export class SelectedText {
      * to the left of the word. If yes then it will return till the
      * last valid parent.
      *
+     * @param startChar the character position from where to start the line parsing.
      * @param endChar the character position where to end the line parsing.
      * @returns the chain of parents or an empty string if there are none.
      */
-    private includeParentCall(endChar: number): string {
+    private includeParentCall(startChar: number, endChar: number): string {
         let parentCall = "";
 
         if (utils.pepConfig("hover.includeParentCall")) {
-            const pattern = new RegExp(`(?:\\w+(?:\\(.*\\)|\\.)*)*${this.hoverWord}`);
+            const pattern = new RegExp(
+                `(?:\\w+(?:\\(.*\\)|\\.)*)*(?<=^.{${startChar}})${this.hoverWord}`,
+                "m"
+            );
 
             const startPos = new vscode.Position(this.lineNumber, 0);
             const endPos = new vscode.Position(this.lineNumber, endChar);
@@ -128,8 +132,10 @@ export class SelectedText {
         if (rangeUnderCursor) {
             this.hoverWord = this.document.getText(rangeUnderCursor);
 
-            const parentCall = this.includeParentCall(rangeUnderCursor.end.character);
-            const funcCall = this.includeFuncCall(rangeUnderCursor.start.character);
+            const startChar = rangeUnderCursor.start.character;
+
+            const parentCall = this.includeParentCall(startChar, rangeUnderCursor.end.character);
+            const funcCall = this.includeFuncCall(startChar);
 
             return (parentCall || this.hoverWord) + funcCall;
         }
