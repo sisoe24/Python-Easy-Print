@@ -7,7 +7,7 @@ import * as testUtils from "./test_utils";
  * File content to write at the beginning of the test.
  */
 const fileContent = `
-foo.bar.foo.bar(*args, **kwargs)
+foo = foo.bar.foo.bar(foo, bar)
 foo-bar
 foo, bar
 
@@ -29,6 +29,8 @@ name = 'test'
 
 `.trim();
 
+// TODO: should make each test use its own file
+
 const demoFile = "selected_text_demo.py";
 
 setup("Clean Demo files", () => {
@@ -43,34 +45,34 @@ suiteSetup("Open demo file", async () => {
     await testUtils.createDemoContent(demoFile, fileContent);
 });
 
-suite("SelectedText class", () => {
+suite.only("SelectedText class", () => {
     suite("Hover default options", () => {
         test("Hover text line 1: word 1", async () => {
-            const editor = await testUtils.focusDemoFile(demoFile);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 6);
 
             const text = new selectedText.SelectedText(editor);
             assert.deepStrictEqual(text.text(), ["foo"]);
         });
 
         test("Hover text line 1: word 2", async () => {
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 4);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 10);
 
             const text = new selectedText.SelectedText(editor);
             assert.deepStrictEqual(text.text(), ["foo.bar"]);
         });
 
         test("Hover text line 1: word 3", async () => {
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 8);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 14);
 
             const text = new selectedText.SelectedText(editor);
             assert.deepStrictEqual(text.text(), ["foo.bar.foo"]);
         });
 
         test("Hover text line 1: full line", async () => {
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 18);
 
             const text = new selectedText.SelectedText(editor);
-            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar(*args, **kwargs)"]);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar(foo, bar)"]);
         });
 
         test("Hover text line 2: full line", async () => {
@@ -105,15 +107,15 @@ suite("SelectedText class", () => {
     suite("Hover custom options", () => {
         test("No parents", async () => {
             await testUtils.updateConfig("hover.includeParentCall", false);
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 18);
 
             const text = new selectedText.SelectedText(editor);
-            assert.deepStrictEqual(text.text(), ["bar(*args, **kwargs)"]);
+            assert.deepStrictEqual(text.text(), ["bar(foo, bar)"]);
         });
 
         test("No parentheses", async () => {
             await testUtils.updateConfig("hover.includeParentheses", false);
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 18);
 
             const text = new selectedText.SelectedText(editor);
             assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar"]);
@@ -122,7 +124,7 @@ suite("SelectedText class", () => {
         test("No parents and no parentheses", async () => {
             await testUtils.updateConfig("hover.includeParentCall", false);
             await testUtils.updateConfig("hover.includeParentheses", false);
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 12);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 18);
 
             const text = new selectedText.SelectedText(editor);
             assert.deepStrictEqual(text.text(), ["bar"]);
@@ -131,17 +133,17 @@ suite("SelectedText class", () => {
 
     suite("Manually selected text", () => {
         test("Select text line 1: word 4", async () => {
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 0, 15);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 6, 21);
 
             const text = new selectedText.SelectedText(editor);
             assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar"]);
         });
 
         test("Select text line 1: full line", async () => {
-            const editor = await testUtils.focusDemoFile(demoFile, 0, 0, 32);
+            const editor = await testUtils.focusDemoFile(demoFile, 0, 6, 32);
 
             const text = new selectedText.SelectedText(editor);
-            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar(*args, **kwargs)"]);
+            assert.deepStrictEqual(text.text(), ["foo.bar.foo.bar(foo, bar)"]);
         });
 
         test("Select text line 1: full line with multipleStatements", async () => {
