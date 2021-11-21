@@ -45,7 +45,7 @@ suiteSetup("Open demo file", async () => {
     await testUtils.createDemoContent(demoFile, fileContent);
 });
 
-suite.only("SelectedText class", () => {
+suite("SelectedText class", () => {
     suite("Hover default options", () => {
         test("Hover text line 1: word 1", async () => {
             const editor = await testUtils.focusDemoFile(demoFile, 0, 6);
