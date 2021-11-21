@@ -25,12 +25,12 @@ suite("PlaceholderConverter", () => {
         await testUtils.createDemoContent(demoFile, fileContent);
     });
 
-    setup("Clean Demo files", async () => {
-        await testUtils.cleanSettings();
+    setup("Clean Demo files", () => {
+        testUtils.cleanSettings();
     });
 
-    teardown("Clean Demo files", async () => {
-        await testUtils.cleanSettings();
+    teardown("Clean Demo files", () => {
+        testUtils.cleanSettings();
     });
 
     suite("Get function name", () => {

@@ -12,12 +12,12 @@ suiteSetup("Open demo file", async () => {
 });
 
 setup("Clean Demo files", async () => {
-    await testUtils.cleanSettings();
+    testUtils.cleanSettings();
     await testUtils.focusDemoFile(demoFile);
 });
 
-teardown("Clean Demo files", async () => {
-    await testUtils.cleanSettings();
+teardown("Clean Demo files", () => {
+    testUtils.cleanSettings();
 });
 
 suite("PrintConstructor", () => {
