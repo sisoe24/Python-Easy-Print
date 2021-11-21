@@ -80,27 +80,27 @@
       },
       {
         "command": "python-easy-print.easyLogDebug",
-        "title": "Python EasyLog: debug"
+        "title": "Python EasyPrint: debug"
       },
       {
         "command": "python-easy-print.easyLogInfo",
-        "title": "Python EasyLog: info"
+        "title": "Python EasyPrint: info"
       },
       {
         "command": "python-easy-print.easyLogWarning",
-        "title": "Python EasyLog: warning"
+        "title": "Python EasyPrint: warning"
       },
       {
         "command": "python-easy-print.easyLogError",
-        "title": "Python EasyLog: error"
+        "title": "Python EasyPrint: error"
       },
       {
         "command": "python-easy-print.easyLogCritical",
-        "title": "Python EasyLog: critical"
+        "title": "Python EasyPrint: critical"
       },
       {
         "command": "python-easy-print.easyPrintPy2",
-        "title": "Python EasyPrintPy2: Easy print settings for Python2"
+        "title": "Python EasyPrint: Add py2 header statement."
       },
       {
         "command": "python-easy-print.commentPrintLines",
