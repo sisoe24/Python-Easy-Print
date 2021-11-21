@@ -25,12 +25,12 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
   - [Commands & Key bindings](#commands--key-bindings)
     - [NOTE](#note)
   - [Extension Settings](#extension-settings)
-    - [`pythonEasyPrint.prints.addCustomMessage: string`](#pythoneasyprintprintsaddcustommessage-string)
-    - [`pythonEasyPrint.multipleStatements: boolean`](#pythoneasyprintmultiplestatements-boolean)
-    - [`pythonEasyPrint.hover.includeParentCall: boolean`](#pythoneasyprinthoverincludeparentcall-boolean)
-    - [`pythonEasyPrint.hover.includeParentheses: boolean`](#pythoneasyprinthoverincludeparentheses-boolean)
-    - [`pythonEasyPrint.logging.customLogName: string`](#pythoneasyprintloggingcustomlogname-string)
-    - [`pythonEasyPrint.logging.useRepr: boolean`](#pythoneasyprintlogginguserepr-boolean)
+    - [`pythonEasyPrint.prints.addCustomMessage`: `string`](#pythoneasyprintprintsaddcustommessage-string)
+    - [`pythonEasyPrint.multipleStatements`: `boolean`](#pythoneasyprintmultiplestatements-boolean)
+    - [`pythonEasyPrint.hover.includeParentCall`: `boolean`](#pythoneasyprinthoverincludeparentcall-boolean)
+    - [`pythonEasyPrint.hover.includeParentheses`: `boolean`](#pythoneasyprinthoverincludeparentheses-boolean)
+    - [`pythonEasyPrint.logging.customLogName`: `string`](#pythoneasyprintloggingcustomlogname-string)
+    - [`pythonEasyPrint.logging.useRepr`: `boolean`](#pythoneasyprintlogginguserepr-boolean)
   - [Known Issues](#known-issues)
   - [Example Key Bindings](#example-key-bindings)
   - [Screenshots](#screenshots)
@@ -41,7 +41,7 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
 - Commands for logging statements: `debug`, `info`, `warning`, `error` and `critical`
 - Commands can be activate by selecting the whole word/s or just by hovering the cursor over.
 - Comment, uncomment and delete statements made by extension.
-- Quick command to initiate a Python2 file with the declarations needed to use the Python3 `print` and decode `utf-8` unicode characters.
+- Quick command to initiate a Python 2 file with the declarations needed to use the extension.
 
 ## Commands & Key bindings
 
@@ -49,7 +49,7 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
 
 ### NOTE
 
-Default key bindings will be removed in the future version. This is to let the user decide which and what shortcut needs more as with the new logging commands there are too many shortcuts.
+Default key bindings will be removed in the future version. This is avoid shortcuts conflicts and let the user decide which and what shortcut needs more.
 
 ---
 
@@ -82,7 +82,7 @@ Every command can be re-assigned to a new shortcut. (see [docs](https://code.vis
 
 ## Extension Settings
 
-### `pythonEasyPrint.prints.addCustomMessage: string`
+### `pythonEasyPrint.prints.addCustomMessage`: `string`
 
 Customize the print message by adding some extra information with a custom string or by using one of the placeholder provided:
 
@@ -92,25 +92,25 @@ Customize the print message by adding some extra information with a custom strin
 
 Example: `Debug - %f - %F line %l -` will result in: `print("➡ DEBUG - test.py - foo line 1 - name :", name))`
 
-### `pythonEasyPrint.multipleStatements: boolean`
+### `pythonEasyPrint.multipleStatements`: `boolean`
 
 If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each statement individually.
 
-### `pythonEasyPrint.hover.includeParentCall: boolean`
+### `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
 If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include its parent/s to the statement.
 
-### `pythonEasyPrint.hover.includeParentheses: boolean`
+### `pythonEasyPrint.hover.includeParentheses`: `boolean`
 
 If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the statement.
 
-### `pythonEasyPrint.logging.customLogName: string`
+### `pythonEasyPrint.logging.customLogName`: `string`
 
-Specify a different log name instance for the log commands. If empty, will default to `logging.debug()`.
+Specify a different logging instance name for the log commands. If empty, will default to `logging.debug()`.
 
-Example: specifying `LOGGER` as a custom name will result in the following statements: `LOGGER.debug()`
+Example: specifying `LOGGER` as a custom name will result in the following statements: `LOGGER.debug()`.
 
-### `pythonEasyPrint.logging.useRepr: boolean`
+### `pythonEasyPrint.logging.useRepr`: `boolean`
 
 If `true`, the log command will include the `repr` method into its statement: `logging.debug("name: %s", repr(name))`.
 
