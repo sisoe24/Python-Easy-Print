@@ -176,11 +176,3 @@ If `true`, the log command will include the `repr` method into its statement: `l
 ```
 
 ## Screenshots
-
-<img title="Settings" src="https://github.com/sisoe24/Python-Easy-Print/blob/main/images/example_settings.png?raw=true" width="100%"/>
-
-<img title="HoverOrSelection" src="https://github.com/sisoe24/Python-Easy-Print/blob/main/images/hover_selection.gif?raw=true" width="80%"/>
-
-<img title="Example" src="https://github.com/sisoe24/Python-Easy-Print/blob/main/images/example_statements4.gif?raw=true" width="80%"/>
-
-<img title="CommentUncommentDelete" src="https://github.com/sisoe24/Python-Easy-Print/blob/main/images/comment_uncomment_delete.gif?raw=true" width="90%"/>
