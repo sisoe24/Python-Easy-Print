@@ -4,7 +4,7 @@ All notable changes to the "python-easy-print" extension will be documented in t
 
 ## [Unreleased]
 
-## [0.3.0] - 2021-11-20
+## [0.3.0] - 2021-11-21
 
 ### Added
 
