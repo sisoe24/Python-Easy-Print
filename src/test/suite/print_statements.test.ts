@@ -31,6 +31,11 @@ suite("PrintConstructor", () => {
         assert.strictEqual(statement.string(), "help({text})");
     });
 
+    test("Custom statement", () => {
+        const statement = new prints.PrintConstructor("custom");
+        assert.strictEqual(statement.string(), "{@}");
+    });
+
     test("Helpers print statements: dir, type, repr", () => {
         for (const print of ["dir", "type", "repr"]) {
             const statement = new prints.PrintConstructor(print);
@@ -53,6 +58,12 @@ suite("PrintConstructor", () => {
         assert.strictEqual(statement.string(), 'print("➡ DEBUG {text} :", {text})');
     });
 
+    test("Custom statement with placeholders", async () => {
+        await testUtils.updateConfig("prints.customStatement", "DEBUG");
+        const statement = new prints.PrintConstructor("custom");
+        assert.strictEqual(statement.string(), "DEBUG");
+    });
+
     test("Help should not have any placeholders", async () => {
         await testUtils.updateConfig("prints.addCustomMessage", "DEBUG");
         const statement = new prints.PrintConstructor("help");
@@ -61,9 +72,16 @@ suite("PrintConstructor", () => {
 
     test("Convert placeholders from config", async () => {
         await testUtils.updateConfig("prints.addCustomMessage", "%f %l DEBUG");
-        const statement = new prints.PrintConstructor("help");
+        const statement = new prints.PrintConstructor("print");
         const placeholders = statement.convertPlaceholders();
         assert.strictEqual(placeholders, "demo_file.py 1 DEBUG");
+    });
+
+    test("Convert placeholders from config for custom statement", async () => {
+        await testUtils.updateConfig("prints.customStatement", "%f %l {text} {symbol}");
+        const statement = new prints.PrintConstructor("custom");
+        const placeholders = statement.convertPlaceholders();
+        assert.strictEqual(placeholders, "demo_file.py 1 {text} ➡");
     });
 
     test("Convert placeholders from config but no config", async () => {
@@ -72,12 +90,24 @@ suite("PrintConstructor", () => {
         const placeholders = statement.convertPlaceholders();
         assert.strictEqual(placeholders, "");
     });
+
+    test("Basic print statements with new line", async () => {
+        await testUtils.updateConfig("prints.printToNewLine", true);
+        const statement = new prints.PrintConstructor("print");
+        assert.strictEqual(statement.string(), 'print("➡ {text} :\\n", {text})');
+        await testUtils.updateConfig("prints.printToNewLine", false);
+    });
 });
 
 suite("Statement Constructor", () => {
     test("Is PrintConstructor", () => {
         const constructor = prints.statementConstructor("print");
         assert.strictEqual(constructor, 'print("➡ {text} :", {text})');
+    });
+
+    test("Is Custom Statement", () => {
+        const constructor = prints.statementConstructor("custom");
+        assert.strictEqual(constructor, "");
     });
 
     test("Is LogConstructor", () => {
