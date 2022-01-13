@@ -1,7 +1,18 @@
 import * as vscode from "vscode";
 
-export const symbol = "\u{27A1}";
 export const py2Statement = "# coding: utf-8\nfrom __future__ import print_function\n";
+
+/**
+ * Get the symbol to insert inside the print statements.
+ *
+ * If no custom symbol is created by user, then a default one (➡) will be returned.
+ *
+ * @returns a unicode symbol
+ */
+export function symbol(): string {
+    const customSymbol = pepConfig("prints.customSymbol") as string;
+    return customSymbol || "➡";
+}
 
 /**
  * Get configuration property value.
