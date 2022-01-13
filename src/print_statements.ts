@@ -150,7 +150,7 @@ export class PrintConstructor {
         let customMsg: string;
 
         if (this.statement === "{@}") {
-            customMsg = utils.pepConfig("prints.customPrint") as string;
+            customMsg = utils.pepConfig("prints.customStatement") as string;
             customMsg = customMsg.replace(/{symbol}/g, this.symbol);
         } else {
             customMsg = utils.pepConfig("prints.addCustomMessage") as string;
@@ -231,7 +231,7 @@ export function logConstructor(statement: string): string {
  */
 export function statementConstructor(statement: string): string {
     try {
-        if (statement === "custom" && !utils.pepConfig("prints.customPrint")) {
+        if (statement === "custom" && !utils.pepConfig("prints.customStatement")) {
             vscode.window.showWarningMessage("No Custom Message supplied");
             return "";
         }

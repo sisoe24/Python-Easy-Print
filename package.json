@@ -75,6 +75,10 @@
         "title": "Python EasyPrint: help"
       },
       {
+        "command": "python-easy-print.easyCustom",
+        "title": "Python EasyPrint: custom"
+      },
+      {
         "command": "python-easy-print.easyPrintRepr",
         "title": "Python EasyPrint: repr"
       },
@@ -147,6 +151,12 @@
         "when": "editorTextFocus && resourceLangId == python"
       },
       {
+        "command": "python-easy-print.easyCustom",
+        "key": "ctrl+shift+l f",
+        "mac": "cmd+shift+l f",
+        "when": "editorTextFocus && resourceLangId == python"
+      },
+      {
         "command": "python-easy-print.commentPrintLines",
         "key": "ctrl+shift+l c",
         "mac": "cmd+shift+l c",
@@ -171,7 +181,22 @@
         "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "",
-          "markdownDescription": "Custom log message for the print statements. Placeholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+          "markdownDescription": "Custom log message for the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+        },
+        "pythonEasyPrint.prints.customStatement": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "A complete custom statement that is used with the command `Python EasyPrint: custom` . Read docs for more info.\n\nPlaceholder variables:\n\n- `{text}` - The selected text\n\n- `{symbol}` - The unicode character\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+        },
+        "pythonEasyPrint.prints.customSymbol": {
+          "type": "string",
+          "default": "➡",
+          "markdownDescription": "Custom unicode symbol. Defaults to: ➡"
+        },
+        "pythonEasyPrint.prints.printToNewLine": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Add a newline character to the prints statements."
         },
         "pythonEasyPrint.hover.includeParentCall": {
           "type": "boolean",
