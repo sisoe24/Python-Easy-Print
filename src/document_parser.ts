@@ -15,12 +15,14 @@ export function* documentParser(editor: vscode.TextEditor): Generator<{
     rangeToNewLine: vscode.Range;
 }> {
     const document = editor.document;
+    const symbol = utils.symbol();
 
     for (let line = 0; line <= document.lineCount - 1; ++line) {
         const lineObj = document.lineAt(line);
         const lineText = lineObj.text.trim();
 
-        const symbolMatch = new RegExp("print\\(['\"]" + utils.symbol);
+        // TODO: currently if custom message has a custom function, regex will not match
+        const symbolMatch = new RegExp("print\\(['\"]" + symbol);
         if (!lineText.match(symbolMatch)) {
             continue;
         }
