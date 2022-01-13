@@ -131,6 +131,11 @@ export class PrintConstructor {
             throw new Error(`Invalid statement type: ${typeof statement}`);
         }
 
+        if (utils.pepConfig("prints.printToNewLine")) {
+            this.statement = statementsTypes[statement].replace(/(?<=:)/, "\\n");
+        } else {
+            this.statement = statementsTypes[statement];
+        }
     }
 
     /**
