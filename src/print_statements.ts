@@ -100,6 +100,7 @@ export class PlaceholdersConverter {
  */
 export class PrintConstructor {
     private statement: string;
+    private symbol: string;
 
     /**
      * Get the basic string representation of a type of print statement.
@@ -114,19 +115,22 @@ export class PrintConstructor {
      * @param statement type of print statement to get
      */
     constructor(statement: string) {
+        this.symbol = utils.symbol();
+
+        // TODO: dont really need to create the statements at each class init
         const statementsTypes: { [statement: string]: string } = {
-            print: `print("${utils.symbol} {@} {text} :", {text})`,
-            type: `print("${utils.symbol} {@} {text} type :", type({text}))`,
-            dir: `print("${utils.symbol} {@} {text} dir :", dir({text}))`,
-            repr: `print("${utils.symbol} {@} {text} repr :", repr({text}))`,
+            print: `print("${this.symbol} {@} {text} :", {text})`,
+            type: `print("${this.symbol} {@} {text} type :", type({text}))`,
+            dir: `print("${this.symbol} {@} {text} dir :", dir({text}))`,
+            repr: `print("${this.symbol} {@} {text} repr :", repr({text}))`,
             help: "help({text})",
+            custom: "{@}",
         };
 
         if (!Object.prototype.hasOwnProperty.call(statementsTypes, statement)) {
             throw new Error(`Invalid statement type: ${typeof statement}`);
         }
 
-        this.statement = statementsTypes[statement];
     }
 
     /**
@@ -138,7 +142,15 @@ export class PrintConstructor {
      * @returns the converted placeholders
      */
     convertPlaceholders(): string {
-        let customMsg = utils.pepConfig("prints.addCustomMessage") as string;
+        let customMsg: string;
+
+        if (this.statement === "{@}") {
+            customMsg = utils.pepConfig("prints.customPrint") as string;
+            customMsg = customMsg.replace(/{symbol}/g, this.symbol);
+        } else {
+            customMsg = utils.pepConfig("prints.addCustomMessage") as string;
+        }
+
         // todo: match should be based on settings
         const placeholderMatch = customMsg.match(/%[flF]/g);
 
@@ -164,12 +176,11 @@ export class PrintConstructor {
      * @returns the template statement: `print("➡ {text} :", {text})`
      */
     string(): string {
-        const placeholders = this.convertPlaceholders();
+        const text = this.convertPlaceholders();
 
         // replacing the mark with no placeholders will leave an extra space to clean
-        const replaceMark = placeholders ? "{@}" : "{@} ";
-
-        return this.statement.replace(replaceMark, placeholders);
+        const replaceToken = text ? "{@}" : "{@} ";
+        return this.statement.replace(replaceToken, text);
     }
 }
 
@@ -215,6 +226,11 @@ export function logConstructor(statement: string): string {
  */
 export function statementConstructor(statement: string): string {
     try {
+        if (statement === "custom" && !utils.pepConfig("prints.customPrint")) {
+            vscode.window.showWarningMessage("No Custom Message supplied");
+            return "";
+        }
+
         return new PrintConstructor(statement).string();
     } catch (error) {
         return logConstructor(statement);
