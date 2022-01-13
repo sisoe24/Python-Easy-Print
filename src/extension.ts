@@ -9,6 +9,7 @@ export const printCommands = {
     dir: "python-easy-print.easyPrintDir",
     repr: "python-easy-print.easyPrintRepr",
     help: "python-easy-print.easyHelp",
+    custom: "python-easy-print.easyCustom",
 };
 
 export const logCommands = {
