@@ -30,6 +30,9 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
   - [Extension Settings](#extension-settings)
     - [`pythonEasyPrint.prints.addCustomMessage`: `string`](#pythoneasyprintprintsaddcustommessage-string)
     - [`pythonEasyPrint.multipleStatements`: `boolean`](#pythoneasyprintmultiplestatements-boolean)
+    - [`pythonEasyPrint.printToNewLine`: `boolean`](#pythoneasyprintprinttonewline-boolean)
+    - [`pythonEasyPrint.customSymbol`: `string`](#pythoneasyprintcustomsymbol-string)
+    - [`pythonEasyPrint.customStatement`: `string`](#pythoneasyprintcustomstatement-string)
     - [`pythonEasyPrint.hover.includeParentCall`: `boolean`](#pythoneasyprinthoverincludeparentcall-boolean)
     - [`pythonEasyPrint.hover.includeParentheses`: `boolean`](#pythoneasyprinthoverincludeparentheses-boolean)
     - [`pythonEasyPrint.logging.customLogName`: `string`](#pythoneasyprintloggingcustomlogname-string)
@@ -67,6 +70,7 @@ The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the 
 | Print `type()`                    | `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
 | Print `repr()`                    | `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
 | Call `help()`                     | `python-easy-print.easyHelp`            | `ctrl+shift+l h` |
+| Call custom                       | `python-easy-print.easyCustom`          |                  |
 | Comment lines made by extension   | `python-easy-print.commentPrintLines`   | `ctrl+shift+l c` |
 | Uncomment lines made by extension | `python-easy-print.uncommentPrintLines` | `ctrl+shift+l u` |
 | Delete lines made by extension    | `python-easy-print.deletePrintLines`    | `ctrl+shift+l x` |
@@ -87,17 +91,47 @@ Every command can be re-assigned to a new shortcut. (see [docs](https://code.vis
 
 ### `pythonEasyPrint.prints.addCustomMessage`: `string`
 
-Customize the print message by adding some extra information with a custom string or by using one of the placeholder provided:
+Customize the print message by adding some extra information with some text or by using one of the placeholder provided:
 
 - `%f`: File name.
 - `%l`: Line number.
 - `%F`: Function parent.
 
-Example: `Debug - %f - %F line %l -` will result in: `print("➡ DEBUG - test.py - foo line 1 - name :", name))`
+Example: `Debug - %f - %F line %l -` will result in:
+
+```py
+print("➡ DEBUG - test.py - foo line 1 - name :", name)
+```
 
 ### `pythonEasyPrint.multipleStatements`: `boolean`
 
 If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
+
+### `pythonEasyPrint.printToNewLine`: `boolean`
+
+If `true`, will insert a newline character in the print:
+
+```py
+print("➡ name :\n", name)
+```
+
+### `pythonEasyPrint.customSymbol`: `string`
+
+A custom unicode symbol to be used inside the print. Could also be an emoji: 👉.
+
+>Note: it should be the symbol representation and not the unicode code point.
+
+### `pythonEasyPrint.customStatement`: `string`
+
+A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in [Add Custom Message](#pythoneasyprintprintsaddcustommessage-string) the following two placeholders will be available:
+
+- `{text}`: The selected/hover text.
+- `{symbol}`: The unicode character.
+
+Examples:
+
+- `print('{symbol} {text} ->', {text}, '<-)`
+- `customFunction({text})`
 
 ### `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
