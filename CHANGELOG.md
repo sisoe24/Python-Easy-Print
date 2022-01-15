@@ -4,6 +4,18 @@ All notable changes to the "python-easy-print" extension will be documented in t
 
 ## [Unreleased]
 
+## [0.4.0] - 2022-01-15
+
+### Added
+
+- Custom statement.
+- Print to newline.
+- Change unicode character.
+
+### Removed
+
+- Default shortcut for the `help` statement.
+
 ## [0.3.0] - 2021-11-21
 
 ### Added
