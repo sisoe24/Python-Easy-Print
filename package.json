@@ -145,18 +145,6 @@
         "when": "editorTextFocus && resourceLangId == python"
       },
       {
-        "command": "python-easy-print.easyHelp",
-        "key": "ctrl+shift+l h",
-        "mac": "cmd+shift+l h",
-        "when": "editorTextFocus && resourceLangId == python"
-      },
-      {
-        "command": "python-easy-print.easyCustom",
-        "key": "ctrl+shift+l f",
-        "mac": "cmd+shift+l f",
-        "when": "editorTextFocus && resourceLangId == python"
-      },
-      {
         "command": "python-easy-print.commentPrintLines",
         "key": "ctrl+shift+l c",
         "mac": "cmd+shift+l c",
@@ -186,7 +174,7 @@
         "pythonEasyPrint.prints.customStatement": {
           "type": "string",
           "default": "",
-          "markdownDescription": "A complete custom statement that is used with the command `Python EasyPrint: custom` . Read docs for more info.\n\nPlaceholder variables:\n\n- `{text}` - The selected text\n\n- `{symbol}` - The unicode character\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+          "markdownDescription": "A complete custom statement that is used with the command `Python EasyPrint: custom`.\n\nPlaceholder variables:\n\n- `{text}` - The selected text\n\n- `{symbol}` - The unicode character\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
         },
         "pythonEasyPrint.prints.customSymbol": {
           "type": "string",
