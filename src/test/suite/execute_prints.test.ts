@@ -36,7 +36,23 @@ suite("Basic print command", () => {
         assert.strictEqual(editor.document.lineAt(1).text, 'print("➡ name :", name)');
     });
 
-    test("Basic loggin debug", async () => {
+    test("Custom statement", async () => {
+        const editor = await testUtils.focusDemoFile(demoFile);
+
+        await testUtils.updateConfig(
+            "prints.customStatement",
+            "print('-> {text} {symbol} %f %l', {text}, '<-'"
+        );
+        await vscode.commands.executeCommand("python-easy-print.easyCustom");
+        await testUtils.sleep(50);
+
+        assert.strictEqual(
+            editor.document.lineAt(1).text,
+            "print('-> name ➡ execute_prints_demo.py 1', name, '<-'"
+        );
+    });
+
+    test("Basic logging debug", async () => {
         const editor = await testUtils.focusDemoFile(demoFile);
 
         await vscode.commands.executeCommand("python-easy-print.easyLogDebug");
