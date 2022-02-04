@@ -72,7 +72,7 @@ export class SelectedText {
 
         if (utils.pepConfig("hover.includeParentCall")) {
             const pattern = new RegExp(
-                `(?:\\w+(?:\\(.*\\)|\\.)*)*(?<=^.{${startChar}})${this.hoverWord}`,
+                `(?:\\w+(?:\\(.*?\\))?\\.)*(?<=^.{${startChar}})${this.hoverWord}`,
                 "m"
             );
 
