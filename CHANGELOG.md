@@ -4,6 +4,13 @@ All notable changes to the "python-easy-print" extension will be documented in t
 
 ## [Unreleased]
 
+## [0.4.1] - 2022-02-03
+
+### Fixed
+
+- Fixed a regex match that would potentially cause the extension to freeze when
+printing the argument of a very long function name.
+
 ## [0.4.0] - 2022-01-15
 
 ### Added
