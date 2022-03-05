@@ -10,44 +10,23 @@
 [![Ratings](https://img.shields.io/visual-studio-marketplace/r/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
 [![Last Update](https://img.shields.io/visual-studio-marketplace/last-updated/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
 
-
-
 Visual Studio Code extension for easy commands of Python most useful prints.
 
-
----
-
-**NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension:
-
-```py
-# coding: utf-8
-from __future__ import print_function
-```
-
-More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation.
-
----
+> **NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation.):
+>
+> ```py
+> # coding: utf-8
+> from __future__ import print_function
+> ```
 
 - [1. Python Easy Print](#1-python-easy-print)
   - [1.1. Features](#11-features)
-  - [1.2. Commands & Key bindings](#12-commands--key-bindings)
-    - [1.2.1. NOTE](#121-note)
-  - [1.3. Extension Settings](#13-extension-settings)
-    - [1.3.1. `pythonEasyPrint.prints.addCustomMessage`: `string`](#131-pythoneasyprintprintsaddcustommessage-string)
-    - [1.3.2. `pythonEasyPrint.multipleStatements`: `boolean`](#132-pythoneasyprintmultiplestatements-boolean)
-    - [1.3.3. `pythonEasyPrint.printToNewLine`: `boolean`](#133-pythoneasyprintprinttonewline-boolean)
-    - [1.3.4. `pythonEasyPrint.customSymbol`: `string`](#134-pythoneasyprintcustomsymbol-string)
-    - [1.3.5. `pythonEasyPrint.customStatement`: `string`](#135-pythoneasyprintcustomstatement-string)
-    - [1.3.6. `pythonEasyPrint.hover.includeParentCall`: `boolean`](#136-pythoneasyprinthoverincludeparentcall-boolean)
-    - [1.3.7. `pythonEasyPrint.hover.includeParentheses`: `boolean`](#137-pythoneasyprinthoverincludeparentheses-boolean)
-    - [1.3.8. `pythonEasyPrint.logging.customLogName`: `string`](#138-pythoneasyprintloggingcustomlogname-string)
-    - [1.3.9. `pythonEasyPrint.logging.useRepr`: `boolean`](#139-pythoneasyprintlogginguserepr-boolean)
-  - [1.4. Known Issues](#14-known-issues)
-  - [1.5. Example Key Bindings](#15-example-key-bindings)
-    - [1.5.1. Prints](#151-prints)
-    - [1.5.2. Logging](#152-logging)
-    - [1.5.3. Document](#153-document)
-  - [1.6. Screenshots](#16-screenshots)
+  - [1.2. How to use](#12-how-to-use)
+  - [1.3. Commands & Key bindings](#13-commands--key-bindings)
+  - [1.4. Extension Settings](#14-extension-settings)
+  - [1.5. Known Issues](#15-known-issues)
+  - [1.6. Example Key Bindings](#16-example-key-bindings)
+  - [1.7. Demo](#17-demo)
 
 ## 1.1. Features
 
@@ -57,117 +36,126 @@ More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print f
 - Comment, uncomment and delete statements made by extension.
 - Quick command to initiate a Python 2 file with the declarations needed to use the extension.
 
-## 1.2. Commands & Key bindings
+## 1.2. How to use
 
----
+- Manually select a piece of text or hover over it with the cursor the use one of the Commands provided.
 
-### 1.2.1. NOTE
+![Print](/images/print.gif)
 
-Default key bindings will be removed in the future version(`> 0.5.0`). This is avoid shortcuts conflicts and let the user decide which and what shortcut needs more.
+## 1.3. Commands & Key bindings
 
----
-
-The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute:
-
- `p` for `print`, `d` for `dir`, `t` for `type` and so. The only different is `x` for delete
-
-| Description                       | Command ID                              | Key              |
-| --------------------------------- | --------------------------------------- | ---------------- |
-| Simple `print()`                  | `python-easy-print.easyPrint`           | `ctrl+shift+l p` |
-| Print `dir()`                     | `python-easy-print.easyPrintDir`        | `ctrl+shift+l d` |
-| Print `type()`                    | `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
-| Print `repr()`                    | `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
-| Call `help()`                     | `python-easy-print.easyHelp`            |                  |
-| Call custom                       | `python-easy-print.easyCustom`          |                  |
-| Comment lines made by extension   | `python-easy-print.commentPrintLines`   | `ctrl+shift+l c` |
-| Uncomment lines made by extension | `python-easy-print.uncommentPrintLines` | `ctrl+shift+l u` |
-| Delete lines made by extension    | `python-easy-print.deletePrintLines`    | `ctrl+shift+l x` |
-| Init Python2 header declaration   | `python-easy-print.easyPrintPy2`        |                  |
-| Log `debug`                       | `python-easy-print.easyLogDebug`        |                  |
-| Log `info`                        | `python-easy-print.easyLogInfo`         |                  |
-| Log `warning`                     | `python-easy-print.easyLogWarning`      |                  |
-| Log `error`                       | `python-easy-print.easyLogError`        |                  |
-| Log `critical`                    | `python-easy-print.easyLogCritical`     |                  |
-
-MacOS: `ctrl` == `cmd`
+> **NOTE**: To avoid shortcuts conflicts, default key bindings will be removed in the future version(`> 0.5.0`).
 
 All commands are available by opening the Command Palette (`Command+Shift+P` on macOS and `Ctrl+Shift+P` on Windows/Linux) and typing: `Python EasyPrint...`
 
-Every command can be re-assigned to a new shortcut. (see [docs](https://code.visualstudio.com/docs/getstarted/keybindings) for more info)
+| Command Name             | Command ID                              | Key              |
+| ------------------------ | --------------------------------------- | ---------------- |
+| print                    | `python-easy-print.easyPrint`           | `ctrl+shift+l p` |
+| dir                      | `python-easy-print.easyPrintDir`        | `ctrl+shift+l d` |
+| type                     | `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
+| repr                     | `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
+| help                     | `python-easy-print.easyHelp`            |                  |
+| custom                   | `python-easy-print.easyCustom`          |                  |
+| Comment Print Lines      | `python-easy-print.commentPrintLines`   | `ctrl+shift+l c` |
+| Uncomment Print Lines    | `python-easy-print.uncommentPrintLines` | `ctrl+shift+l u` |
+| Delete Print Lines       | `python-easy-print.deletePrintLines`    | `ctrl+shift+l x` |
+| Add py2 header statement | `python-easy-print.easyPrintPy2`        |                  |
+| debug                    | `python-easy-print.easyLogDebug`        |                  |
+| info                     | `python-easy-print.easyLogInfo`         |                  |
+| warning                  | `python-easy-print.easyLogWarning`      |                  |
+| error                    | `python-easy-print.easyLogError`        |                  |
+| critical                 | `python-easy-print.easyLogCritical`     |                  |
 
-## 1.3. Extension Settings
+MacOS: `ctrl` == `cmd`
 
-### 1.3.1. `pythonEasyPrint.prints.addCustomMessage`: `string`
+The main shortcut for the prints to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute:
+`p` for `print`, `d` for `dir`, `t` for `type` and so.
 
-Customize the print message by adding some extra information with some text or by using one of the placeholder provided:
+Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
 
-- `%f`: File name.
-- `%l`: Line number.
-- `%F`: Function parent.
+## 1.4. Extension Settings
 
-Example: `Debug - %f - %F line %l -` will result in:
+- `pythonEasyPrint.prints.addCustomMessage`: `string`
 
-```py
-print("➡ DEBUG - test.py - foo line 1 - name :", name)
-```
+  Customize the print message by adding some extra information with some text or by using one of the placeholder provided:
 
-### 1.3.2. `pythonEasyPrint.multipleStatements`: `boolean`
+  - `%f`: File name.
+  - `%l`: Line number.
+  - `%F`: Function parent.
 
-If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
+  Example: `Debug - %f - %F line %l -` will result in:
 
-### 1.3.3. `pythonEasyPrint.printToNewLine`: `boolean`
+  ![CustomPrint](/images/custom_print.jpg)
 
-If `true`, will insert a newline character in the print:
+- `pythonEasyPrint.multipleStatements`: `boolean`
 
-```py
-print("➡ name :\n", name)
-```
+  If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
 
-### 1.3.4. `pythonEasyPrint.customSymbol`: `string`
+  ![MultipleStatements](/images/multipleStatements.jpg)
 
-A custom unicode symbol to be used inside the print. Could also be an emoji: 👉.
+  > **NOTE**: Will be removed in future version as it will create problem with other statements like `type`, `dir`, when `false`.
 
->Note: it should be the symbol representation and not the unicode code point.
+- `pythonEasyPrint.printToNewLine`: `boolean`
 
-### 1.3.5. `pythonEasyPrint.customStatement`: `string`
+  If `true`, will insert a newline character in the print:
 
-A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in [Add Custom Message](#pythoneasyprintprintsaddcustommessage-string) the following two placeholders will be available:
+  ```py
+  print("➡ name :\n", name)
+  ```
 
-- `{text}`: The selected/hover text.
-- `{symbol}`: The unicode character.
+- `pythonEasyPrint.customSymbol`: `string`
 
-Examples:
+  A custom unicode symbol to be used inside the print. Could also be an emoji: 👉.
 
-- `print('{symbol} {text} ->', {text}, '<-)`
-- `customFunction({text})`
+  >Note: it should be the symbol representation and not the unicode code point.
 
-> Note: Currently this statement will be ignored from the comment/uncomment/delete functionality.
+- `pythonEasyPrint.customStatement`: `string`
 
-### 1.3.6. `pythonEasyPrint.hover.includeParentCall`: `boolean`
+  A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in [Add Custom Message](#pythoneasyprintprintsaddcustommessage-string) the following two placeholders will be available:
 
-If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include its parent/s to the statement.
+  - `{text}`: The selected/hover text.
+  - `{symbol}`: The unicode character.
 
-### 1.3.7. `pythonEasyPrint.hover.includeParentheses`: `boolean`
+  Examples:
 
-If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the statement.
+  - `print('{symbol} {text} ->', {text}, '<-)`
+  - `customFunction({text})`
 
-### 1.3.8. `pythonEasyPrint.logging.customLogName`: `string`
+  > Note: This statement will be ignored from the comment/uncomment/delete commands.
 
-Specify a different logging instance name for the log commands. If empty, will default to `logging.debug()`.
+- `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
-Example: specifying `LOGGER` as a custom name will result in the following statements: `LOGGER.debug()`.
+    If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include its parent/s to the statement.
 
-### 1.3.9. `pythonEasyPrint.logging.useRepr`: `boolean`
+- `pythonEasyPrint.hover.includeParentheses`: `boolean`
 
-If `true`, the log command will include the `repr` method into its statement: `logging.debug("name: %s", repr(name))`.
+    If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the statement.
 
-## 1.4. Known Issues
+    ![extraSelections](images/extra_selections.gif)
+
+- `pythonEasyPrint.logging.customLogName`: `string`
+
+    Specify a different logging instance name for the log commands. If empty, will default to `logging`. Example: specifying `LOGGER` as `customLogName` will result in:
+
+    ```py
+    LOGGER.debug("name: %s", name)
+    ```
+
+- `pythonEasyPrint.logging.useRepr`: `boolean`
+
+    If `true`, the log command will include the `repr` method into its statement:
+
+    ```py
+    logging.debug("name: %s", repr(name))
+    ```
+
+## 1.5. Known Issues
 
 - When using the command to delete, the extension will ignore the `help` statement.
 
-## 1.5. Example Key Bindings
+## 1.6. Example Key Bindings
 
-### 1.5.1. Prints
+Prints
 
 ```json
 [
@@ -204,7 +192,7 @@ If `true`, the log command will include the `repr` method into its statement: `l
 ]
 ```
 
-### 1.5.2. Logging
+Logging
 
 ```json
 [
@@ -236,7 +224,7 @@ If `true`, the log command will include the `repr` method into its statement: `l
 ]
 ```
 
-### 1.5.3. Document
+Document
 
 ```json
 [
@@ -264,19 +252,11 @@ Note: you could add the `resourceLangId == python` condition to restrict command
 "when": "editorTextFocus && resourceLangId == python"
 ```
 
-## 1.6. Screenshots
-
-Simple print
-
-![Simple Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/simple_print.gif)
+## 1.7. Demo
 
 Logging
 
 ![Simple Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/logging.gif)
-
-Extra selection
-
-![Simple Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selection.gif)
 
 Comment, Uncomment & Delete
 
