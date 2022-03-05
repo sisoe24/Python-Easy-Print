@@ -40,7 +40,7 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 
 - Manually select a piece of text or hover over it with the cursor the use one of the Commands provided.
 
-![Print](/images/print.gif)
+![Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/print.gif)
 
 ## 1.3. Commands & Key bindings
 
@@ -85,13 +85,13 @@ Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual
 
   Example: `Debug - %f - %F line %l -` will result in:
 
-  ![CustomPrint](/images/custom_print.jpg)
+  ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/custom_print.jpg)
 
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
   If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
 
-  ![MultipleStatements](/images/multipleStatements.jpg)
+  ![MultipleStatements](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/multipleStatements.jpg)
 
   > **NOTE**: Will be removed in future version as it will create problem with other statements like `type`, `dir`, when `false`.
 
@@ -111,7 +111,7 @@ Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual
 
 - `pythonEasyPrint.customStatement`: `string`
 
-  A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in [Add Custom Message](#pythoneasyprintprintsaddcustommessage-string) the following two placeholders will be available:
+  A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_ the following two placeholders will be available:
 
   - `{text}`: The selected/hover text.
   - `{symbol}`: The unicode character.
@@ -123,6 +123,8 @@ Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual
 
   > Note: This statement will be ignored from the comment/uncomment/delete commands.
 
+    ![customPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/customPrint.gif)
+
 - `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
     If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include its parent/s to the statement.
@@ -131,7 +133,7 @@ Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual
 
     If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the statement.
 
-    ![extraSelections](images/extra_selections.gif)
+    ![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selections.gif)
 
 - `pythonEasyPrint.logging.customLogName`: `string`
 
