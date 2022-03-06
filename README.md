@@ -40,7 +40,7 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 
 - Manually select a piece of text or hover over it with the cursor, and use one of the commands provided.
 
-![Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/print.gif)
+![Usage](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/print.gif)
 
 ## 1.3. Commands & Key bindings
 
@@ -124,13 +124,21 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
-    If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include its parent/s to the statement.
+    If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include the parent/s to the print.
 
 - `pythonEasyPrint.hover.includeParentheses`: `boolean`
 
-    If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the statement.
+    If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the print.
 
     ![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selections.gif)
+
+- `pythonEasyPrint.logging.useRepr`: `boolean`
+
+    If `true`, the log command will include the `repr` method into its statement:
+
+    ```py
+    logging.debug("name: %s", repr(name))
+    ```
 
 - `pythonEasyPrint.logging.customLogName`: `string`
 
@@ -140,13 +148,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
     LOGGER.debug("name: %s", name)
     ```
 
-- `pythonEasyPrint.logging.useRepr`: `boolean`
-
-    If `true`, the log command will include the `repr` method into its statement:
-
-    ```py
-    logging.debug("name: %s", repr(name))
-    ```
 
 ## 1.5. Known Issues
 
@@ -249,8 +250,8 @@ Document
 
 Logging
 
-![Simple Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/logging.gif)
+![Logging](/images/logging.gif)
 
 Comment, Uncomment & Delete
 
-![Simple Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/comment_uncomment_delete.gif)
+![DocumentExtras](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/comment_uncomment_delete.gif)
