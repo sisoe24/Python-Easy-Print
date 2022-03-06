@@ -1,8 +1,10 @@
 # Change Log
 
-All notable changes to the "python-easy-print" extension will be documented in this file.
+## [0.4.2] - 2022-03-05
 
-## [Unreleased]
+### Added
+
+- New placeholder `%w` for the active file relative path from workspace root directory.
 
 ## [0.4.1] - 2022-02-03
 
