@@ -25,7 +25,7 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 
 - Commands for print statements: `dir`, `type`, `repr`, `help` and basic `print`.
 - Commands for logging statements: `debug`, `info`, `warning`, `error` and `critical`.
-- Commands can be activate by selecting the whole word/s or just by hovering the cursor over.
+- Commands can be activate by manually selected text or by hovering the cursor over.
 - Comment, uncomment and delete statements made by extension.
 - Quick command to initiate a Python 2 file with the declarations needed to use the extension.
 
@@ -44,11 +44,11 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 
 ## 1.3. Commands & Key bindings
 
-> **NOTE**: To avoid shortcuts conflicts, default key bindings will be removed in the future version.
+> **NOTE**: To avoid shortcuts conflicts, default key bindings might be removed in the future versions.
 
 All commands are available by opening the Command Palette (`Command+Shift+P` on macOS and `Ctrl+Shift+P` on Windows/Linux) and typing: `Python EasyPrint...`
 
-| Command Name             | Command ID                              | Key              |
+| Command Name             | Command ID                              | Shortcut         |
 | ------------------------ | --------------------------------------- | ---------------- |
 | print                    | `python-easy-print.easyPrint`           | `ctrl+shift+l p` |
 | dir                      | `python-easy-print.easyPrintDir`        | `ctrl+shift+l d` |
@@ -56,9 +56,9 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | repr                     | `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
 | help                     | `python-easy-print.easyHelp`            |                  |
 | custom                   | `python-easy-print.easyCustom`          |                  |
-| Comment Print Lines      | `python-easy-print.commentPrintLines`   | `ctrl+shift+l c` |
-| Uncomment Print Lines    | `python-easy-print.uncommentPrintLines` | `ctrl+shift+l u` |
-| Delete Print Lines       | `python-easy-print.deletePrintLines`    | `ctrl+shift+l x` |
+| comment                  | `python-easy-print.commentPrintLines`   |                  |
+| uncomment                | `python-easy-print.uncommentPrintLines` |                  |
+| delete                   | `python-easy-print.deletePrintLines`    |                  |
 | Add py2 header statement | `python-easy-print.easyPrintPy2`        |                  |
 | debug                    | `python-easy-print.easyLogDebug`        |                  |
 | info                     | `python-easy-print.easyLogInfo`         |                  |
@@ -67,9 +67,10 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | critical                 | `python-easy-print.easyLogCritical`     |                  |
 
 - Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
-- The main shortcut for the prints to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute: `p` for `print`, `d` for `dir`, `t` for `type` and so.
-- The Python2 header statements includes the work `py2` to make the search in the command palette faster.
+- The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute: `p` for `print`, `d` for `dir`, `t` for `type` and so.
+- The Python2 command includes the word `py2` to make the search in the command palette faster.
 - MacOS: `ctrl` == `cmd`
+- See [Example Key Bindings](#16-example-key-bindings) for more shortcuts example.
 
 ## 1.4. Extension Settings
 
@@ -85,7 +86,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   Examples:
   - VS Code friendly terminal hyperlink: `%w:%l`
 
-    ![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly.gif)
+    ![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly2.gif)
 
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
@@ -133,7 +134,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.logging.customLogName`: `string`
 
-    Specify a different logging instance name for the log commands. If empty, will default to `logging`. Example: specifying `LOGGER` as `customLogName` will result in:
+    Specify a different logging instance name for the log commands. If empty, will default to `logging`. Example: specifying `LOGGER` as value, will result in:
 
     ```py
     LOGGER.debug("name: %s", name)
