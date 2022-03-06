@@ -1,10 +1,22 @@
 # Change Log
 
-## [0.4.2] - 2022-03-05
+## [0.5.0] - 2022-03-05
 
 ### Added
 
 - New placeholder `%w` for the active file relative path from workspace root directory.
+
+### Changed
+
+- Changed command name from `Comment print lines` to `comment`.
+- Changed command name from `Uncomment print lines` to `uncomment`.
+- Changed command name from `Delete print lines` to `delete`.
+
+### Removed
+
+- Removed shortcut for the `commentPrintLines` command.
+- Removed shortcut for the `uncommentPrintLines` command.
+- Removed shortcut for the `deletePrintLines` command.
 
 ## [0.4.1] - 2022-02-03
 
@@ -23,7 +35,7 @@ printing the argument of a very long function name.
 
 ### Removed
 
-- Default shortcut for the `help` statement.
+- Removed shortcut for the `help` command.
 
 ## [0.3.0] - 2021-11-21
 
