@@ -169,12 +169,12 @@
         "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "",
-          "markdownDescription": "Custom log message for the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+          "markdownDescription": "Custom log message for the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number.\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root."
         },
         "pythonEasyPrint.prints.customStatement": {
           "type": "string",
           "default": "",
-          "markdownDescription": "A complete custom statement that is used with the command `Python EasyPrint: custom`.\n\nPlaceholder variables:\n\n- `{text}` - The selected text\n\n- `{symbol}` - The unicode character\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name."
+          "markdownDescription": "A complete custom statement that is used with the command `Python EasyPrint: custom`.\n\nPlaceholder variables:\n\n- `{text}` - The selected text\n\n- `{symbol}` - The unicode character\n\n- `%f` - File name\n\n- `%l` - Line Number\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root."
         },
         "pythonEasyPrint.prints.customSymbol": {
           "type": "string",
