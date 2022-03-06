@@ -12,7 +12,6 @@
 
 Visual Studio Code extension for easy commands of Python most useful prints.
 
-
 - [1. Python Easy Print](#1-python-easy-print)
   - [1.1. Features](#11-features)
   - [1.2. How to use](#12-how-to-use)
@@ -32,20 +31,20 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 
 ## 1.2. How to use
 
-> **NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation.):
+> **NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation):
 >
 > ```py
 > # coding: utf-8
 > from __future__ import print_function
 > ```
 
-- Manually select a piece of text or hover over it with the cursor the use one of the Commands provided.
+- Manually select a piece of text or hover over it with the cursor, and use one of the commands provided.
 
 ![Print](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/print.gif)
 
 ## 1.3. Commands & Key bindings
 
-> **NOTE**: To avoid shortcuts conflicts, default key bindings will be removed in the future version(`> 0.5.0`).
+> **NOTE**: To avoid shortcuts conflicts, default key bindings will be removed in the future version.
 
 All commands are available by opening the Command Palette (`Command+Shift+P` on macOS and `Ctrl+Shift+P` on Windows/Linux) and typing: `Python EasyPrint...`
 
@@ -69,6 +68,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
 - The main shortcut for the prints to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute: `p` for `print`, `d` for `dir`, `t` for `type` and so.
+- The Python2 header statements includes the work `py2` to make the search in the command palette faster.
 - MacOS: `ctrl` == `cmd`
 
 ## 1.4. Extension Settings
@@ -87,17 +87,11 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
     ![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly.gif)
 
-  - Filename, function name and line: `Debug - %f - %F line %l -`
-
-    ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/custom_print.jpg)
-
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
   If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
 
-  ![MultipleStatements](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/multipleStatements.jpg)
-
-  > **NOTE**: Will be removed in future version as it will create problem with other statements like `type`, `dir`, when `false`.
+  > **NOTE**: This settings might be removed in future version as it will create problem with other statements like `type`, `dir`, when `false`.
 
 - `pythonEasyPrint.printToNewLine`: `boolean`
 
@@ -113,7 +107,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.customStatement`: `string`
 
-  A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_, the following two placeholders will be available:
+  A custom statement to be used with the command `Python EasyPrint: custom`. This allows for a complete new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_, the following two placeholders will be available:
 
   - `{text}`: The selected/hover text.
   - `{symbol}`: The unicode character.
@@ -248,12 +242,6 @@ Document
         "when": "editorTextFocus"
     }
 ]
-```
-
-Note: you could add the `resourceLangId == python` condition to restrict commands only to python files.
-
-```json
-"when": "editorTextFocus && resourceLangId == python"
 ```
 
 ## 1.7. Demo
