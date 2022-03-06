@@ -12,12 +12,6 @@
 
 Visual Studio Code extension for easy commands of Python most useful prints.
 
-> **NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation.):
->
-> ```py
-> # coding: utf-8
-> from __future__ import print_function
-> ```
 
 - [1. Python Easy Print](#1-python-easy-print)
   - [1.1. Features](#11-features)
@@ -37,6 +31,13 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 - Quick command to initiate a Python 2 file with the declarations needed to use the extension.
 
 ## 1.2. How to use
+
+> **NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation.):
+>
+> ```py
+> # coding: utf-8
+> from __future__ import print_function
+> ```
 
 - Manually select a piece of text or hover over it with the cursor the use one of the Commands provided.
 
@@ -66,12 +67,9 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | error                    | `python-easy-print.easyLogError`        |                  |
 | critical                 | `python-easy-print.easyLogCritical`     |                  |
 
-MacOS: `ctrl` == `cmd`
-
-The main shortcut for the prints to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute:
-`p` for `print`, `d` for `dir`, `t` for `type` and so.
-
-Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
+- Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
+- The main shortcut for the prints to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute: `p` for `print`, `d` for `dir`, `t` for `type` and so.
+- MacOS: `ctrl` == `cmd`
 
 ## 1.4. Extension Settings
 
@@ -82,10 +80,16 @@ Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual
   - `%f`: File name.
   - `%l`: Line number.
   - `%F`: Function parent.
+  - `%w`: Relative path of active file from workspace root.
 
-  Example: `Debug - %f - %F line %l -` will result in:
+    Examples:
+    - VS Code friendly terminal hyperlink: `%w:%l`
 
-  ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/custom_print.jpg)
+        ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly.jpg)
+
+    - Filename, function name and line: `Debug - %f - %F line %l -`
+
+        ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/custom_print.jpg)
 
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
@@ -105,25 +109,23 @@ Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual
 
 - `pythonEasyPrint.customSymbol`: `string`
 
-  A custom unicode symbol to be used inside the print. Could also be an emoji: 👉.
-
-  >Note: it should be the symbol representation and not the unicode code point.
+  A custom unicode symbol to be used inside the print. Could also be an emoji: 👉 (as symbol representation, not the unicode code point).
 
 - `pythonEasyPrint.customStatement`: `string`
 
-  A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_ the following two placeholders will be available:
+  A custom statement to be used when using the command `pythonEasyPrint.customStatement`. This setting allows for a complete new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_, the following two placeholders will be available:
 
   - `{text}`: The selected/hover text.
   - `{symbol}`: The unicode character.
 
   Examples:
 
-  - `print('{symbol} {text} ->', {text}, '<-)`
+  - `print('{symbol} {text} ->', {text}, '<-')`
   - `customFunction({text})`
 
-  > Note: This statement will be ignored from the comment/uncomment/delete commands.
-
     ![customPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/customPrint.gif)
+
+  > Note: This statement will be ignored from the comment/uncomment/delete commands.
 
 - `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
