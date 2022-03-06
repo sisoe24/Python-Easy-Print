@@ -82,14 +82,14 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   - `%F`: Function parent.
   - `%w`: Relative path of active file from workspace root.
 
-    Examples:
-    - VS Code friendly terminal hyperlink: `%w:%l`
+  Examples:
+  - VS Code friendly terminal hyperlink: `%w:%l`
 
-        ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly.jpg)
+    ![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly.gif)
 
-    - Filename, function name and line: `Debug - %f - %F line %l -`
+  - Filename, function name and line: `Debug - %f - %F line %l -`
 
-        ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/custom_print.jpg)
+    ![CustomPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/custom_print.jpg)
 
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
