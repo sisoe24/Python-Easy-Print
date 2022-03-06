@@ -5,6 +5,7 @@
   "version": "0.4.1",
   "publisher": "virgilsisoe",
   "icon": "images/python_icon_256px.png",
+  "license": "MIT",
   "galleryBanner": {
     "color": "#347AB4",
     "theme": "dark"
