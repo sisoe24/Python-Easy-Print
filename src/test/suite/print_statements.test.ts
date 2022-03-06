@@ -91,6 +91,12 @@ suite("PrintConstructor", () => {
         assert.strictEqual(placeholders, "");
     });
 
+    test("Basic print statements with workspace relative path", async () => {
+        await testUtils.updateConfig("prints.addCustomMessage", "%w:%l");
+        const statement = new prints.PrintConstructor("print");
+        assert.strictEqual(statement.string(), 'print("➡ demo_file.py:1 {text} :", {text})');
+    });
+
     test("Basic print statements with new line", async () => {
         await testUtils.updateConfig("prints.printToNewLine", true);
         const statement = new prints.PrintConstructor("print");

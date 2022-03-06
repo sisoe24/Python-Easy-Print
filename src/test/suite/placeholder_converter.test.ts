@@ -90,6 +90,14 @@ suite("PlaceholderConverter", () => {
         assert.strictEqual(placeholder.convert("%l"), "2");
     });
 
+    test("Get line workspace relative path ", async () => {
+        const editor = await testUtils.focusDemoFile("placeholder_demo.py", 1);
+
+        const placeholder = new prints.PlaceholdersConverter(editor);
+        assert.strictEqual(placeholder.getWorkspacePath(), demoFile);
+        assert.strictEqual(placeholder.convert("%w"), demoFile);
+    });
+
     test("Invalid placeholder key", async () => {
         const editor = await testUtils.focusDemoFile("placeholder_demo.py", 1);
         const placeholder = new prints.PlaceholdersConverter(editor);

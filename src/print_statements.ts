@@ -29,6 +29,7 @@ export class PlaceholdersConverter {
             "%f": this.getFilename(),
             "%F": this.getFuncName(),
             "%l": this.getLineNum(),
+            "%w": this.getWorkspacePath(),
         };
 
         if (!Object.prototype.hasOwnProperty.call(placeholders, key)) {
@@ -36,6 +37,19 @@ export class PlaceholdersConverter {
         }
 
         return placeholders[key];
+    }
+
+    /**
+     * Get the workspace relative file path.
+     *
+     * @returns a string like path or an empty string if could not resolve the path.
+     */
+    getWorkspacePath(): string {
+        const relativePath = vscode.workspace.asRelativePath(this.editor.document.uri);
+        if (relativePath) {
+            return relativePath;
+        }
+        return "";
     }
 
     /**
@@ -156,8 +170,8 @@ export class PrintConstructor {
             customMsg = utils.pepConfig("prints.addCustomMessage") as string;
         }
 
-        // todo: match should be based on settings
-        const placeholderMatch = customMsg.match(/%[flF]/g);
+        // todo: would like to make this automated when adding a new placeholder
+        const placeholderMatch = customMsg.match(/%[flFw]/g);
 
         // TODO: maybe should pass the editor from executeCommand
         const editor = vscode.window.activeTextEditor;
