@@ -60,63 +60,78 @@
     "commands": [
       {
         "command": "python-easy-print.easyPrint",
-        "title": "Python EasyPrint: print"
+        "title": "Python EasyPrint: print",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintDir",
-        "title": "Python EasyPrint: dir"
+        "title": "Python EasyPrint: dir",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintType",
-        "title": "Python EasyPrint: type"
+        "title": "Python EasyPrint: type",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyHelp",
-        "title": "Python EasyPrint: help"
+        "title": "Python EasyPrint: help",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyCustom",
-        "title": "Python EasyPrint: custom"
+        "title": "Python EasyPrint: custom",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
-        "title": "Python EasyPrint: repr"
+        "title": "Python EasyPrint: repr",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyLogDebug",
-        "title": "Python EasyPrint: debug"
+        "title": "Python EasyPrint: debug",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyLogInfo",
-        "title": "Python EasyPrint: info"
+        "title": "Python EasyPrint: info",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyLogWarning",
-        "title": "Python EasyPrint: warning"
+        "title": "Python EasyPrint: warning",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyLogError",
-        "title": "Python EasyPrint: error"
+        "title": "Python EasyPrint: error",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyLogCritical",
-        "title": "Python EasyPrint: critical"
+        "title": "Python EasyPrint: critical",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.easyPrintPy2",
-        "title": "Python EasyPrint: Add py2 header statement."
+        "title": "Python EasyPrint: Add py2 header statement.",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.commentPrintLines",
-        "title": "Python EasyPrint: Comment print lines"
+        "title": "Python EasyPrint: Comment print lines",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.uncommentPrintLines",
-        "title": "Python EasyPrint: Uncomment print lines"
+        "title": "Python EasyPrint: Uncomment print lines",
+        "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.deletePrintLines",
-        "title": "Python EasyPrint: Delete print lines"
+        "title": "Python EasyPrint: Delete print lines",
+        "enablement": "resourceLangId == python"
       }
     ],
     "keybindings": [
