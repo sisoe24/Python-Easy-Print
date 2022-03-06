@@ -115,22 +115,22 @@
       },
       {
         "command": "python-easy-print.easyPrintPy2",
-        "title": "Python EasyPrint: Add py2 header statement.",
+        "title": "Python EasyPrint: Add py2 header statement",
         "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.commentPrintLines",
-        "title": "Python EasyPrint: Comment print lines",
+        "title": "Python EasyPrint: comment",
         "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.uncommentPrintLines",
-        "title": "Python EasyPrint: Uncomment print lines",
+        "title": "Python EasyPrint: uncomment",
         "enablement": "resourceLangId == python"
       },
       {
         "command": "python-easy-print.deletePrintLines",
-        "title": "Python EasyPrint: Delete print lines",
+        "title": "Python EasyPrint: delete",
         "enablement": "resourceLangId == python"
       }
     ],
@@ -145,37 +145,19 @@
         "command": "python-easy-print.easyPrintDir",
         "key": "ctrl+shift+l d",
         "mac": "cmd+shift+l d",
-        "when": "editorTextFocus && resourceLangId == python"
+        "when": "editorTextFocus"
       },
       {
         "command": "python-easy-print.easyPrintType",
         "key": "ctrl+shift+l t",
         "mac": "cmd+shift+l t",
-        "when": "editorTextFocus && resourceLangId == python"
+        "when": "editorTextFocus"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
         "key": "ctrl+shift+l r",
         "mac": "cmd+shift+l r",
-        "when": "editorTextFocus && resourceLangId == python"
-      },
-      {
-        "command": "python-easy-print.commentPrintLines",
-        "key": "ctrl+shift+l c",
-        "mac": "cmd+shift+l c",
-        "when": "editorTextFocus && resourceLangId == python"
-      },
-      {
-        "command": "python-easy-print.uncommentPrintLines",
-        "key": "ctrl+shift+l u",
-        "mac": "cmd+shift+l u",
-        "when": "editorTextFocus && resourceLangId == python"
-      },
-      {
-        "command": "python-easy-print.deletePrintLines",
-        "key": "ctrl+shift+l x",
-        "mac": "cmd+shift+l x",
-        "when": "editorTextFocus && resourceLangId == python"
+        "when": "editorTextFocus"
       }
     ],
     "configuration": {
