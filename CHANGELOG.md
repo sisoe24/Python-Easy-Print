@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.5.1] - 2022-03-08
+
+### Changed
+
+- Simple print and custom statement, can now be executed on non python files.
+
 ## [0.5.0] - 2022-03-05
 
 ### Added
