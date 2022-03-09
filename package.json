@@ -54,7 +54,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:python"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
