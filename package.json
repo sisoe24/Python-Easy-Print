@@ -61,8 +61,7 @@
     "commands": [
       {
         "command": "python-easy-print.easyPrint",
-        "title": "Python EasyPrint: print",
-        "enablement": "resourceLangId == python"
+        "title": "Python EasyPrint: print"
       },
       {
         "command": "python-easy-print.easyPrintDir",
@@ -81,8 +80,7 @@
       },
       {
         "command": "python-easy-print.easyCustom",
-        "title": "Python EasyPrint: custom",
-        "enablement": "resourceLangId == python"
+        "title": "Python EasyPrint: custom"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
