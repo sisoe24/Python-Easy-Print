@@ -19,6 +19,7 @@ Visual Studio Code extension for easy commands of Python most useful prints.
   - [1.4. Extension Settings](#14-extension-settings)
   - [1.5. Known Issues](#15-known-issues)
   - [1.6. Example Key Bindings](#16-example-key-bindings)
+  - [1.7. Note](#17-note)
   - [1.7. Demo](#17-demo)
 
 ## 1.1. Features
@@ -245,6 +246,11 @@ Document
     }
 ]
 ```
+
+## 1.7. Note
+
+The commands `Python EasyPrint: print` and `Python EasyPrint: custom` can be
+executed on non Python file as well, as long as the syntax in supported (eg. `Lua`).
 
 ## 1.7. Demo
 
