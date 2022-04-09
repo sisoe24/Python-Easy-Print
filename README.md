@@ -10,7 +10,7 @@
 [![Ratings](https://img.shields.io/visual-studio-marketplace/r/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
 [![Last Update](https://img.shields.io/visual-studio-marketplace/last-updated/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
 
-Visual Studio Code extension for easy commands of Python most useful prints.
+Quick Commands to generate Python's most needed prints in Visual Studio Code.
 
 - [1. Python Easy Print](#1-python-easy-print)
   - [1.1. Features](#11-features)
@@ -24,28 +24,29 @@ Visual Studio Code extension for easy commands of Python most useful prints.
 
 ## 1.1. Features
 
-- Commands for print statements: `dir`, `type`, `repr`, `help` and basic `print`.
-- Commands for logging statements: `debug`, `info`, `warning`, `error` and `critical`.
-- Commands can be activate by manually selected text or by hovering the cursor over.
-- Comment, uncomment and delete statements made by extension.
-- Quick command to initiate a Python 2 file with the declarations needed to use the extension.
+- Commands for print statements: `dir`, `type`, `repr`, `help` ,and basic `print`.
+- Commands for logging statements: `debug`, `info`, `warning`, `error`, and `critical`.
+- Generate a completely new custom command.
+- Each Command can be activated by text selection or by hovering the cursor over the text.
+- Comment, uncomment and delete statements made by the extension.
+- A quick Command to set a Python 2 file with the declarations needed to use the extension.
 
 ## 1.2. How to use
 
-> **NOTE**: Python 2 developers should start their file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation):
+> **NOTE**: If you use Python 2, you need to start your file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation):
 >
 > ```py
 > # coding: utf-8
 > from __future__ import print_function
 > ```
 
-- Manually select a piece of text or hover over it with the cursor, and use one of the commands provided.
+- Manually select a piece of text or hover over it with the cursor and use one of the commands provided.
 
 ![Usage](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/print.gif)
 
 ## 1.3. Commands & Key bindings
 
-> **NOTE**: To avoid shortcuts conflicts, default key bindings might be removed in the future versions.
+> **NOTE**: The extension could remove the default key bindings in future versions to avoid shortcut conflicts.
 
 All commands are available by opening the Command Palette (`Command+Shift+P` on macOS and `Ctrl+Shift+P` on Windows/Linux) and typing: `Python EasyPrint...`
 
@@ -68,21 +69,21 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | critical                 | `python-easy-print.easyLogCritical`     |                  |
 
 - Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
-- The main shortcut to remember is `ctrl+shift+l`. Then the initial letter of the action you will like to execute: `p` for `print`, `d` for `dir`, `t` for `type` and so.
-- The Python2 command includes the word `py2` to make the search in the command palette faster.
-- MacOS: `ctrl` == `cmd`
-- See [Example Key Bindings](#16-example-key-bindings) for more shortcuts example.
+- The main shortcut to remember is `ctrl+shift+l`, plus the initial letter of the action you want to execute: `p` for `print`, `d` for `dir`, `t` for `type`, etc.
+- The Python2 command includes the word `py2` to be found in the Command palette faster.
+- macOS: `ctrl` == `cmd`
+- See [Example Key Bindings](#16-example-key-bindings) for more shortcuts examples.
 
 ## 1.4. Extension Settings
 
 - `pythonEasyPrint.prints.addCustomMessage`: `string`
 
-  Customize the print message by adding some extra information with some text or by using one of the placeholder provided:
+  Customize the print message by adding some extra information with some text or by using one of the placeholders provided:
 
   - `%f`: File name.
   - `%l`: Line number.
   - `%F`: Function parent.
-  - `%w`: Relative path of active file from workspace root.
+  - `%w`: Relative path of the active file from workspace root.
 
   Examples:
   - VS Code friendly terminal hyperlink: `%w:%l`
@@ -91,13 +92,13 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
-  If `true`, when manually selecting multiple statements (eg: `foo, bar`), print each one individually.
+  If `true`, when manually selecting multiple statements (e.g., `foo, bar`), print each one individually.
 
-  > **NOTE**: This settings might be removed in future version as it will create problem with other statements like `type`, `dir`, when `false`.
+  > **NOTE**: This setting could be removed in future versions.
 
 - `pythonEasyPrint.printToNewLine`: `boolean`
 
-  If `true`, will insert a newline character in the print:
+  If `true`, it will insert a newline character inside the print:
 
   ```py
   print("➡ name :\n", name)
@@ -105,14 +106,14 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.customSymbol`: `string`
 
-  A custom unicode symbol to be used inside the print. Could also be an emoji: 👉 (as symbol representation, not the unicode code point).
+  Modify the default Unicode symbol for the prints. It could be an emoji: 👉 (as symbol representation, not the Unicode code point).
 
 - `pythonEasyPrint.customStatement`: `string`
 
-  A custom statement to be used with the command `Python EasyPrint: custom`. This allows for a complete new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_, the following two placeholders will be available:
+  A custom statement to be used with the Command `Python EasyPrint: custom`. This setting allows for a completely new statement to be generated. In addition to the placeholders mentioned in _Add Custom Message_, the following two placeholders will be available:
 
   - `{text}`: The selected/hover text.
-  - `{symbol}`: The unicode character.
+  - `{symbol}`: The Unicode character.
 
   Examples:
 
@@ -125,11 +126,11 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
-    If `true`, when hovering over a word (eg. hovering over `bar` of `foo.bar`), include the parent/s to the print.
+    If `true`, when hovering over a word (e.g., hovering over `bar` of `foo.bar`), include the parent/s to the print.
 
 - `pythonEasyPrint.hover.includeParentheses`: `boolean`
 
-    If `true`, when hovering over a word (eg. hovering over `bar` of `bar(foo)`), include the function parentheses to the print.
+    If `true`, when hovering over a word (e.g., hovering over `bar` of `bar(foo)`), include the function parentheses to the print.
 
     ![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selections.gif)
 
@@ -143,16 +144,15 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 - `pythonEasyPrint.logging.customLogName`: `string`
 
-    Specify a different logging instance name for the log commands. If empty, will default to `logging`. Example: specifying `LOGGER` as value, will result in:
+    Specify a different logging instance name for the log commands. If empty will default to `logging`. For example, specifying `LOGGER` as a value will result in:
 
     ```py
     LOGGER.debug("name: %s", name)
     ```
 
-
 ## 1.5. Known Issues
 
-- When using the command to delete, the extension will ignore the `help` statement.
+- When using the delete command, the extension will ignore the `help` statement.
 
 ## 1.6. Example Key Bindings
 
@@ -250,7 +250,7 @@ Document
 ## 1.7. Note
 
 The commands `Python EasyPrint: print` and `Python EasyPrint: custom` can be
-executed on non Python file as well, as long as the syntax in supported (eg. `Lua`).
+executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 
 ## 1.7. Demo
 
