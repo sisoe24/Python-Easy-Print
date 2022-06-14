@@ -4,11 +4,16 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/1d2406e640f647978438e8634f4f7df3)](https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&utm_medium=referral&utm_content=sisoe24/Python-Easy-Print&utm_campaign=Badge_Coverage)
 [![DeepSource](https://deepsource.io/gh/sisoe24/Python-Easy-Print.svg/?label=active+issues&show_trend=true&token=30uB5oEZbccV2AOoOX7AgXAT)](https://deepsource.io/gh/sisoe24/Python-Easy-Print/?ref=repository-badge)
 
-[![Download](https://img.shields.io/badge/Marketplace-Download-blue)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
-[![Version](https://img.shields.io/visual-studio-marketplace/v/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print&ssr=false#version-history)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
-[![Ratings](https://img.shields.io/visual-studio-marketplace/r/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
-[![Last Update](https://img.shields.io/visual-studio-marketplace/last-updated/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
+[![vscode-marketplace](https://img.shields.io/badge/vscode-marketplace-blue)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
+[![vscode-version](https://img.shields.io/visual-studio-marketplace/v/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print&ssr=false#version-history)
+[![vscode-installs](https://img.shields.io/visual-studio-marketplace/i/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
+[![vscode-ratings](https://img.shields.io/visual-studio-marketplace/r/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print&ssr=false#review-details)
+[![vscode-last-update](https://img.shields.io/visual-studio-marketplace/last-updated/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
+
+[![openvsx-marketplace](https://img.shields.io/badge/openvsx-marketplace-C160EF)](https://open-vsx.org/extension/virgilsisoe/python-easy-print)
+[![openvsx-version](https://img.shields.io/open-vsx/v/virgilsisoe/python-easy-print?label=version)](https://open-vsx.org/extension/virgilsisoe/python-easy-print/changes)
+[![openvsx-downloads](https://img.shields.io/open-vsx/dt/virgilsisoe/python-easy-print)](https://open-vsx.org/extension/virgilsisoe/python-easy-print)
+[![openvsx-rating](https://img.shields.io/open-vsx/rating/virgilsisoe/python-easy-print)](https://open-vsx.org/extension/virgilsisoe/python-easy-print/reviews)
 
 Quick Commands to generate Python's most needed prints in Visual Studio Code.
 
