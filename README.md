@@ -31,10 +31,10 @@ Quick Commands to generate Python's most needed prints in Visual Studio Code.
 
 - Commands for print statements: `dir`, `type`, `repr`, `help` ,and basic `print`.
 - Commands for logging statements: `debug`, `info`, `warning`, `error`, and `critical`.
-- Create a custom statement.
+- Quick custom statement.
 - Each Command can be activated by text selection or by hovering the cursor over the text.
 - Comment, uncomment and delete statements made by the extension.
-- A quick Command to set a Python 2 file with the declarations needed to use the extension.
+- Quick Command to set a Python 2 file with the declarations needed to use the extension.
 
 ## 1.2. How to use
 
@@ -120,7 +120,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   Examples:
 
   - `print('{symbol} {text} ->', {text}, '<-')`
-  - `print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})`
+  - `print('─' * 50, '\n┌─ %w:%l - {text}\n└─', {text})`
   - `customFunction({text})`
 
     ![customPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/customPrint.gif)
