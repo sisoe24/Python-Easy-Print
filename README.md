@@ -233,6 +233,16 @@ Document
 ```json
 [
     {
+        "key": "ctrl+shift+l j",
+        "command": "python-easy-print.easyJumpNext",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+shift+l k",
+        "command": "python-easy-print.easyJumpPrevious",
+        "when": "editorTextFocus"
+    },
+    {
         "key": "ctrl+shift+l c",
         "command": "python-easy-print.commentPrintLines",
         "when": "editorTextFocus"
