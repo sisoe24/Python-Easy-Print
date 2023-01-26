@@ -167,6 +167,12 @@
         "when": "editorTextFocus"
       },
       {
+        "command": "python-easy-print.easyCustom",
+        "key": "ctrl+shift+l c",
+        "mac": "cmd+shift+l c",
+        "when": "editorTextFocus"
+      },
+      {
         "command": "python-easy-print.easyJumpPrevious",
         "key": "ctrl+shift+l k",
         "mac": "cmd+shift+l k",
