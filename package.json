@@ -60,6 +60,14 @@
   "contributes": {
     "commands": [
       {
+        "command": "python-easy-print.easyJumpNext",
+        "title": "Python EasyPrint: Jump to next print"
+      },
+      {
+        "command": "python-easy-print.easyJumpPrevious",
+        "title": "Python EasyPrint: Jump to previous print"
+      },
+      {
         "command": "python-easy-print.easyPrint",
         "title": "Python EasyPrint: print"
       },
@@ -156,6 +164,18 @@
         "command": "python-easy-print.easyPrintRepr",
         "key": "ctrl+shift+l r",
         "mac": "cmd+shift+l r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyJumpPrevious",
+        "key": "ctrl+shift+l k",
+        "mac": "cmd+shift+l k",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyJumpNext",
+        "key": "ctrl+shift+l j",
+        "mac": "cmd+shift+l j",
         "when": "editorTextFocus"
       }
     ],
