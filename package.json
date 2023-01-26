@@ -2,7 +2,7 @@
   "name": "python-easy-print",
   "displayName": "Python Easy Print",
   "description": "Easy commands for some of Python most useful prints.",
-  "version": "0.5.6",
+  "version": "0.6.0",
   "publisher": "virgilsisoe",
   "icon": "images/python_icon_256px.png",
   "license": "MIT",
