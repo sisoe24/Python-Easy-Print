@@ -31,10 +31,12 @@ Quick Commands to generate Python's most needed prints in Visual Studio Code.
 
 - Commands for print statements: `dir`, `type`, `repr`, `help` ,and basic `print`.
 - Commands for logging statements: `debug`, `info`, `warning`, `error`, and `critical`.
-- Quick custom statement.
-- Each Command can be activated by text selection or by hovering the cursor over the text.
+- Personalize each command with text or default placeholders.
+- A quick command for a custom statement.
+- Commands can be activated by text selection or by hovering the cursor over.
+- Quickly jump between prints made by the extension.
 - Comment, uncomment and delete statements made by the extension.
-- Quick Command to set a Python 2 file with the declarations needed to use the extension.
+- Quick Command for Python 2 declaration needed for Python 3 print function.
 
 ## 1.2. How to use
 
@@ -62,7 +64,9 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | type                     | `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
 | repr                     | `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
 | help                     | `python-easy-print.easyHelp`            |                  |
-| custom                   | `python-easy-print.easyCustom`          |                  |
+| custom                   | `python-easy-print.easyCustom`          | `ctrl+shift+l c` |
+| jump next                | `python-easy-print.easyJumpNext`        | `ctrl+shift+l j` |
+| jump previous            | `python-easy-print.easyJumpPrevious`    | `ctrl+shift+l k` |
 | comment                  | `python-easy-print.commentPrintLines`   |                  |
 | uncomment                | `python-easy-print.uncommentPrintLines` |                  |
 | delete                   | `python-easy-print.deletePrintLines`    |                  |
@@ -232,6 +236,16 @@ Document
 
 ```json
 [
+    {
+        "key": "ctrl+shift+l j",
+        "command": "python-easy-print.easyJumpNext",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+shift+l k",
+        "command": "python-easy-print.easyJumpPrevious",
+        "when": "editorTextFocus"
+    },
     {
         "key": "ctrl+shift+l c",
         "command": "python-easy-print.commentPrintLines",

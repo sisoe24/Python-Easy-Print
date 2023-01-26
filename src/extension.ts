@@ -24,6 +24,8 @@ export const documentCommands = {
     comment: "python-easy-print.commentPrintLines",
     uncomment: "python-easy-print.uncommentPrintLines",
     delete: "python-easy-print.deletePrintLines",
+    jumpPrevious: "python-easy-print.easyJumpPrevious",
+    jumpNext: "python-easy-print.easyJumpNext",
 };
 
 export function activate(context: vscode.ExtensionContext): void {
@@ -54,7 +56,6 @@ export function activate(context: vscode.ExtensionContext): void {
         );
     }
 
-    // Misc
     context.subscriptions.push(
         vscode.commands.registerCommand("python-easy-print.easyPrintPy2", () => {
             void utils.initPrintPython2();

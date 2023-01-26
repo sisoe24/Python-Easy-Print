@@ -54,14 +54,26 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onLanguage:python"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
+        "command": "python-easy-print.easyJumpNext",
+        "title": "Python EasyPrint: Jump to next print"
+      },
+      {
+        "command": "python-easy-print.easyJumpPrevious",
+        "title": "Python EasyPrint: Jump to previous print"
+      },
+      {
         "command": "python-easy-print.easyPrint",
         "title": "Python EasyPrint: print"
+      },
+      {
+        "command": "python-easy-print.easyCustom",
+        "title": "Python EasyPrint: custom"
       },
       {
         "command": "python-easy-print.easyPrintDir",
@@ -77,10 +89,6 @@
         "command": "python-easy-print.easyHelp",
         "title": "Python EasyPrint: help",
         "enablement": "resourceLangId == python"
-      },
-      {
-        "command": "python-easy-print.easyCustom",
-        "title": "Python EasyPrint: custom"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
@@ -156,6 +164,24 @@
         "command": "python-easy-print.easyPrintRepr",
         "key": "ctrl+shift+l r",
         "mac": "cmd+shift+l r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyCustom",
+        "key": "ctrl+shift+l c",
+        "mac": "cmd+shift+l c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyJumpPrevious",
+        "key": "ctrl+shift+l k",
+        "mac": "cmd+shift+l k",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyJumpNext",
+        "key": "ctrl+shift+l j",
+        "mac": "cmd+shift+l j",
         "when": "editorTextFocus"
       }
     ],

@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.6.0] - 2023-01-26
+
+### Added
+
+- New commands to jump between prints made by the extension (meaning they have the unicode symbol).
+
 ## [0.5.1] - 2022-03-08
 
 ### Changed
