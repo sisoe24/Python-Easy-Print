@@ -1,21 +1,23 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
 
-/**
- * Parse the entire document text.
- *
- * Method will search for every print line that was created by the extension and
- * will yield an object containing the `text`, `range` and `rangeToNewLine`.
- *
- * @param editor vscode active text editor
- */
-export function* documentParser(editor: vscode.TextEditor): Generator<{
+type LineObject = {
     text: string;
     range: vscode.Range;
     rangeToNewLine: vscode.Range;
-}> {
+};
+
+/**
+ * Parse the entire document text and return an array of LineObject.
+ *
+ * @param editor vscode active text editor
+ * @return lines An array of LineObject.
+ */
+export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
     const document = editor.document;
     const symbol = utils.symbol();
+
+    const lines = [];
 
     for (let line = 0; line <= document.lineCount - 1; ++line) {
         const lineObj = document.lineAt(line);
@@ -29,12 +31,13 @@ export function* documentParser(editor: vscode.TextEditor): Generator<{
 
         const startPos = new vscode.Position(line, lineObj.firstNonWhitespaceCharacterIndex);
 
-        yield {
+        lines.push({
             text: lineText,
             range: new vscode.Range(startPos, lineObj.range.end),
             rangeToNewLine: lineObj.rangeIncludingLineBreak,
-        };
+        });
     }
+    return lines;
 }
 
 /**
