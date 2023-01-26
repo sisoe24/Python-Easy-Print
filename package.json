@@ -54,7 +54,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onLanguage:python"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -72,6 +72,10 @@
         "title": "Python EasyPrint: print"
       },
       {
+        "command": "python-easy-print.easyCustom",
+        "title": "Python EasyPrint: custom"
+      },
+      {
         "command": "python-easy-print.easyPrintDir",
         "title": "Python EasyPrint: dir",
         "enablement": "resourceLangId == python"
@@ -85,10 +89,6 @@
         "command": "python-easy-print.easyHelp",
         "title": "Python EasyPrint: help",
         "enablement": "resourceLangId == python"
-      },
-      {
-        "command": "python-easy-print.easyCustom",
-        "title": "Python EasyPrint: custom"
       },
       {
         "command": "python-easy-print.easyPrintRepr",
@@ -164,6 +164,12 @@
         "command": "python-easy-print.easyPrintRepr",
         "key": "ctrl+shift+l r",
         "mac": "cmd+shift+l r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyCustom",
+        "key": "ctrl+shift+l c",
+        "mac": "cmd+shift+l c",
         "when": "editorTextFocus"
       },
       {
