@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.7.1] - 2023-09-21
+
+### Fixed
+
+- Fixed a potential performance issue when converting the `%F` placeholder.
+
 ## [0.7.0] - 2023-01-26
 
 ### Added
