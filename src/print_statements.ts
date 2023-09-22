@@ -47,11 +47,13 @@ export class PlaceholdersConverter {
      * @returns a string like path or an empty string if could not resolve the path.
      */
     getWorkspacePath(): string {
-        const relativePath = vscode.workspace.asRelativePath(this.editor.document.uri);
-        if (relativePath) {
-            return relativePath;
+        const relativePath = vscode.workspace.asRelativePath(
+            this.editor.document.uri
+        );
+        if (!relativePath) {
+            return "";
         }
-        return "";
+        return relativePath;
     }
 
     /**
@@ -66,7 +68,9 @@ export class PlaceholdersConverter {
     getFuncName(): string {
         const startLine = this.editor.selection.active.line;
         const startLineIndentation =
-            this.editor.document.lineAt(startLine).firstNonWhitespaceCharacterIndex;
+            this.editor.document.lineAt(
+                startLine
+            ).firstNonWhitespaceCharacterIndex;
 
         if (startLineIndentation === 0) {
             return "";
@@ -78,7 +82,8 @@ export class PlaceholdersConverter {
             const pattern = new RegExp(/def\s(\w+)\(.*\):/);
             const match = pattern.exec(lineObj.text);
 
-            const currentLineIndentation = lineObj.firstNonWhitespaceCharacterIndex;
+            const currentLineIndentation =
+                lineObj.firstNonWhitespaceCharacterIndex;
 
             if (match && startLineIndentation > currentLineIndentation) {
                 return match[1];
@@ -148,7 +153,10 @@ export class PrintConstructor {
         }
 
         if (getConfig("prints.printToNewLine")) {
-            this.statement = statementsTypes[statement].replace(/(?<=:)/, "\\n");
+            this.statement = statementsTypes[statement].replace(
+                /(?<=:)/,
+                "\\n"
+            );
         } else {
             this.statement = statementsTypes[statement];
         }
@@ -183,7 +191,10 @@ export class PrintConstructor {
 
         const placeholders = new PlaceholdersConverter(editor);
         placeholderMatch.forEach((placeholder) => {
-            customMsg = customMsg.replace(placeholder, placeholders.convert(placeholder));
+            customMsg = customMsg.replace(
+                placeholder,
+                placeholders.convert(placeholder)
+            );
         });
 
         return customMsg;
@@ -242,18 +253,18 @@ export function logConstructor(statement: string): string {
  * Based on which statement is supplied as argument, the function will return either
  * a print statement or a log statement.
  *
- * @param statement name of the statement to get. Could be log or prints
+ * @param statementType name of the statement to get. Could be log or prints
  * @returns the template statement.
  */
-export function statementConstructor(statement: string): string {
+export function printConstructor(statementType: string): string {
     try {
-        if (statement === "custom" && !getConfig("prints.customStatement")) {
+        if (statementType === "custom" && !getConfig("prints.customStatement")) {
             vscode.window.showWarningMessage("No Custom Message supplied");
             return "";
         }
 
-        return new PrintConstructor(statement).string();
+        return new PrintConstructor(statementType).string();
     } catch (error) {
-        return logConstructor(statement);
+        return logConstructor(statementType);
     }
 }
