@@ -44,14 +44,18 @@ export class SelectedText {
      * @param pattern regex pattern to match inside the range.
      * @returns the match or `null` if no match is made.
      */
-    private addExtraMatch(lineRange: vscode.Range, pattern: RegExp): string | null {
+    private addExtraMatch(
+        lineRange: vscode.Range,
+        pattern: RegExp
+    ): string | null {
         const lineText = this.editor.document.getText(lineRange);
         const match = pattern.exec(lineText);
 
-        if (match) {
-            return match[0];
+        if (!match) {
+            return null;
         }
-        return null;
+
+        return match[0];
     }
 
     /**
@@ -68,22 +72,21 @@ export class SelectedText {
      * @returns the chain of parents or an empty string if there are none.
      */
     private includeParentCall(startChar: number, endChar: number): string {
-        let parentCall = "";
-
-        if (getConfig("hover.includeParentCall")) {
-            const pattern = new RegExp(
-                `(?:\\w+(?:\\(.*?\\))?\\.)*(?<=^.{${startChar}})${this.hoverWord}`,
-                "m"
-            );
-
-            const startPos = new vscode.Position(this.lineNumber, 0);
-            const endPos = new vscode.Position(this.lineNumber, endChar);
-
-            const lineRange = new vscode.Range(startPos, endPos);
-
-            parentCall = this.addExtraMatch(lineRange, pattern) || "";
+        if (!getConfig("hover.includeParentCall")) {
+            return "";
         }
-        return parentCall;
+
+        const pattern = new RegExp(
+            `(?:\\w+(?:\\(.*?\\))?\\.)*(?<=^.{${startChar}})${this.hoverWord}`,
+            "m"
+        );
+
+        const startPos = new vscode.Position(this.lineNumber, 0);
+        const endPos = new vscode.Position(this.lineNumber, endChar);
+
+        const lineRange = new vscode.Range(startPos, endPos);
+
+        return this.addExtraMatch(lineRange, pattern) || "";
     }
 
     /**
@@ -100,21 +103,19 @@ export class SelectedText {
      * no match was made.
      */
     private includeFuncCall(startChar: number): string {
-        let funcCall = "";
-        if (getConfig("hover.includeParentheses")) {
-            const pattern = new RegExp(`(?<=^${this.hoverWord})(\\(.*?\\))`);
-
-            const startPos = new vscode.Position(this.lineNumber, startChar);
-
-            // to check the full line, we must go the the beginning of the next line.
-            const nextLine = this.lineNumber + 1;
-            const endPos = new vscode.Position(nextLine, 0);
-
-            const lineRange = new vscode.Range(startPos, endPos);
-
-            funcCall = this.addExtraMatch(lineRange, pattern) || "";
+        if (!getConfig("hover.includeParentheses")) {
+            return "";
         }
-        return funcCall;
+
+        const pattern = new RegExp(`(?<=^${this.hoverWord})(\\(.*?\\))`);
+        const startPos = new vscode.Position(this.lineNumber, startChar);
+
+        // to check the full line, we must go the the beginning of the next line.
+        const nextLine = this.lineNumber + 1;
+        const endPos = new vscode.Position(nextLine, 0);
+
+        const lineRange = new vscode.Range(startPos, endPos);
+        return this.addExtraMatch(lineRange, pattern) || "";
     }
 
     /**
@@ -126,7 +127,9 @@ export class SelectedText {
      * @returns the text under the cursor or `null` if no text is present.
      */
     private textUnderCursor(): string | null {
-        const rangeUnderCursor = this.document.getWordRangeAtPosition(this.selection.active);
+        const rangeUnderCursor = this.document.getWordRangeAtPosition(
+            this.selection.active
+        );
 
         // document.getText(undefined) will return the all document text.
         if (rangeUnderCursor) {
@@ -134,7 +137,10 @@ export class SelectedText {
 
             const startChar = rangeUnderCursor.start.character;
 
-            const parentCall = this.includeParentCall(startChar, rangeUnderCursor.end.character);
+            const parentCall = this.includeParentCall(
+                startChar,
+                rangeUnderCursor.end.character
+            );
             const funcCall = this.includeFuncCall(startChar);
 
             return (parentCall || this.hoverWord) + funcCall;
@@ -189,7 +195,9 @@ export class SelectedText {
     }
 }
 
-export async function executeCommand(statement: string): Promise<string | void> {
+export async function executeCommand(
+    statement: string
+): Promise<string | void> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return;
@@ -211,14 +219,19 @@ export async function executeCommand(statement: string): Promise<string | void> 
             await vscode.commands.executeCommand("editor.action.jumpToBracket");
         }
 
-        await vscode.commands.executeCommand("editor.action.insertLineAfter").then(() => {
-            editor.edit((editBuilder) => {
-                const selection = editor.selection;
-                const lineNumber = selection.start.line;
-                const charPosition = selection.start.character;
+        await vscode.commands
+            .executeCommand("editor.action.insertLineAfter")
+            .then(() => {
+                editor.edit((editBuilder) => {
+                    const selection = editor.selection;
+                    const lineNumber = selection.start.line;
+                    const charPosition = selection.start.character;
 
-                editBuilder.insert(new vscode.Position(lineNumber, charPosition), insertText);
+                    editBuilder.insert(
+                        new vscode.Position(lineNumber, charPosition),
+                        insertText
+                    );
+                });
             });
-        });
     }
 }
