@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import * as prints from "../../print_statements";
+import * as prints from "../../print_constructor";
 import * as testUtils from "./test_utils";
 
 /**

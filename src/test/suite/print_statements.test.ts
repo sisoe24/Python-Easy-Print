@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import * as prints from "../../print_statements";
+import * as prints from "../../print_constructor";
 import * as testUtils from "./test_utils";
 
 // TODO: cleaning file should be based on which file is currently used.
@@ -107,23 +107,23 @@ suite("PrintConstructor", () => {
 
 suite("Statement Constructor", () => {
     test("Is PrintConstructor", () => {
-        const constructor = prints.statementConstructor("print");
+        const constructor = prints.printConstructor("print");
         assert.strictEqual(constructor, 'print("➡ {text} :", {text})');
     });
 
     test("Is Custom Statement", () => {
-        const constructor = prints.statementConstructor("custom");
+        const constructor = prints.printConstructor("custom");
         assert.strictEqual(constructor, "");
     });
 
     test("Is LogConstructor", () => {
-        const constructor = prints.statementConstructor("debug");
+        const constructor = prints.printConstructor("debug");
         assert.strictEqual(constructor, 'logging.debug("{text} : %s", repr({text}))');
     });
 
     test("Is invalid constructor", () => {
         assert.throws(() => {
-            prints.statementConstructor("verbose");
+            prints.printConstructor("verbose");
         }, Error);
     });
 });

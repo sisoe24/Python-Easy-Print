@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import * as selectedText from "../../selected_text";
+import * as selectedText from "../../exec_selected_text";
 import * as testUtils from "./test_utils";
 
 /**
