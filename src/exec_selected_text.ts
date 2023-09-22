@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getConfig } from "./config";
 
-import { statementConstructor } from "./print_statements";
+import { printConstructor } from "./print_constructor";
 
 /**
  * Select text object class.
@@ -211,7 +211,7 @@ export async function executeCommand(
     }
 
     for (const match of text) {
-        const stringStatement = statementConstructor(statement);
+        const stringStatement = printConstructor(statement);
         const insertText = stringStatement.replace(/\{text\}/g, match);
 
         if (selectedText.hasCodeBlock()) {
