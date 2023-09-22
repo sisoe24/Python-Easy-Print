@@ -79,8 +79,7 @@ export class PlaceholdersConverter {
         for (let line = startLine; line >= 0; --line) {
             const lineObj = this.editor.document.lineAt(line);
 
-            const pattern = new RegExp(/def\s(\w+)\(.*\):/);
-            const match = pattern.exec(lineObj.text);
+            const match = /def\s(\w+)\(.*\):/.exec(lineObj.text);
 
             const currentLineIndentation =
                 lineObj.firstNonWhitespaceCharacterIndex;
@@ -258,7 +257,10 @@ export function logConstructor(statement: string): string {
  */
 export function printConstructor(statementType: string): string {
     try {
-        if (statementType === "custom" && !getConfig("prints.customStatement")) {
+        if (
+            statementType === "custom" &&
+            !getConfig("prints.customStatement")
+        ) {
             vscode.window.showWarningMessage("No Custom Message supplied");
             return "";
         }
