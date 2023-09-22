@@ -2,6 +2,8 @@ import * as vscode from "vscode";
 import * as utils from "./utils";
 import * as path from "path";
 
+import { getConfig } from "./config";
+
 /**
  * Convert placeholders symbols from the configuration settings.
  */
@@ -145,7 +147,7 @@ export class PrintConstructor {
             throw new Error(`Invalid statement type: ${typeof statement}`);
         }
 
-        if (utils.pepConfig("prints.printToNewLine")) {
+        if (getConfig("prints.printToNewLine")) {
             this.statement = statementsTypes[statement].replace(/(?<=:)/, "\\n");
         } else {
             this.statement = statementsTypes[statement];
@@ -164,10 +166,10 @@ export class PrintConstructor {
         let customMsg: string;
 
         if (this.statement === "{@}") {
-            customMsg = utils.pepConfig("prints.customStatement") as string;
+            customMsg = getConfig("prints.customStatement") as string;
             customMsg = customMsg.replace(/{symbol}/g, this.symbol);
         } else {
-            customMsg = utils.pepConfig("prints.addCustomMessage") as string;
+            customMsg = getConfig("prints.addCustomMessage") as string;
         }
 
         // todo: would like to make this automated when adding a new placeholder
@@ -213,7 +215,7 @@ export class PrintConstructor {
  * @returns the template statement: `LOGGER.debug("{text} : %s", repr({text}))`
  */
 export function logConstructor(statement: string): string {
-    const logger = (utils.pepConfig("logging.customLogName") as string) || "logging";
+    const logger = (getConfig("logging.customLogName") as string) || "logging";
 
     const statementsTypes: { [statement: string]: string } = {
         debug: `${logger}.debug("{text} : %s", {@text})`,
@@ -227,7 +229,7 @@ export function logConstructor(statement: string): string {
         throw new Error(`Invalid statement type: ${statement}`);
     }
 
-    if (utils.pepConfig("logging.useRepr")) {
+    if (getConfig("logging.useRepr")) {
         return statementsTypes[statement].replace("{@text}", "repr({text})");
     }
 
@@ -245,7 +247,7 @@ export function logConstructor(statement: string): string {
  */
 export function statementConstructor(statement: string): string {
     try {
-        if (statement === "custom" && !utils.pepConfig("prints.customStatement")) {
+        if (statement === "custom" && !getConfig("prints.customStatement")) {
             vscode.window.showWarningMessage("No Custom Message supplied");
             return "";
         }

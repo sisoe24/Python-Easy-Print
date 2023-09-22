@@ -5,6 +5,7 @@ import * as path from "path";
 import { readdirSync, readFileSync } from "fs";
 
 import * as utils from "../../utils";
+import { getConfig } from "../../config";
 import * as testUtils from "./test_utils";
 
 import { printCommands, logCommands, documentCommands } from "../../extension";
@@ -19,44 +20,44 @@ suiteTeardown("Clean settings", () => {
 
 suite("Extension Settings", () => {
     test("logging.customLogName type", () => {
-        const config = utils.pepConfig("logging.customLogName");
+        const config = getConfig("logging.customLogName");
         assert.strictEqual(typeof config, "string");
     });
 
     test("logging.useRepr type", () => {
-        const config = utils.pepConfig("logging.useRepr");
+        const config = getConfig("logging.useRepr");
         assert.strictEqual(typeof config, "boolean");
     });
 
     test("prints.addCustomMessage type", () => {
-        const config = utils.pepConfig("prints.addCustomMessage");
+        const config = getConfig("prints.addCustomMessage");
         assert.strictEqual(typeof config, "string");
     });
 
     test("multipleStatements type", () => {
-        const config = utils.pepConfig("multipleStatements");
+        const config = getConfig("multipleStatements");
         assert.strictEqual(typeof config, "boolean");
     });
 
     test("prints.includeParentCall type", () => {
-        const config = utils.pepConfig("hover.includeParentCall");
+        const config = getConfig("hover.includeParentCall");
         assert.strictEqual(typeof config, "boolean");
     });
 
     test("hover.includeParentheses type", () => {
-        const config = utils.pepConfig("hover.includeParentheses");
+        const config = getConfig("hover.includeParentheses");
         assert.strictEqual(typeof config, "boolean");
     });
 
     test("Test settings invalid configuration name", () => {
         assert.throws(() => {
-            utils.pepConfig("randomTest");
+            getConfig("randomTest");
         }, Error);
     });
 
     test("Test settings update", async () => {
         await testUtils.updateConfig("prints.addCustomMessage", "test1");
-        const config = utils.pepConfig("prints.addCustomMessage");
+        const config = getConfig("prints.addCustomMessage");
         assert.strictEqual(config, "test1");
     });
 });
@@ -93,19 +94,28 @@ suite("Commands name", () => {
 
     test("Print Commands", () => {
         for (const command of Object.values(printCommands) as string[]) {
-            assert.ok(commands.includes(command), `Extension command name mismatched: ${command}`);
+            assert.ok(
+                commands.includes(command),
+                `Extension command name mismatched: ${command}`
+            );
         }
     });
 
     test("Log Commands", () => {
         for (const command of Object.values(logCommands) as string[]) {
-            assert.ok(commands.includes(command), `Extension command name mismatched: ${command}`);
+            assert.ok(
+                commands.includes(command),
+                `Extension command name mismatched: ${command}`
+            );
         }
     });
 
     test("Document Commands", () => {
         for (const command of Object.values(documentCommands) as string[]) {
-            assert.ok(commands.includes(command), `Extension command name mismatched: ${command}`);
+            assert.ok(
+                commands.includes(command),
+                `Extension command name mismatched: ${command}`
+            );
         }
     });
 });
@@ -128,7 +138,9 @@ suite("Configuration names", () => {
                 const _file = path.join(source, file);
                 const fileContents = readFileSync(_file, "utf8");
 
-                const configs = fileContents.match(/(?<=pepConfig\(")(.+?)(?=")/g);
+                const configs = fileContents.match(
+                    /(?<=pepConfig\(")(.+?)(?=")/g
+                );
                 if (configs) {
                     for (const config of configs as string[]) {
                         // I test a wrong configuration so will certainly fail
@@ -137,7 +149,9 @@ suite("Configuration names", () => {
                         }
                         assert.ok(
                             configurations.includes(config),
-                            `file: ${file as string} - configuration name mismatch: ${config}`
+                            `file: ${
+                                file as string
+                            } - configuration name mismatch: ${config}`
                         );
                     }
                 }

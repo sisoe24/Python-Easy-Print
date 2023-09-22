@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
+import { getConfig } from "./config";
 
 import { statementConstructor } from "./print_statements";
 
@@ -70,7 +71,7 @@ export class SelectedText {
     private includeParentCall(startChar: number, endChar: number): string {
         let parentCall = "";
 
-        if (utils.pepConfig("hover.includeParentCall")) {
+        if (getConfig("hover.includeParentCall")) {
             const pattern = new RegExp(
                 `(?:\\w+(?:\\(.*?\\))?\\.)*(?<=^.{${startChar}})${this.hoverWord}`,
                 "m"
@@ -101,7 +102,7 @@ export class SelectedText {
      */
     private includeFuncCall(startChar: number): string {
         let funcCall = "";
-        if (utils.pepConfig("hover.includeParentheses")) {
+        if (getConfig("hover.includeParentheses")) {
             const pattern = new RegExp(`(?<=^${this.hoverWord})(\\(.*?\\))`);
 
             const startPos = new vscode.Position(this.lineNumber, startChar);
@@ -180,7 +181,7 @@ export class SelectedText {
 
         if (text) {
             let multipleStatements = null;
-            if (utils.pepConfig("multipleStatements")) {
+            if (getConfig("multipleStatements")) {
                 multipleStatements = text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g);
             }
             return multipleStatements || [text];

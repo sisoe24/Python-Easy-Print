@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
+import { getConfig } from "./config";
 
-export const py2Statement = "# coding: utf-8\nfrom __future__ import print_function\n";
+export const py2Statement =
+  "# coding: utf-8\nfrom __future__ import print_function\n";
 
 /**
  * Get the symbol to insert inside the print statements.
@@ -10,27 +12,8 @@ export const py2Statement = "# coding: utf-8\nfrom __future__ import print_funct
  * @returns a unicode symbol
  */
 export function symbol(): string {
-    const customSymbol = pepConfig("prints.customSymbol") as string;
-    return customSymbol || "➡";
-}
-
-/**
- * Get configuration property value.
- *
- * If property name is not found, throws an error.
- *
- * @param property - name of the configuration property to get.
- * @returns - the value of the property.
- */
-export function pepConfig(property: string): unknown {
-    const config = vscode.workspace.getConfiguration("pythonEasyPrint");
-    const subConfig = config.get(property);
-
-    if (typeof subConfig === "undefined") {
-        throw new Error(`Configuration: ${property} doesn't exist`);
-    }
-
-    return subConfig;
+  const customSymbol = getConfig("prints.customSymbol") as string;
+  return customSymbol || "➡";
 }
 
 /**
@@ -45,12 +28,12 @@ export function pepConfig(property: string): unknown {
  * @returns void if command is called with no active text editor.
  */
 export async function initPrintPython2(): Promise<void | string> {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        return;
-    }
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    return;
+  }
 
-    await editor.edit((editBuilder) => {
-        editBuilder.insert(new vscode.Position(0, 0), py2Statement);
-    });
+  await editor.edit((editBuilder) => {
+    editBuilder.insert(new vscode.Position(0, 0), py2Statement);
+  });
 }
