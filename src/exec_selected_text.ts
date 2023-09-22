@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import * as utils from "./utils";
 import { getConfig } from "./config";
 
 import { statementConstructor } from "./print_statements";
