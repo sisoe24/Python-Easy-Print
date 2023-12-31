@@ -1,5 +1,35 @@
 import * as vscode from "vscode";
 import { getConfig } from "./config";
+/**
+ * Find the matching parentheses. 
+ * 
+ * @param startPos start position from where to start searching.
+ * @returns 
+ */
+function findBrackets(text: string, startPos: number): number[] | null {
+
+    const stack: string[] = [];
+    const openingBracket: number[] = [];
+
+    for (let endPos = startPos; endPos < text.length; endPos++) {
+
+        console.log(endPos, text[endPos]);
+
+        if (text[endPos] === "(") {
+            openingBracket.push(endPos);
+            stack.push("(");
+
+        } else if (text[endPos] === ")") {
+            stack.pop();
+
+            if (stack.length === 0 && openingBracket.length > 0) {
+                return [openingBracket[0], endPos];
+            }
+        }
+    }
+
+    return null;
+}
 
 /**
  * Select text object class.
@@ -17,6 +47,7 @@ export class SelectedText {
 
     lineText: string;
     lineNumber: number;
+    cursorPosition: number;
 
     /**
      * Init method to initialize the selection.
@@ -33,6 +64,9 @@ export class SelectedText {
 
         this.lineNumber = this.selection.active.line;
         this.lineText = this.editor.document.lineAt(this.lineNumber).text;
+        this.cursorPosition = this.editor.document.offsetAt(
+            this.selection.active
+        );
     }
 
     /**
@@ -96,24 +130,29 @@ export class SelectedText {
      * if there any parentheses to the right of the word. If yes, then it will return
      * the parentheses with everything inside.
      *
-     * @param startChar the character position from where to start the line parsing.
+     * @param endChar the end character position of the word.
      * @returns the function call parenthesis with arguments or an empty string
      * no match was made.
      */
-    private includeFuncCall(startChar: number): string {
-        if (!getConfig("hover.includeParentheses")) {
+    private includeFuncCall(endChar: number): string {
+        if (!getConfig("hover.includeParentheses") || this.lineText[endChar] !== "(" ) {
             return "";
         }
 
-        const pattern = new RegExp(`(?<=^${this.hoverWord})(\\(.*?\\))`);
-        const startPos = new vscode.Position(this.lineNumber, startChar);
+        const {document} = this.editor;
 
-        // to check the full line, we must go the the beginning of the next line.
-        const nextLine = this.lineNumber + 1;
-        const endPos = new vscode.Position(nextLine, 0);
+        const pos = findBrackets(document.getText(), this.cursorPosition);
+        if (!pos) {
+            return "";
+        }
 
-        const lineRange = new vscode.Range(startPos, endPos);
-        return this.addExtraMatch(lineRange, pattern) || "";
+        const lineRange = new vscode.Range(
+            document.positionAt(pos[0]),
+            document.positionAt(pos[1] + 1)
+        );
+
+        return document.getText(lineRange);
+
     }
 
     /**
@@ -137,12 +176,14 @@ export class SelectedText {
         this.hoverWord = this.document.getText(rangeUnderCursor);
 
         const startChar = rangeUnderCursor.start.character;
+        const endChar = rangeUnderCursor.end.character;
 
         const parentCall = this.includeParentCall(
             startChar,
             rangeUnderCursor.end.character
         );
-        const funcCall = this.includeFuncCall(startChar);
+
+        const funcCall = this.includeFuncCall(endChar);
 
         return (parentCall || this.hoverWord) + funcCall;
     }
