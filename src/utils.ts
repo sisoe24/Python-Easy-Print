@@ -11,10 +11,7 @@ export const py2Statement =
  *
  * @returns a unicode symbol
  */
-export function symbol(): string {
-  const customSymbol = getConfig("prints.customSymbol") as string;
-  return customSymbol || "➡";
-}
+
 
 /**
  * Insert python 2 statement for print and unicode.
