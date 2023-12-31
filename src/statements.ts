@@ -52,7 +52,6 @@ enum LogStatements {
     critical = "critical",
 }
 
-
 const LOG_STATEMENTS: Record<LogStatements, Statement> = {
     [LogStatements.debug]: {
         command: "python-easy-print.easyLogDebug",
@@ -81,3 +80,10 @@ export const ALL_STATEMENTS = {
     ...LOG_STATEMENTS,
 };
 
+export const DOCUMENT_STATEMENTS = {
+    comment: "python-easy-print.commentPrintLines",
+    uncomment: "python-easy-print.uncommentPrintLines",
+    delete: "python-easy-print.deletePrintLines",
+    jumpPrevious: "python-easy-print.easyJumpPrevious",
+    jumpNext: "python-easy-print.easyJumpNext",
+};
