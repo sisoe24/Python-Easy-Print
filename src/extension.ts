@@ -9,6 +9,7 @@ export const printCommands = {
     dir: "python-easy-print.easyPrintDir",
     repr: "python-easy-print.easyPrintRepr",
     help: "python-easy-print.easyHelp",
+    id: "python-easy-print.easyPrintId",
     custom: "python-easy-print.easyCustom",
 };
 
@@ -33,7 +34,6 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [statement, command] of Object.entries(printCommands)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                console.log("statement", statement);
                 void selectedText.executeCommand(statement);
             })
         );
@@ -62,9 +62,4 @@ export function activate(context: vscode.ExtensionContext): void {
             void utils.initPrintPython2();
         })
     );
-}
-
-// this method is called when your extension is deactivated
-export function deactivate(): void {
-    //TODO : do I need this?
 }

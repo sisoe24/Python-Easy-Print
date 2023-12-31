@@ -79,6 +79,11 @@
         "enablement": "resourceLangId == python"
       },
       {
+        "command": "python-easy-print.easyPrintId",
+        "title": "Python EasyPrint: id",
+        "enablement": "resourceLangId == python"
+      },
+      {
         "command": "python-easy-print.easyHelp",
         "title": "Python EasyPrint: help",
         "enablement": "resourceLangId == python"
@@ -151,6 +156,12 @@
         "command": "python-easy-print.easyPrintType",
         "key": "ctrl+shift+l t",
         "mac": "cmd+shift+l t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "python-easy-print.easyPrintId",
+        "key": "ctrl+shift+l i",
+        "mac": "cmd+shift+l i",
         "when": "editorTextFocus"
       },
       {
