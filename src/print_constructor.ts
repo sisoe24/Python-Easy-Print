@@ -4,6 +4,22 @@ import * as path from "path";
 
 import { getConfig } from "./config";
 
+
+function getStatement(statement: string): string {
+    const symbol = utils.symbol();
+
+    const statementsTypes: { [statement: string]: string } = {
+        print: `print("${symbol} {@} {text} :", {text})`,
+        type: `print("${symbol} {@} {text} type :", type({text}))`,
+        dir: `print("${symbol} {@} {text} dir :", dir({text}))`,
+        repr: `print("${symbol} {@} {text} repr :", repr({text}))`,
+        help: "help({text})",
+        custom: "{@}",
+    };
+
+    return statementsTypes[statement];
+}
+
 /**
  * Convert placeholders symbols from the configuration settings.
  */
@@ -120,7 +136,6 @@ export class PlaceholdersConverter {
  */
 export class PrintConstructor {
     private statement: string;
-    private symbol: string;
 
     /**
      * Get the basic string representation of a type of print statement.
@@ -135,30 +150,15 @@ export class PrintConstructor {
      * @param statement type of print statement to get
      */
     constructor(statement: string) {
-        this.symbol = utils.symbol();
+        console.log("init print constructor");
 
-        // TODO: dont really need to create the statements at each class init
-        const statementsTypes: { [statement: string]: string } = {
-            print: `print("${this.symbol} {@} {text} :", {text})`,
-            type: `print("${this.symbol} {@} {text} type :", type({text}))`,
-            dir: `print("${this.symbol} {@} {text} dir :", dir({text}))`,
-            repr: `print("${this.symbol} {@} {text} repr :", repr({text}))`,
-            help: "help({text})",
-            custom: "{@}",
-        };
-
-        if (!Object.prototype.hasOwnProperty.call(statementsTypes, statement)) {
-            throw new Error(`Invalid statement type: ${typeof statement}`);
-        }
+        this.statement = getStatement(statement);
 
         if (getConfig("prints.printToNewLine")) {
-            this.statement = statementsTypes[statement].replace(
-                /(?<=:)/,
-                "\\n"
-            );
-        } else {
-            this.statement = statementsTypes[statement];
+            this.statement = this.statement.split(":").join(":\\n");
         }
+
+        console.log("statement: ", this.statement);
     }
 
     /**
@@ -174,27 +174,36 @@ export class PrintConstructor {
 
         if (this.statement === "{@}") {
             customMsg = getConfig("prints.customStatement") as string;
-            customMsg = customMsg.replace(/{symbol}/g, this.symbol);
+            customMsg = customMsg.replace(/{symbol}/g, utils.symbol());
         } else {
             customMsg = getConfig("prints.addCustomMessage") as string;
         }
 
+        console.log("customMsg: ", customMsg);
+
         // todo: would like to make this automated when adding a new placeholder
         const placeholderMatch = customMsg.match(/%[flFw]/g);
+
+        console.log("placeholderMatch: ", placeholderMatch);
 
         // TODO: maybe should pass the editor from executeCommand
         const editor = vscode.window.activeTextEditor;
         if (!placeholderMatch || !editor) {
+            console.log("no placeholders. return: ", customMsg);
             return customMsg;
         }
 
         const placeholders = new PlaceholdersConverter(editor);
         placeholderMatch.forEach((placeholder) => {
+            console.log("placeholder: ", placeholder);
             customMsg = customMsg.replace(
                 placeholder,
                 placeholders.convert(placeholder)
             );
+            console.log("customMsg: ", customMsg);
         });
+
+        console.log("return customMsg: ", customMsg);
 
         return customMsg;
     }
