@@ -1,24 +1,21 @@
 import * as vscode from "vscode";
 import { getConfig } from "./config";
 /**
- * Find the matching parentheses. 
- * 
+ * Find the matching parentheses.
+ *
  * @param startPos start position from where to start searching.
- * @returns 
+ * @returns
  */
 function findBrackets(text: string, startPos: number): number[] | null {
-
     const stack: string[] = [];
     const openingBracket: number[] = [];
 
     for (let endPos = startPos; endPos < text.length; endPos++) {
-
         console.log(endPos, text[endPos]);
 
         if (text[endPos] === "(") {
             openingBracket.push(endPos);
             stack.push("(");
-
         } else if (text[endPos] === ")") {
             stack.pop();
 
@@ -70,27 +67,6 @@ export class SelectedText {
     }
 
     /**
-     * Add extra match to the selected/hover word.
-     *
-     * @param lineRange range object to parse its text for the match.
-     * @param pattern regex pattern to match inside the range.
-     * @returns the match or `null` if no match is made.
-     */
-    private addExtraMatch(
-        lineRange: vscode.Range,
-        pattern: RegExp
-    ): string | null {
-        const lineText = this.editor.document.getText(lineRange);
-        const match = pattern.exec(lineText);
-
-        if (!match) {
-            return null;
-        }
-
-        return match[0];
-    }
-
-    /**
      * Include parent calls if any: `foo.bar.foo`.
      *
      * This method will activate only if settings `includeParentCall` is enabled.
@@ -103,22 +79,25 @@ export class SelectedText {
      * @param endChar the character position where to end the line parsing.
      * @returns the chain of parents or an empty string if there are none.
      */
-    private includeParentCall(startChar: number, endChar: number): string {
-        if (!getConfig("hover.includeParentCall")) {
+    private includeParents(startChar: number, endChar: number): string {
+        if (
+            !getConfig("hover.includeParentCall") ||
+            this.lineText[startChar - 1] !== "."
+        ) {
             return "";
         }
 
-        const pattern = new RegExp(
-            `(?:\\w+(?:\\(.*?\\))?\\.)*(?<=^.{${startChar}})${this.hoverWord}`,
-            "m"
+        let currentPos = this.cursorPosition;
+        while (this.lineText[currentPos] !== " ") {
+            currentPos--;
+        }
+
+        const lineRange = new vscode.Range(
+            new vscode.Position(this.lineNumber, currentPos),
+            new vscode.Position(this.lineNumber, endChar)
         );
 
-        const startPos = new vscode.Position(this.lineNumber, 0);
-        const endPos = new vscode.Position(this.lineNumber, endChar);
-
-        const lineRange = new vscode.Range(startPos, endPos);
-
-        return this.addExtraMatch(lineRange, pattern) || "";
+        return this.document.getText(lineRange);
     }
 
     /**
@@ -135,11 +114,14 @@ export class SelectedText {
      * no match was made.
      */
     private includeFuncCall(endChar: number): string {
-        if (!getConfig("hover.includeParentheses") || this.lineText[endChar] !== "(" ) {
+        if (
+            !getConfig("hover.includeParentheses") ||
+            this.lineText[endChar] !== "("
+        ) {
             return "";
         }
 
-        const {document} = this.editor;
+        const { document } = this.editor;
 
         const pos = findBrackets(document.getText(), this.cursorPosition);
         if (!pos) {
@@ -152,7 +134,6 @@ export class SelectedText {
         );
 
         return document.getText(lineRange);
-
     }
 
     /**
@@ -168,21 +149,19 @@ export class SelectedText {
             this.selection.active
         );
 
-        // document.getText(undefined) will return the all document text.
         if (!rangeUnderCursor) {
             return null;
         }
 
         this.hoverWord = this.document.getText(rangeUnderCursor);
+        if (!this.hoverWord) {
+            return null;
+        }
 
         const startChar = rangeUnderCursor.start.character;
         const endChar = rangeUnderCursor.end.character;
 
-        const parentCall = this.includeParentCall(
-            startChar,
-            rangeUnderCursor.end.character
-        );
-
+        const parentCall = this.includeParents(startChar, endChar);
         const funcCall = this.includeFuncCall(endChar);
 
         return (parentCall || this.hoverWord) + funcCall;
