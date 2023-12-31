@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { getConfig } from "./config";
 
-
 /**
  * Select text object class.
  *
@@ -131,20 +130,21 @@ export class SelectedText {
         );
 
         // document.getText(undefined) will return the all document text.
-        if (rangeUnderCursor) {
-            this.hoverWord = this.document.getText(rangeUnderCursor);
-
-            const startChar = rangeUnderCursor.start.character;
-
-            const parentCall = this.includeParentCall(
-                startChar,
-                rangeUnderCursor.end.character
-            );
-            const funcCall = this.includeFuncCall(startChar);
-
-            return (parentCall || this.hoverWord) + funcCall;
+        if (!rangeUnderCursor) {
+            return null;
         }
-        return null;
+
+        this.hoverWord = this.document.getText(rangeUnderCursor);
+
+        const startChar = rangeUnderCursor.start.character;
+
+        const parentCall = this.includeParentCall(
+            startChar,
+            rangeUnderCursor.end.character
+        );
+        const funcCall = this.includeFuncCall(startChar);
+
+        return (parentCall || this.hoverWord) + funcCall;
     }
 
     /**
@@ -183,13 +183,15 @@ export class SelectedText {
     text(): string[] | null {
         const text = this.getSelectedText();
 
-        if (text) {
-            let multipleStatements = null;
-            if (getConfig("multipleStatements")) {
-                multipleStatements = text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g);
-            }
-            return multipleStatements || [text];
+        if (!text) {
+            return null;
         }
-        return null;
+
+        let multipleStatements = null;
+        if (getConfig("multipleStatements")) {
+            multipleStatements = text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g);
+        }
+
+        return multipleStatements || [text];
     }
 }
