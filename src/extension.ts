@@ -2,14 +2,15 @@ import * as vscode from "vscode";
 import * as utils from "./utils";
 import * as doc from "./document_parser";
 import { SelectedText } from "./selected_text";
-import { ALL_STATEMENTS as PRINT_COMMANDS, DOCUMENT_STATEMENTS as DOCUMENT_COMMANDS } from "./statements";
 import { printConstructor } from "./print_constructor";
-
+import {
+    ALL_STATEMENTS as PRINT_COMMANDS,
+    DOCUMENT_STATEMENTS as DOCUMENT_COMMANDS,
+} from "./statements";
 
 export async function executeCommand(
     statement: string
 ): Promise<string | void> {
-
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return;
@@ -23,9 +24,6 @@ export async function executeCommand(
     }
 
     for (const match of text) {
-        const stringStatement = printConstructor(statement);
-        const insertText = stringStatement.replace(/\{text\}/g, match);
-
         if (selectedText.hasCodeBlock()) {
             await vscode.commands.executeCommand("editor.action.jumpToBracket");
             await vscode.commands.executeCommand("editor.action.jumpToBracket");
@@ -34,13 +32,18 @@ export async function executeCommand(
         await vscode.commands
             .executeCommand("editor.action.insertLineAfter")
             .then(() => {
+                
+                const stringStatement = printConstructor(statement);
+                const insertText = stringStatement.replace(/\{text\}/g, match);
+
                 editor.edit((editBuilder) => {
-                    const {selection} = editor;
-                    const lineNumber = selection.start.line;
-                    const charPosition = selection.start.character;
+                    const { selection } = editor;
 
                     editBuilder.insert(
-                        new vscode.Position(lineNumber, charPosition),
+                        new vscode.Position(
+                            selection.start.line,
+                            selection.start.character
+                        ),
                         insertText
                     );
                 });
