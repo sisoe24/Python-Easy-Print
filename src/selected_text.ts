@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { getConfig } from "./config";
 
-import { printConstructor } from "./print_constructor";
 
 /**
  * Select text object class.
@@ -192,46 +191,5 @@ export class SelectedText {
             return multipleStatements || [text];
         }
         return null;
-    }
-}
-
-export async function executeCommand(
-    statement: string
-): Promise<string | void> {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-        return;
-    }
-
-    const selectedText = new SelectedText(editor);
-    const text = selectedText.text();
-
-    if (!text) {
-        return;
-    }
-
-    for (const match of text) {
-        const stringStatement = printConstructor(statement);
-        const insertText = stringStatement.replace(/\{text\}/g, match);
-
-        if (selectedText.hasCodeBlock()) {
-            await vscode.commands.executeCommand("editor.action.jumpToBracket");
-            await vscode.commands.executeCommand("editor.action.jumpToBracket");
-        }
-
-        await vscode.commands
-            .executeCommand("editor.action.insertLineAfter")
-            .then(() => {
-                editor.edit((editBuilder) => {
-                    const selection = editor.selection;
-                    const lineNumber = selection.start.line;
-                    const charPosition = selection.start.character;
-
-                    editBuilder.insert(
-                        new vscode.Position(lineNumber, charPosition),
-                        insertText
-                    );
-                });
-            });
     }
 }

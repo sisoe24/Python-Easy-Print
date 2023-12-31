@@ -9,6 +9,7 @@ import { printConstructor } from "./print_constructor";
 export async function executeCommand(
     statement: string
 ): Promise<string | void> {
+
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         return;
@@ -34,7 +35,7 @@ export async function executeCommand(
             .executeCommand("editor.action.insertLineAfter")
             .then(() => {
                 editor.edit((editBuilder) => {
-                    const selection = editor.selection;
+                    const {selection} = editor;
                     const lineNumber = selection.start.line;
                     const charPosition = selection.start.character;
 
