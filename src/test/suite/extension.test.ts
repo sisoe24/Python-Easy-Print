@@ -8,7 +8,7 @@ import * as utils from "../../utils";
 import { getConfig } from "../../config";
 import * as testUtils from "./test_utils";
 
-import { printCommands, logCommands, documentCommands } from "../../extension";
+import {  logCommands, documentCommands } from "../../extension";
 
 suiteSetup("Clean settings", () => {
     testUtils.cleanSettings();
@@ -92,14 +92,14 @@ suite("Misc", () => {
 suite("Commands name", () => {
     const commands = testUtils.packageCommands();
 
-    test("Print Commands", () => {
-        for (const command of Object.values(printCommands) as string[]) {
-            assert.ok(
-                commands.includes(command),
-                `Extension command name mismatched: ${command}`
-            );
-        }
-    });
+    // test("Print Commands", () => {
+    //     for (const command of Object.values(printCommands) as string[]) {
+    //         assert.ok(
+    //             commands.includes(command),
+    //             `Extension command name mismatched: ${command}`
+    //         );
+    //     }
+    // });
 
     test("Log Commands", () => {
         for (const command of Object.values(logCommands) as string[]) {

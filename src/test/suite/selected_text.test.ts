@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import * as selectedText from "../../exec_selected_text";
+import * as selectedText from "../../selected_text";
 import * as testUtils from "./test_utils";
 
 /**
@@ -100,7 +100,9 @@ suite("SelectedText class", () => {
             const editor = await testUtils.focusDemoFile(demoFile, 4, 21);
 
             const text = new selectedText.SelectedText(editor);
-            assert.deepStrictEqual(text.text(), ["foo(0).bar(1).foo(2).bar(3)"]);
+            assert.deepStrictEqual(text.text(), [
+                "foo(0).bar(1).foo(2).bar(3)",
+            ]);
         });
     });
 
@@ -157,7 +159,12 @@ suite("SelectedText class", () => {
             const editor = await testUtils.focusDemoFile(demoFile, 5, 0, 30);
 
             const text = new selectedText.SelectedText(editor);
-            assert.deepStrictEqual(text.text(), ["foo(0)", "bar(1)", "foo(2)", "bar(3)"]);
+            assert.deepStrictEqual(text.text(), [
+                "foo(0)",
+                "bar(1)",
+                "foo(2)",
+                "bar(3)",
+            ]);
         });
 
         test("Select text line 1: full line with no multipleStatements", async () => {
