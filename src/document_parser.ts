@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
+import * as config from "./config";
 
 type LineObject = {
     text: string;
@@ -15,7 +16,7 @@ type LineObject = {
  */
 export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
     const document = editor.document;
-    const symbol = utils.symbol();
+    const symbol = config.symbol();
 
     const lines = [];
 
