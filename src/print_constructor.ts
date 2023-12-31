@@ -1,24 +1,7 @@
 import * as vscode from "vscode";
-import * as utils from "./utils";
 import * as path from "path";
 
-import { getConfig } from "./config";
-
-
-function getStatement(statement: string): string {
-    const symbol = utils.symbol();
-
-    const statementsTypes: { [statement: string]: string } = {
-        print: `print("${symbol} {@} {text} :", {text})`,
-        type: `print("${symbol} {@} {text} type :", type({text}))`,
-        dir: `print("${symbol} {@} {text} dir :", dir({text}))`,
-        repr: `print("${symbol} {@} {text} repr :", repr({text}))`,
-        help: "help({text})",
-        custom: "{@}",
-    };
-
-    return statementsTypes[statement];
-}
+import * as config from "./config";
 
 /**
  * Convert placeholders symbols from the configuration settings.
@@ -33,6 +16,73 @@ export class PlaceholdersConverter {
      */
     constructor(editor: vscode.TextEditor) {
         this.editor = editor;
+    }
+
+    /**
+     * Get the workspace relative file path.
+     *
+     * @returns a string like path or an empty string if could not resolve the path.
+     */
+    getWorkspacePath(): string {
+        const relativePath = vscode.workspace.asRelativePath(
+            this.editor.document.uri
+        );
+
+        if (!relativePath) {
+            return "";
+        }
+        return relativePath;
+    }
+
+    /**
+     * Get the function for the print statement.
+     *
+     * Traverse in reverse the document to search the first matching `def`
+     * that is less indented. If statement has no function definition then method
+     * will do nothing and return an empty string.
+     *
+     * @returns the function name or an empty string if no function is found.
+     */
+    getFuncName(): string {
+        const startLine = this.editor.selection.active.line;
+        const startLineIndentation =
+            this.editor.document.lineAt(
+                startLine
+            ).firstNonWhitespaceCharacterIndex;
+
+        if (startLineIndentation === 0) {
+            return "";
+        }
+
+        for (let l = startLine; l >= 0; --l) {
+            const line = this.editor.document.lineAt(l);
+
+            if (line.isEmptyOrWhitespace) {
+                continue;
+            }
+
+            const currentLineIndentation = line.firstNonWhitespaceCharacterIndex;
+
+            const match = /def\s(\w+)\(.*\):/.exec(line.text);
+            if (match && startLineIndentation > currentLineIndentation) {
+                return match[1];
+            }
+
+            if (currentLineIndentation === 0) {
+                break;
+            }
+        }
+
+        return "";
+    }
+
+    getFilename(): string {
+        return path.basename(this.editor.document.fileName);
+    }
+
+    getLineNum(): string {
+        const lineNum = (this.editor.selection.start.line as number) + 1;
+        return lineNum.toString();
     }
 
     /**
@@ -56,79 +106,6 @@ export class PlaceholdersConverter {
 
         return placeholders[key];
     }
-
-    /**
-     * Get the workspace relative file path.
-     *
-     * @returns a string like path or an empty string if could not resolve the path.
-     */
-    getWorkspacePath(): string {
-        const relativePath = vscode.workspace.asRelativePath(
-            this.editor.document.uri
-        );
-        if (!relativePath) {
-            return "";
-        }
-        return relativePath;
-    }
-
-    /**
-     * Get the function for the print statement.
-     *
-     * Method will traverse n reverse the document to search the first matching `def`
-     * that is less indented. If statement has no function definition then method
-     * will do nothing and return an empty string.
-     *
-     * @returns the function name or an empty string if no function is found.
-     */
-    getFuncName(): string {
-        const startLine = this.editor.selection.active.line;
-        const startLineIndentation =
-            this.editor.document.lineAt(
-                startLine
-            ).firstNonWhitespaceCharacterIndex;
-
-        if (startLineIndentation === 0) {
-            return "";
-        }
-
-        for (let line = startLine; line >= 0; --line) {
-            const lineObj = this.editor.document.lineAt(line);
-
-            const match = /def\s(\w+)\(.*\):/.exec(lineObj.text);
-
-            const currentLineIndentation =
-                lineObj.firstNonWhitespaceCharacterIndex;
-
-            if (match && startLineIndentation > currentLineIndentation) {
-                return match[1];
-            }
-
-            if (currentLineIndentation === 0) {
-                break;
-            }
-        }
-        return "";
-    }
-
-    /**
-     * Get the file name.
-     *
-     * @returns basename of the current active file text with extension.
-     */
-    getFilename(): string {
-        return path.basename(this.editor.document.fileName);
-    }
-
-    /**
-     * Get line position of the cursor.
-     *
-     * @returns string line number of the cursor last active position: "1".
-     */
-    getLineNum(): string {
-        const lineNum = (this.editor.selection.start.line as number) + 1;
-        return lineNum.toString();
-    }
 }
 
 /**
@@ -137,28 +114,8 @@ export class PlaceholdersConverter {
 export class PrintConstructor {
     private statement: string;
 
-    /**
-     * Get the basic string representation of a type of print statement.
-     *
-     * The type of prints are: `print`, `dir`, `type`, `repr` and `help`. Besides help,
-     * all of the statements are structured the same way:
-     *
-     * `print("symbol {text} type :", {text})` where `{text}` is a placeholder for the
-     * text that is going to be inserted once the command takes effect. The symbol is
-     * utf-8 character.
-     *
-     * @param statement type of print statement to get
-     */
     constructor(statement: string) {
-        console.log("init print constructor");
-
-        this.statement = getStatement(statement);
-
-        if (getConfig("prints.printToNewLine")) {
-            this.statement = this.statement.split(":").join(":\\n");
-        }
-
-        console.log("statement: ", this.statement);
+        this.statement = statement;
     }
 
     /**
@@ -173,37 +130,27 @@ export class PrintConstructor {
         let customMsg: string;
 
         if (this.statement === "{@}") {
-            customMsg = getConfig("prints.customStatement") as string;
-            customMsg = customMsg.replace(/{symbol}/g, utils.symbol());
+            customMsg = config.getCustomMessage();
         } else {
-            customMsg = getConfig("prints.addCustomMessage") as string;
+            customMsg = config.getConfig("prints.addCustomMessage") as string;
         }
-
-        console.log("customMsg: ", customMsg);
 
         // todo: would like to make this automated when adding a new placeholder
         const placeholderMatch = customMsg.match(/%[flFw]/g);
 
-        console.log("placeholderMatch: ", placeholderMatch);
-
         // TODO: maybe should pass the editor from executeCommand
         const editor = vscode.window.activeTextEditor;
         if (!placeholderMatch || !editor) {
-            console.log("no placeholders. return: ", customMsg);
             return customMsg;
         }
 
         const placeholders = new PlaceholdersConverter(editor);
         placeholderMatch.forEach((placeholder) => {
-            console.log("placeholder: ", placeholder);
             customMsg = customMsg.replace(
                 placeholder,
                 placeholders.convert(placeholder)
             );
-            console.log("customMsg: ", customMsg);
         });
-
-        console.log("return customMsg: ", customMsg);
 
         return customMsg;
     }
@@ -211,48 +158,40 @@ export class PrintConstructor {
     /**
      * Get the string statement for the print command.
      *
-     * Will also convert the placeholders from the configuration settings if any.
+     * The statement could be a print statement or a logging statement based on the
+     * statement type. Placeholders are also converted if present.
      *
      * @returns the template statement: `print("➡ {text} :", {text})`
      */
     string(): string {
-        const text = this.convertPlaceholders();
+        let s = "";
 
-        // replacing the mark with no placeholders will leave an extra space to clean
-        const replaceToken = text ? "{@}" : "{@} ";
-        return this.statement.replace(replaceToken, text);
+        // statement is a logging statement
+        if (this.statement.includes("{logger}")) {
+            s = this.statement.replace("{logger}", config.logger());
+
+            if (config.getConfig("logging.useRepr")) {
+                s = s.replace("{#text}", "repr({text})");
+            } else {
+                s = s.replace("{#text}", "{text}");
+            }
+        } else {
+            const placeholders = this.convertPlaceholders();
+
+            // when no placeholders are present, we need to replace the {@} with a space
+            const replaceToken = placeholders ? "{@}" : "{@} ";
+
+            s = this.statement
+                .replace(replaceToken, placeholders)
+                .replace("{symbol}", config.symbol());
+
+            if (config.getConfig("prints.printToNewLine")) {
+                s = s.split(":'").join(":\\n'");
+            }
+        }
+
+        return s;
     }
-}
-
-/**
- * Construct the logging statement to print when invoking the command.
- *
- * Before returning the statement, will also replace the placeholder based on the
- * `useReprToLog` configuration setting.
- *
- * @param statement name of the logging level: `debug, info, warning, error, critical`.
- * @returns the template statement: `LOGGER.debug("{text} : %s", repr({text}))`
- */
-export function logConstructor(statement: string): string {
-    const logger = (getConfig("logging.customLogName") as string) || "logging";
-
-    const statementsTypes: { [statement: string]: string } = {
-        debug: `${logger}.debug("{text} : %s", {@text})`,
-        info: `${logger}.info("{text} : %s", {@text})`,
-        warning: `${logger}.warning("{text} : %s", {@text})`,
-        error: `${logger}.error("{text} : %s", {@text})`,
-        critical: `${logger}.critical("{text} : %s", {@text})`,
-    };
-
-    if (!Object.prototype.hasOwnProperty.call(statementsTypes, statement)) {
-        throw new Error(`Invalid statement type: ${statement}`);
-    }
-
-    if (getConfig("logging.useRepr")) {
-        return statementsTypes[statement].replace("{@text}", "repr({text})");
-    }
-
-    return statementsTypes[statement].replace("{@text}", "{text}");
 }
 
 /**
@@ -262,20 +201,8 @@ export function logConstructor(statement: string): string {
  * a print statement or a log statement.
  *
  * @param statementType name of the statement to get. Could be log or prints
- * @returns the template statement.
+ * @returns the template statement (`print("➡ {text} :", {text})`)
  */
-export function printConstructor(statementType: string): string {
-    try {
-        if (
-            statementType === "custom" &&
-            !getConfig("prints.customStatement")
-        ) {
-            vscode.window.showWarningMessage("No Custom Message supplied");
-            return "";
-        }
-
-        return new PrintConstructor(statementType).string();
-    } catch (error) {
-        return logConstructor(statementType);
-    }
+export function printConstructor(statement: string): string {
+    return new PrintConstructor(statement).string();
 }
