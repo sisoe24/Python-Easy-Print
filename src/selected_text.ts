@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { getConfig } from "./config";
+
 /**
  * Find the matching parentheses.
  *
@@ -11,8 +12,6 @@ function findBrackets(text: string, startPos: number): number[] | null {
     const openingBracket: number[] = [];
 
     for (let endPos = startPos; endPos < text.length; endPos++) {
-        console.log(endPos, text[endPos]);
-
         if (text[endPos] === "(") {
             openingBracket.push(endPos);
             stack.push("(");
@@ -168,17 +167,6 @@ export class SelectedText {
     }
 
     /**
-     * Get the selected text.
-     *
-     * Selected text could be the manual selection or the hover selection.
-     *
-     * @returns the selected word or `null` no selection.
-     */
-    private getSelectedText(): string | null {
-        return this.document.getText(this.selection) || this.textUnderCursor();
-    }
-
-    /**
      * Check if line has an opening code block.
      *
      * A code block starts with a `(`, `[` or `{`. If any of those characters are
@@ -190,28 +178,31 @@ export class SelectedText {
         const pattern = /[{([]/;
         return pattern.test(this.lineText);
     }
-
     /**
-     * Get the text selection.
+     * Get the selected text.
      *
-     * If multipleStatements option is true, then the original selected text will
-     * be split into multiple statements and returned inside the array as different
-     * elements.
+     * Selected text could be the manual selection or the hover selection. If the text
+     * is manually selected, then the method will try to split the text by comma if the
+     * setting `multipleStatements` is enabled.
      *
-     * @returns An array with the selected text, or `null` if no text was selected.
+     * @returns the selected word or `null` no selection.
      */
     text(): string[] | null {
-        const text = this.getSelectedText();
+        const selectedText = this.document.getText(this.selection);
 
-        if (!text) {
+        if (selectedText) {
+            if (getConfig("multipleStatements")) {
+                return selectedText.split(",");
+            }
+
+            return [selectedText];
+        }
+
+        const hoverText = this.textUnderCursor();
+        if (!hoverText) {
             return null;
         }
 
-        let multipleStatements = null;
-        if (getConfig("multipleStatements")) {
-            multipleStatements = text.match(/\w+(?:(?:\(.*?\))|\.\w*)*/g);
-        }
-
-        return multipleStatements || [text];
+        return [hoverText];
     }
 }
