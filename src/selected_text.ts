@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getConfig } from "./config";
+import * as config from "./config";
 
 /**
  * Find the matching parentheses.
@@ -44,6 +44,7 @@ export class SelectedText {
     lineText: string;
     lineNumber: number;
     cursorPosition: number;
+    config: config.Config;
 
     /**
      * Init method to initialize the selection.
@@ -52,6 +53,7 @@ export class SelectedText {
      */
     constructor(editor: vscode.TextEditor) {
         this.editor = editor;
+        this.config = config.getConfig();
 
         this.document = editor.document;
         this.selection = editor.selection;
@@ -80,7 +82,7 @@ export class SelectedText {
      */
     private includeParents(startChar: number, endChar: number): string {
         if (
-            !getConfig("includeParentCall") ||
+            !this.config.get("includeParentCall") ||
             this.lineText[startChar - 1] !== "."
         ) {
             return "";
@@ -114,7 +116,7 @@ export class SelectedText {
      */
     private includeFuncCall(endChar: number): string {
         if (
-            !getConfig("includeParentheses") ||
+            !this.config.get("includeParentheses") ||
             this.lineText[endChar] !== "("
         ) {
             return "";
@@ -175,8 +177,7 @@ export class SelectedText {
      * @returns true if code contains a code block, false otherwise.
      */
     hasCodeBlock(): boolean {
-        const pattern = /[{([]/;
-        return pattern.test(this.lineText);
+        return /[{([]/.test(this.lineText);
     }
     /**
      * Get the selected text.
@@ -187,11 +188,11 @@ export class SelectedText {
      *
      * @returns the selected word or `null` no selection.
      */
-    text(): string[] | null {
+    getText(): string[] | null {
         const selectedText = this.document.getText(this.selection);
 
         if (selectedText) {
-            if (getConfig("multipleStatements")) {
+            if (this.config.get("multipleStatements")) {
                 return selectedText.split(",");
             }
 
