@@ -1,12 +1,10 @@
 import * as vscode from "vscode";
 import * as utils from "./utils";
 import * as doc from "./document_parser";
+
 import { SelectedText } from "./selected_text";
 import { printConstructor } from "./print_constructor";
-import {
-    ALL_STATEMENTS as PRINT_COMMANDS,
-    DOCUMENT_STATEMENTS as DOCUMENT_COMMANDS,
-} from "./statements";
+import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./statements";
 
 export async function executeCommand(
     statement: string
@@ -32,7 +30,6 @@ export async function executeCommand(
         await vscode.commands
             .executeCommand("editor.action.insertLineAfter")
             .then(() => {
-                
                 const stringStatement = printConstructor(statement);
                 const insertText = stringStatement.replace(/\{text\}/g, match);
 

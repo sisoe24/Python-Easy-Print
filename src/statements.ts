@@ -75,12 +75,12 @@ const LOG_STATEMENTS: Record<LogStatements, Statement> = {
     },
 };
 
-export const ALL_STATEMENTS = {
+export const PRINT_COMMANDS = {
     ...PRINT_STATEMENTS,
     ...LOG_STATEMENTS,
 };
 
-export const DOCUMENT_STATEMENTS = {
+export const DOCUMENT_COMMANDS = {
     comment: "python-easy-print.commentPrintLines",
     uncomment: "python-easy-print.uncommentPrintLines",
     delete: "python-easy-print.deletePrintLines",
