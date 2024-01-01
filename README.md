@@ -56,25 +56,25 @@ Manually select a piece of text or hover over it with the cursor and use one of 
 
 All commands are available by opening the Command Palette (`Command+Shift+P` on macOS and `Ctrl+Shift+P` on Windows/Linux) and typing: `Python EasyPrint...`
 
-| Command ID                              | Shortcut         |
-| --------------------------------------- | ---------------- |
-| `python-easy-print.easyPrint`           | `ctrl+shift+l p` |
-| `python-easy-print.easyPrintDir`        | `ctrl+shift+l d` |
-| `python-easy-print.easyPrintType`       | `ctrl+shift+l t` |
-| `python-easy-print.easyPrintRepr`       | `ctrl+shift+l r` |
-| `python-easy-print.easyPrintId`         | `ctrl+shift+l i` |
-| `python-easy-print.easyHelp`            |                  |
-| `python-easy-print.easyCustom`          | `ctrl+shift+l c` |
-| `python-easy-print.easyJumpNext`        | `ctrl+shift+l j` |
-| `python-easy-print.easyJumpPrevious`    | `ctrl+shift+l k` |
-| `python-easy-print.commentPrintLines`   |                  |
-| `python-easy-print.deletePrintLines`    |                  |
-| `python-easy-print.easyPrintPy2`        |                  |
-| `python-easy-print.easyLogDebug`        |                  |
-| `python-easy-print.easyLogInfo`         |                  |
-| `python-easy-print.easyLogWarning`      |                  |
-| `python-easy-print.easyLogError`        |                  |
-| `python-easy-print.easyLogCritical`     |                  |
+| Command ID                            | Shortcut         |
+| ------------------------------------- | ---------------- |
+| `python-easy-print.easyPrint`         | `ctrl+shift+l p` |
+| `python-easy-print.easyPrintDir`      | `ctrl+shift+l d` |
+| `python-easy-print.easyPrintType`     | `ctrl+shift+l t` |
+| `python-easy-print.easyPrintRepr`     | `ctrl+shift+l r` |
+| `python-easy-print.easyPrintId`       | `ctrl+shift+l i` |
+| `python-easy-print.easyHelp`          |                  |
+| `python-easy-print.easyCustom`        | `ctrl+shift+l c` |
+| `python-easy-print.easyJumpNext`      | `ctrl+shift+l j` |
+| `python-easy-print.easyJumpPrevious`  | `ctrl+shift+l k` |
+| `python-easy-print.commentPrintLines` |                  |
+| `python-easy-print.deletePrintLines`  |                  |
+| `python-easy-print.easyPrintPy2`      |                  |
+| `python-easy-print.easyLogDebug`      |                  |
+| `python-easy-print.easyLogInfo`       |                  |
+| `python-easy-print.easyLogWarning`    |                  |
+| `python-easy-print.easyLogError`      |                  |
+| `python-easy-print.easyLogCritical`   |                  |
 
 - Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
 - The main shortcut to remember is `ctrl+shift+l`, plus the initial letter of the action you want to execute: `p` for `print`, `d` for `dir`, `t` for `type`, `c` for custom, etc.
@@ -83,7 +83,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 ## 1.4. Extension Settings
 
-- `pythonEasyPrint.prints.addCustomMessage`: `string`
+- `pythonEasyPrint.prints.customizePrint`: `string`
 
   Customize the print message by adding some extra information with some text or by using one of the placeholders provided:
 
