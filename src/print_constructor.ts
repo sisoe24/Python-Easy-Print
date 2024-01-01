@@ -65,7 +65,7 @@ class DataModel {
     }
 
     getConfigPlaceholders(): string {
-        return this.config.get("customizePrint") as string;
+        return this.config.get("addCustomMessage") as string;
     }
 
     /**
