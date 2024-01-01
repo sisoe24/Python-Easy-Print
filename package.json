@@ -187,7 +187,7 @@
     "configuration": {
       "title": "Python EasyPrint",
       "properties": {
-        "pythonEasyPrint.customizePrint": {
+        "pythonEasyPrint.addCustomMessage": {
           "type": "string",
           "default": "",
           "markdownDescription": "Add custom information to the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number.\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root.\n\nExample (file hyperlink):\n\n * `%w:%l`"
@@ -195,7 +195,7 @@
         "pythonEasyPrint.customStatement": {
           "type": "string",
           "default": "",
-          "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.customizePrint#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nReady to use example:\n\n * `print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})`"
+          "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.addCustomMessage#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nReady to use example:\n\n * `print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})`"
         },
         "pythonEasyPrint.customSymbol": {
           "type": "string",

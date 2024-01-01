@@ -83,7 +83,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
 ## 1.4. Extension Settings
 
-- `pythonEasyPrint.prints.customizePrint`: `string`
+- `pythonEasyPrint.prints.addCustomMessage`: `string`
 
   Customize the print message by adding some extra information with some text or by using one of the placeholders provided:
 
