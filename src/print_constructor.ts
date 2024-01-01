@@ -3,18 +3,12 @@ import * as path from "path";
 
 import * as config from "./config";
 
-class DataModel {
+export class DataModel {
     public config: config.Config;
     public editor: vscode.TextEditor;
 
-    constructor(config: config.Config) {
+    constructor(editor: vscode.TextEditor, config: config.Config) {
         this.config = config;
-
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            throw new Error("No active text editor");
-        }
-
         this.editor = editor;
     }
 
@@ -210,7 +204,12 @@ export class PlaceholdersConverter {
  * @returns the template statement: `print("➡ {text} :", {text})`
  */
 export function printConstructor(statement: string) {
-    const data = new DataModel(config.getConfig());
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        throw new Error("No active text editor");
+    }
+
+    const data = new DataModel(editor, config.getConfig());
     const converter = new PlaceholdersConverter(statement, data);
     return converter.convert();
 }
