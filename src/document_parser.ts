@@ -18,7 +18,7 @@ export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
 
     const symbol = config
         .getConfig()
-        .get("customSymbol", config.DEFAULTS.printSymbol);
+        .get("prints.customSymbol", config.DEFAULTS.printSymbol);
 
     const lines = [];
     const matchPattern = new RegExp(`print\\(['"]${symbol}`);
