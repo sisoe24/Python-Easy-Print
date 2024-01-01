@@ -1,21 +1,35 @@
 import * as vscode from "vscode";
 import * as config from "./config";
 
+type BracketType = {
+    opening: string;
+    closing: string;
+};
+
+const BRACKETS: { [key: string]: BracketType } = {
+    "(": { opening: "(", closing: ")" },
+    "[": { opening: "[", closing: "]" },
+};
+
 /**
  * Find the matching parentheses.
  *
  * @param startPos start position from where to start searching.
  * @returns
  */
-function findBrackets(text: string, startPos: number): number[] | null {
-    const stack: string[] = [];
+function findBrackets(
+    text: string,
+    bracket: BracketType,
+    startPos: number
+): number[] | null {
+    const stack: number[] = [];
     const openingBracket: number[] = [];
 
     for (let endPos = startPos; endPos < text.length; endPos++) {
-        if (text[endPos] === "(") {
+        if (text[endPos] === bracket.opening) {
             openingBracket.push(endPos);
-            stack.push("(");
-        } else if (text[endPos] === ")") {
+            stack.push(endPos);
+        } else if (text[endPos] === bracket.closing) {
             stack.pop();
 
             if (stack.length === 0 && openingBracket.length > 0) {
@@ -115,16 +129,19 @@ export class SelectedText {
      * no match was made.
      */
     private includeFuncCall(endChar: number): string {
-        if (
-            !this.config.get("hover.includeParentheses") ||
-            this.lineText[endChar] !== "("
-        ) {
+        const bracketType = BRACKETS[this.lineText[endChar]];
+
+        if (!this.config.get("hover.includeParentheses") || !bracketType) {
             return "";
         }
 
         const { document } = this.editor;
 
-        const pos = findBrackets(document.getText(), this.cursorPosition);
+        const pos = findBrackets(
+            document.getText(),
+            bracketType,
+            this.cursorPosition
+        );
         if (!pos) {
             return "";
         }
