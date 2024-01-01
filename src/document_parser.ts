@@ -19,22 +19,24 @@ export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
 
     const lines = [];
 
-    for (let line = 0; line <= document.lineCount - 1; ++line) {
-        const lineObj = document.lineAt(line);
-        const lineText = lineObj.text.trim();
+    for (let l = 0; l <= document.lineCount - 1; ++l) {
+        const line = document.lineAt(l);
+        const text = line.text.trim();
 
-        // TODO: currently if custom message has a custom function, regex will not match
-        const symbolMatch = new RegExp("print\\(['\"]" + symbol);
-        if (!lineText.match(symbolMatch)) {
+        const match = /print\(['"]/.exec(text);
+        if (!match) {
             continue;
         }
 
-        const startPos = new vscode.Position(line, lineObj.firstNonWhitespaceCharacterIndex);
+        const startPos = new vscode.Position(
+            l,
+            line.firstNonWhitespaceCharacterIndex
+        );
 
         lines.push({
-            text: lineText,
-            range: new vscode.Range(startPos, lineObj.range.end),
-            rangeToNewLine: lineObj.rangeIncludingLineBreak,
+            text: text,
+            range: new vscode.Range(startPos, line.range.end),
+            rangeToNewLine: line.rangeIncludingLineBreak,
         });
     }
     return lines;
@@ -45,25 +47,17 @@ export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
  *
  * @param editor vscode active text editor
  */
-export function commentLines(editor: vscode.TextEditor): void {
+export function toggleComment(editor: vscode.TextEditor): void {
     editor.edit((editBuilder) => {
         for (const line of documentParser(editor)) {
-            if (!line.text.startsWith("#")) {
+            if (line.text.startsWith("#")) {
+                editBuilder.replace(
+                    line.range,
+                    `${line.text.replace("# ", "").trim()}`
+                );
+            } else {
                 editBuilder.replace(line.range, `# ${line.text}`);
             }
-        }
-    });
-}
-
-/**
- * Parse entire file and uncomment lines created by extension
- *
- * @param editor vscode active text editor
- */
-export function uncommentLines(editor: vscode.TextEditor): void {
-    editor.edit((editBuilder) => {
-        for (const line of documentParser(editor)) {
-            editBuilder.replace(line.range, `${line.text.replace("# ", "").trim()}`);
         }
     });
 }
@@ -108,7 +102,10 @@ function jumpToPrint(
         }
 
         if (condition) {
-            editor.selection = new vscode.Selection(line.range.start, line.range.start);
+            editor.selection = new vscode.Selection(
+                line.range.start,
+                line.range.start
+            );
             editor.revealRange(line.range);
             return false;
         }
@@ -125,7 +122,11 @@ function jumpToPrint(
  * @param editor vscode active text editor
  */
 export function jumpPrintPrevious(editor: vscode.TextEditor): void {
-    const endOfFile = jumpToPrint(documentParser(editor).reverse(), editor, Direction.up);
+    const endOfFile = jumpToPrint(
+        documentParser(editor).reverse(),
+        editor,
+        Direction.up
+    );
     if (endOfFile) {
         const lastLine = editor.document.lineCount;
         editor.selection = new vscode.Selection(lastLine, 0, lastLine, 0);
@@ -142,7 +143,11 @@ export function jumpPrintPrevious(editor: vscode.TextEditor): void {
  * @param editor vscode active text editor
  */
 export function jumpPrintNext(editor: vscode.TextEditor): void {
-    const endOfFile = jumpToPrint(documentParser(editor), editor, Direction.down);
+    const endOfFile = jumpToPrint(
+        documentParser(editor),
+        editor,
+        Direction.down
+    );
     if (endOfFile) {
         editor.selection = new vscode.Selection(0, 0, 0, 0);
         jumpToPrint(documentParser(editor), editor, Direction.down);
@@ -165,10 +170,7 @@ export function executeCommand(action: string): void {
 
     switch (action) {
         case "comment":
-            commentLines(editor);
-            break;
-        case "uncomment":
-            uncommentLines(editor);
+            toggleComment(editor);
             break;
         case "delete":
             deleteLines(editor);
