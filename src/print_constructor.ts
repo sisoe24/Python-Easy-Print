@@ -210,7 +210,7 @@ export class PlaceholdersConverter {
  * @returns the template statement: `print("➡ {text} :", {text})`
  */
 export function printConstructor(statement: string) {
-    const data = new DataModel(config.newConfig());
+    const data = new DataModel(config.getConfig());
     const converter = new PlaceholdersConverter(statement, data);
     return converter.convert();
 }
