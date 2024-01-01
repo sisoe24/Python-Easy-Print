@@ -15,7 +15,7 @@ type LineObject = {
  */
 export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
     const document = editor.document;
-    const symbol = config.symbol();
+    const symbol = config.getSymbol();
 
     const lines = [];
 
