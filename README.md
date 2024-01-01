@@ -1,8 +1,8 @@
 # 1. Python Easy Print
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1d2406e640f647978438e8634f4f7df3)](https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sisoe24/Python-Easy-Print&amp;utm_campaign=Badge_Grade)
+<!-- [![Codacy Badge](https://app.codacy.com/project/badge/Grade/1d2406e640f647978438e8634f4f7df3)](https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sisoe24/Python-Easy-Print&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/1d2406e640f647978438e8634f4f7df3)](https://www.codacy.com/gh/sisoe24/Python-Easy-Print/dashboard?utm_source=github.com&utm_medium=referral&utm_content=sisoe24/Python-Easy-Print&utm_campaign=Badge_Coverage)
-[![DeepSource](https://deepsource.io/gh/sisoe24/Python-Easy-Print.svg/?label=active+issues&show_trend=true&token=30uB5oEZbccV2AOoOX7AgXAT)](https://deepsource.io/gh/sisoe24/Python-Easy-Print/?ref=repository-badge)
+[![DeepSource](https://deepsource.io/gh/sisoe24/Python-Easy-Print.svg/?label=active+issues&show_trend=true&token=30uB5oEZbccV2AOoOX7AgXAT)](https://deepsource.io/gh/sisoe24/Python-Easy-Print/?ref=repository-badge) -->
 
 [![vscode-marketplace](https://img.shields.io/badge/vscode-marketplace-blue)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print)
 [![vscode-version](https://img.shields.io/visual-studio-marketplace/v/virgilsisoe.python-easy-print)](https://marketplace.visualstudio.com/items?itemName=virgilsisoe.python-easy-print&ssr=false#version-history)
@@ -15,7 +15,7 @@
 [![openvsx-downloads](https://img.shields.io/open-vsx/dt/virgilsisoe/python-easy-print)](https://open-vsx.org/extension/virgilsisoe/python-easy-print)
 [![openvsx-rating](https://img.shields.io/open-vsx/rating/virgilsisoe/python-easy-print)](https://open-vsx.org/extension/virgilsisoe/python-easy-print/reviews)
 
-Quick Commands to generate Python's most needed prints in Visual Studio Code.
+Quick Commands to generate Python's most useful prints in Visual Studio Code.
 
 - [1. Python Easy Print](#1-python-easy-print)
   - [1.1. Features](#11-features)
@@ -28,12 +28,12 @@ Quick Commands to generate Python's most needed prints in Visual Studio Code.
 
 ## 1.1. Features
 
-- Commands for print statements: `dir`, `type`, `repr`, `help` ,and basic `print`.
+- Commands for print statements: `dir`, `type`, `repr`, `help`, `id` and basic `print`.
 - Commands for logging statements: `debug`, `info`, `warning`, `error`, and `critical`.
 - Personalize each command with text or default placeholders.
-- A quick command for a custom statement.
 - Commands can be activated by text selection or by hovering the cursor over.
 - Quickly jump between prints made by the extension.
+- Custom command.
 - Comment, uncomment and delete statements made by the extension.
 - Quick Command for Python 2 declaration needed for Python 3 print function.
 
