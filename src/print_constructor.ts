@@ -4,11 +4,12 @@ import * as path from "path";
 import * as config from "./config";
 
 class DataModel {
-    public config: vscode.WorkspaceConfiguration;
+    public config: config.Config;
     public editor: vscode.TextEditor;
 
-    constructor() {
-        this.config = vscode.workspace.getConfiguration("pythonEasyPrint");
+    constructor(config: config.Config) {
+        this.config = config;
+
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             throw new Error("No active text editor");
@@ -43,19 +44,28 @@ class DataModel {
     }
 
     getLogger(): string {
-        return this.config.get("logging.customLogName") as string;
+        return this.config.get(
+            "customLogName",
+            config.DEFAULTS.customLogName
+        ) as string;
     }
 
     getSymbol(): string {
-        return this.config.get("prints.customSymbol") as string;
+        return this.config.get(
+            "customSymbol",
+            config.DEFAULTS.printSymbol
+        ) as string;
     }
 
     getCustomMessage(): string {
-        return this.config.get("prints.customStatement") as string;
+        return this.config.get(
+            "customStatement",
+            config.DEFAULTS.customStatement
+        ) as string;
     }
 
     getConfigPlaceholders(): string {
-        return this.config.get("prints.addCustomMessage") as string;
+        return this.config.get("customizePrint") as string;
     }
 
     /**
@@ -126,7 +136,6 @@ export class PlaceholdersConverter {
      * @returns the converted placeholder.
      */
     private convertPlaceholders(placeholders: string): string {
-
         const placeholdersMap: { [key: string]: string } = {
             "%f": this.data.getFilename(),
             "%l": this.data.getLineNum(),
@@ -150,7 +159,7 @@ export class PlaceholdersConverter {
     private convertLog(): string {
         let s = this.statement.replace("{logger}", this.data.getLogger());
 
-        if (this.data.config.get("logging.useRepr")) {
+        if (this.data.config.get("useRepr")) {
             s = s.replace("{#text}", "repr({text})");
         } else {
             s = s.replace("{#text}", "{text}");
@@ -177,7 +186,7 @@ export class PlaceholdersConverter {
             .replace(replaceToken, placeholders)
             .replace("{symbol}", this.data.getSymbol());
 
-        if (this.data.config.get("prints.printToNewLine")) {
+        if (this.data.config.get("printToNewLine")) {
             s = s.split(":'").join(":\\n'");
         }
 
@@ -201,7 +210,7 @@ export class PlaceholdersConverter {
  * @returns the template statement: `print("➡ {text} :", {text})`
  */
 export function printConstructor(statement: string) {
-    const data = new DataModel();
+    const data = new DataModel(config.newConfig());
     const converter = new PlaceholdersConverter(statement, data);
     return converter.convert();
 }
