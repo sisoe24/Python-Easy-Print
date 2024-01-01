@@ -1,5 +1,10 @@
 import * as vscode from "vscode";
 
+export const DEFAULT_CONFIG = {
+    printSymbol : "print",
+    customStatement : "print('{symbol} {text}:', {text})",
+};
+
 /**
  * Get configuration property value.
  *
@@ -21,21 +26,4 @@ export function getConfig(property: string, missing?: unknown): unknown {
     }
 
     return subConfig;
-}
-
-export function getSymbol(): string {
-    const customSymbol = getConfig("prints.customSymbol") as string;
-    return customSymbol || "➡";
-}
-
-export function getLogger(): string {
-    const customLogger = getConfig("logging.customLogName") as string;
-    return customLogger || "logging";
-}
-
-export function getCustomMessage(): string {
-    const customMessage = getConfig("prints.customStatement") as string;
-    return (
-        customMessage || "print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})"
-    );
 }
