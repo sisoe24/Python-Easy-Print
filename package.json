@@ -129,11 +129,6 @@
         "enablement": "resourceLangId == python"
       },
       {
-        "command": "python-easy-print.uncommentPrintLines",
-        "title": "Python EasyPrint: uncomment",
-        "enablement": "resourceLangId == python"
-      },
-      {
         "command": "python-easy-print.deletePrintLines",
         "title": "Python EasyPrint: delete",
         "enablement": "resourceLangId == python"

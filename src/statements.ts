@@ -82,7 +82,6 @@ export const PRINT_COMMANDS = {
 
 export const DOCUMENT_COMMANDS = {
     comment: "python-easy-print.commentPrintLines",
-    uncomment: "python-easy-print.uncommentPrintLines",
     delete: "python-easy-print.deletePrintLines",
     jumpPrevious: "python-easy-print.easyJumpPrevious",
     jumpNext: "python-easy-print.easyJumpNext",
