@@ -59,7 +59,7 @@ export class DataModel {
     }
 
     getConfigPlaceholders(): string {
-        return this.config.get("addCustomMessage") as string;
+        return this.config.get("prints.addCustomMessage") as string;
     }
 
     /**
