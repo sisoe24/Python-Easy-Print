@@ -124,9 +124,7 @@ export class PlaceholdersConverter {
         if (this.statement === "{@}") {
             customMsg = config.getCustomMessage();
         } else {
-            customMsg = config.getConfig({
-                property: "prints.addCustomMessage",
-            }) as string;
+            customMsg = config.getConfig("prints.addCustomMessage") as string;
         }
 
         const placeholderMatch = customMsg.match(/%[flFw]/g);
