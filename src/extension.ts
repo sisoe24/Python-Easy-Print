@@ -15,7 +15,7 @@ export async function executeCommand(
     }
 
     const selectedText = new SelectedText(editor);
-    const text = selectedText.text();
+    const text = selectedText.getText();
 
     if (!text) {
         return;
