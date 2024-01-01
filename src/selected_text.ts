@@ -94,11 +94,11 @@ export class SelectedText {
         }
 
         const lineRange = new vscode.Range(
-            new vscode.Position(this.lineNumber, currentPos + 1),
+            new vscode.Position(this.lineNumber, currentPos),
             new vscode.Position(this.lineNumber, endChar)
         );
 
-        return this.document.getText(lineRange);
+        return this.document.getText(lineRange).trim();
     }
 
     /**
@@ -134,11 +134,7 @@ export class SelectedText {
             document.positionAt(pos[1] + 1)
         );
 
-        // Remove new lines and extra spaces
-        return document
-            .getText(lineRange)
-            .replace(/\r?\n/g, "")
-            .replace(/\s+/g, " ");
+        return document.getText(lineRange);
     }
 
     /**
@@ -183,6 +179,15 @@ export class SelectedText {
     hasCodeBlock(): boolean {
         return /[{([]/.test(this.lineText);
     }
+
+    private cleanText(text: string): string {
+        return text
+            .replace(/'/g, '"')
+            .replace(/\r?\n/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
     /**
      * Get the selected text.
      *
@@ -200,7 +205,7 @@ export class SelectedText {
                 return selectedText.split(",");
             }
 
-            return [selectedText];
+            return [this.cleanText(selectedText)];
         }
 
         const hoverText = this.textUnderCursor();
@@ -208,6 +213,6 @@ export class SelectedText {
             return null;
         }
 
-        return [hoverText];
+        return [this.cleanText(hoverText)];
     }
 }
