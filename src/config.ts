@@ -40,6 +40,6 @@ export class Config {
     }
 }
 
-export function newConfig(): Config {
+export function getConfig(): Config {
     return new Config(vscode.workspace.getConfiguration("pythonEasyPrint"));
 }
