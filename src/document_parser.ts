@@ -14,16 +14,23 @@ type LineObject = {
  * @return lines An array of LineObject.
  */
 export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
-    const document = editor.document;
-    const symbol = config.getSymbol();
+    const {document} = editor;
+
+    const symbol = config.getConfig(
+        "customSymbol",
+        config.DEFAULT_CONFIG.printSymbol
+    );
+
 
     const lines = [];
+    const matchPattern = new RegExp(`print\\(['"]${symbol}`);
 
     for (let l = 0; l <= document.lineCount - 1; ++l) {
         const line = document.lineAt(l);
         const text = line.text.trim();
 
-        const match = /print\(['"]/.exec(text);
+        const match = matchPattern.exec(text);
+
         if (!match) {
             continue;
         }
