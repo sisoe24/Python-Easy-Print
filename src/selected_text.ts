@@ -134,7 +134,11 @@ export class SelectedText {
             document.positionAt(pos[1] + 1)
         );
 
-        return document.getText(lineRange);
+        // Remove new lines and extra spaces
+        return document
+            .getText(lineRange)
+            .replace(/\r?\n/g, "")
+            .replace(/\s+/g, " ");
     }
 
     /**
