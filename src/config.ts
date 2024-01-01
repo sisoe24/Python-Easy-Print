@@ -28,16 +28,12 @@ export class Config {
     get(property: string, missing?: unknown): unknown {
         const subConfig = this.config.get(property);
 
-        if (
-            typeof subConfig === "undefined" ||
-            subConfig === null ||
-            subConfig === ""
-        ) {
-            if (missing) {
-                console.warn(`Configuration: ${property} doesn't exist`);
-                return missing;
-            }
+        if (typeof subConfig === "undefined") {
             throw new Error(`Configuration: ${property} doesn't exist`);
+        }
+
+        if ((subConfig === null || subConfig === "") && missing) {
+              return missing;
         }
 
         return subConfig;
