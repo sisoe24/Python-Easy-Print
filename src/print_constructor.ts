@@ -3,7 +3,6 @@ import * as path from "path";
 
 import * as config from "./config";
 
-
 /**
  * Convert placeholders symbols from the configuration settings.
  */
@@ -125,7 +124,9 @@ export class PlaceholdersConverter {
         if (this.statement === "{@}") {
             customMsg = config.getCustomMessage();
         } else {
-            customMsg = config.getConfig("prints.addCustomMessage") as string;
+            customMsg = config.getConfig({
+                property: "prints.addCustomMessage",
+            }) as string;
         }
 
         const placeholderMatch = customMsg.match(/%[flFw]/g);
@@ -154,13 +155,13 @@ export class PlaceholdersConverter {
  */
 export function printConstructorWithPlaceholders(
     statement: string,
-    placeholders: string,
+    placeholders: string
 ): string {
     let s = "";
 
     // statement is a logging statement
     if (statement.includes("{logger}")) {
-        s = statement.replace("{logger}", config.logger());
+        s = statement.replace("{logger}", config.getLogger());
 
         if (config.getConfig("logging.useRepr")) {
             s = s.replace("{#text}", "repr({text})");
@@ -173,7 +174,7 @@ export function printConstructorWithPlaceholders(
 
         s = statement
             .replace(replaceToken, placeholders)
-            .replace("{symbol}", config.symbol());
+            .replace("{symbol}", config.getSymbol());
 
         if (config.getConfig("prints.printToNewLine")) {
             s = s.split(":'").join(":\\n'");
@@ -185,8 +186,5 @@ export function printConstructorWithPlaceholders(
 
 export function printConstructor(statement: string) {
     const placeholders = new PlaceholdersConverter(statement);
-    return printConstructorWithPlaceholders(
-        statement,
-        placeholders.convert()
-    );
+    return printConstructorWithPlaceholders(statement, placeholders.convert());
 }
