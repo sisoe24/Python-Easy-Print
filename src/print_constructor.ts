@@ -3,25 +3,17 @@ import * as path from "path";
 
 import * as config from "./config";
 
-/**
- * Convert placeholders symbols from the configuration settings.
- */
-export class PlaceholdersConverter {
-    private editor;
-    public statement: string;
+class DataModel {
+    public config: vscode.WorkspaceConfiguration;
+    public editor: vscode.TextEditor;
 
-    /**
-     * Init method to initialize the class.
-     *
-     * @param editor vscode active text editor
-     */
-    constructor(statement: string) {
+    constructor() {
+        this.config = vscode.workspace.getConfiguration("pythonEasyPrint");
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             throw new Error("No active text editor");
         }
 
-        this.statement = statement;
         this.editor = editor;
     }
 
@@ -39,6 +31,31 @@ export class PlaceholdersConverter {
             return "";
         }
         return relativePath;
+    }
+
+    getFilename(): string {
+        return path.basename(this.editor.document.fileName);
+    }
+
+    getLineNum(): string {
+        const lineNum = this.editor.selection.start.line + 1;
+        return lineNum.toString();
+    }
+
+    getLogger(): string {
+        return this.config.get("logging.customLogName") as string;
+    }
+
+    getSymbol(): string {
+        return this.config.get("prints.customSymbol") as string;
+    }
+
+    getCustomMessage(): string {
+        return this.config.get("prints.customStatement") as string;
+    }
+
+    getConfigPlaceholders(): string {
+        return this.config.get("prints.addCustomMessage") as string;
     }
 
     /**
@@ -83,63 +100,95 @@ export class PlaceholdersConverter {
 
         return "";
     }
+}
 
-    getFilename(): string {
-        return path.basename(this.editor.document.fileName);
-    }
+/**
+ * Convert placeholders symbols from the configuration settings.
+ */
+export class PlaceholdersConverter {
+    private data: DataModel;
+    public statement: string;
 
-    getLineNum(): string {
-        const lineNum = (this.editor.selection.start.line as number) + 1;
-        return lineNum.toString();
+    /**
+     * Init method to initialize the class.
+     *
+     * @param editor vscode active text editor
+     */
+    constructor(statement: string, data: DataModel) {
+        this.statement = statement;
+        this.data = data;
     }
 
     /**
      * Convert the placeholders symbols from the configuration settings.
      *
-     * @param key the placeholder key to convert:
-     * `%f`: filename, `%F`: function name, `%l`: line number.
+     * @param key the placeholder key to convert: %f, %l, %F, %w.
      * @returns the converted placeholder.
      */
-    private convertPlaceholder(key: string): string {
-        const placeholders: { [key: string]: string } = {
-            "%f": this.getFilename(),
-            "%F": this.getFuncName(),
-            "%l": this.getLineNum(),
-            "%w": this.getWorkspacePath(),
+    private convertPlaceholders(placeholders: string): string {
+
+        const placeholdersMap: { [key: string]: string } = {
+            "%f": this.data.getFilename(),
+            "%l": this.data.getLineNum(),
+            "%F": this.data.getFuncName(),
+            "%w": this.data.getWorkspacePath(),
         };
-        return placeholders[key];
+
+        const placeholderMatch = placeholders.match(/%[flFw]/g);
+
+        if (placeholderMatch) {
+            placeholderMatch.forEach((placeholder) => {
+                placeholders = placeholders.replace(
+                    placeholder,
+                    placeholdersMap[placeholder]
+                );
+            });
+        }
+        return placeholders;
     }
 
-    /**
-     * Convert the placeholders from the settings option.
-     *
-     * If there are no custom placeholders will do nothing and return an empty string.
-     * If placeholders are present will convert them via the class: `PlaceholdersConverter`
-     *
-     * @returns the converted placeholders
-     */
-    convert(): string {
-        let customMsg = "";
+    private convertLog(): string {
+        let s = this.statement.replace("{logger}", this.data.getLogger());
+
+        if (this.data.config.get("logging.useRepr")) {
+            s = s.replace("{#text}", "repr({text})");
+        } else {
+            s = s.replace("{#text}", "{text}");
+        }
+
+        return s;
+    }
+
+    private convertPrint(): string {
+        let placeholders = "";
 
         if (this.statement === "{@}") {
-            customMsg = config.getCustomMessage();
+            placeholders = this.data.getCustomMessage();
         } else {
-            customMsg = config.getConfig("prints.addCustomMessage") as string;
+            placeholders = this.data.getConfigPlaceholders();
         }
 
-        const placeholderMatch = customMsg.match(/%[flFw]/g);
-        if (!placeholderMatch) {
-            return customMsg;
+        placeholders = this.convertPlaceholders(placeholders);
+
+        // when no placeholders are present, we need to replace the {@} with a space
+        const replaceToken = placeholders ? "{@}" : "{@} ";
+
+        let s = this.statement
+            .replace(replaceToken, placeholders)
+            .replace("{symbol}", this.data.getSymbol());
+
+        if (this.data.config.get("prints.printToNewLine")) {
+            s = s.split(":'").join(":\\n'");
         }
 
-        placeholderMatch.forEach((placeholder) => {
-            customMsg = customMsg.replace(
-                placeholder,
-                this.convertPlaceholder(placeholder)
-            );
-        });
+        return s;
+    }
 
-        return customMsg;
+    convert(): string {
+        if (this.statement.includes("{logger}")) {
+            return this.convertLog();
+        }
+        return this.convertPrint();
     }
 }
 
@@ -151,38 +200,8 @@ export class PlaceholdersConverter {
  *
  * @returns the template statement: `print("➡ {text} :", {text})`
  */
-export function printConstructorWithPlaceholders(
-    statement: string,
-    placeholders: string
-): string {
-    let s = "";
-
-    // statement is a logging statement
-    if (statement.includes("{logger}")) {
-        s = statement.replace("{logger}", config.getLogger());
-
-        if (config.getConfig("logging.useRepr")) {
-            s = s.replace("{#text}", "repr({text})");
-        } else {
-            s = s.replace("{#text}", "{text}");
-        }
-    } else {
-        // when no placeholders are present, we need to replace the {@} with a space
-        const replaceToken = placeholders ? "{@}" : "{@} ";
-
-        s = statement
-            .replace(replaceToken, placeholders)
-            .replace("{symbol}", config.getSymbol());
-
-        if (config.getConfig("prints.printToNewLine")) {
-            s = s.split(":'").join(":\\n'");
-        }
-    }
-
-    return s;
-}
-
 export function printConstructor(statement: string) {
-    const placeholders = new PlaceholdersConverter(statement);
-    return printConstructorWithPlaceholders(statement, placeholders.convert());
+    const data = new DataModel();
+    const converter = new PlaceholdersConverter(statement, data);
+    return converter.convert();
 }
