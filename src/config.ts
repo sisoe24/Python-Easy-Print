@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 
 export const DEFAULTS = {
     printSymbol: "➡",
-    customStatement: "print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})",
-    customLogName: "logger",
+    customStatement: "print('\\n┌─ %w:%l - {text}\\n└─', {text})",
+    customLogName: "logging",
 };
 
 export interface IConfiguration {
@@ -28,7 +28,11 @@ export class Config {
     get(property: string, missing?: unknown): unknown {
         const subConfig = this.config.get(property);
 
-        if (typeof subConfig === "undefined") {
+        if (
+            typeof subConfig === "undefined" ||
+            subConfig === null ||
+            subConfig === ""
+        ) {
             if (missing) {
                 console.warn(`Configuration: ${property} doesn't exist`);
                 return missing;
