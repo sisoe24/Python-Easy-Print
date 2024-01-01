@@ -14,7 +14,11 @@
 
 - Improved the performance of the `include parent calls` setting.
 - Improved the performance of the `include function call` setting.
-- Refactored most of the code.
+
+### Fixed 
+
+- You can print a statement with quotes
+- You can print directly a dict['key']
 
 ## [0.7.1] - 2023-09-21
 
