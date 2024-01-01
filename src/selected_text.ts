@@ -82,7 +82,7 @@ export class SelectedText {
      */
     private includeParents(startChar: number, endChar: number): string {
         if (
-            !this.config.get("includeParentCall") ||
+            !this.config.get("hover.includeParentCall") ||
             this.lineText[startChar - 1] !== "."
         ) {
             return "";
@@ -116,7 +116,7 @@ export class SelectedText {
      */
     private includeFuncCall(endChar: number): string {
         if (
-            !this.config.get("includeParentheses") ||
+            !this.config.get("hover.includeParentheses") ||
             this.lineText[endChar] !== "("
         ) {
             return "";
