@@ -187,32 +187,32 @@
     "configuration": {
       "title": "Python EasyPrint",
       "properties": {
-        "pythonEasyPrint.prints.addCustomMessage": {
+        "pythonEasyPrint.customizePrint": {
           "type": "string",
           "default": "",
           "markdownDescription": "Add custom information to the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number.\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root.\n\nExample (file hyperlink):\n\n * `%w:%l`"
         },
-        "pythonEasyPrint.prints.customStatement": {
+        "pythonEasyPrint.customStatement": {
           "type": "string",
           "default": "",
-          "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.prints.addCustomMessage#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nReady to use example:\n\n * `print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})`"
+          "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.customizePrint#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nReady to use example:\n\n * `print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})`"
         },
-        "pythonEasyPrint.prints.customSymbol": {
+        "pythonEasyPrint.customSymbol": {
           "type": "string",
           "default": "➡",
           "markdownDescription": "Custom unicode symbol. Defaults to: ➡"
         },
-        "pythonEasyPrint.prints.printToNewLine": {
+        "pythonEasyPrint.printToNewLine": {
           "type": "boolean",
           "default": false,
           "markdownDescription": "Add a newline character to the prints statements."
         },
-        "pythonEasyPrint.hover.includeParentCall": {
+        "pythonEasyPrint.includeParentCall": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "If `true`, when hovering over `bar` of `foo.bar`, print `foo.bar`."
         },
-        "pythonEasyPrint.hover.includeParentheses": {
+        "pythonEasyPrint.includeParentheses": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "If `true`, when hovering over `foo` of `foo()`, print `foo()`."
@@ -222,12 +222,12 @@
           "default": true,
           "markdownDescription": "When selecting multiple declaration, print them individually."
         },
-        "pythonEasyPrint.logging.customLogName": {
+        "pythonEasyPrint.customLogName": {
           "type": "string",
           "default": "",
           "markdownDescription": "Custom logger instance name. If left empty, will default to: `logging`."
         },
-        "pythonEasyPrint.logging.useRepr": {
+        "pythonEasyPrint.useRepr": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name))`."
