@@ -187,32 +187,32 @@
     "configuration": {
       "title": "Python EasyPrint",
       "properties": {
-        "pythonEasyPrint.addCustomMessage": {
+        "pythonEasyPrint.prints.addCustomMessage": {
           "type": "string",
           "default": "%w:%l",
           "markdownDescription": "Add custom information to the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number.\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root.\n\nDefaults to (file hyperlink):\n\n * `%w:%l`"
         },
-        "pythonEasyPrint.customStatement": {
+        "pythonEasyPrint.prints.customStatement": {
           "type": "string",
           "default": "print('\\n┌─ %w:%l - {text}\\n└─', {text})",
           "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.addCustomMessage#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nDefaults to:\n\n * `print('\\n┌─ %w:%l - {text}\\n└─', {text})`"
         },
-        "pythonEasyPrint.customSymbol": {
+        "pythonEasyPrint.prints.customSymbol": {
           "type": "string",
           "default": "➡",
           "markdownDescription": "Custom unicode symbol. Defaults to: ➡"
         },
-        "pythonEasyPrint.printToNewLine": {
+        "pythonEasyPrint.prints.printToNewLine": {
           "type": "boolean",
           "default": false,
           "markdownDescription": "Add a newline character to the prints statements."
         },
-        "pythonEasyPrint.includeParentCall": {
+        "pythonEasyPrint.hover.includeParentCall": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "If `true`, when hovering over `bar` of `foo.bar`, print `foo.bar`."
         },
-        "pythonEasyPrint.includeParentheses": {
+        "pythonEasyPrint.hover.includeParentheses": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "If `true`, when hovering over `foo` of `foo()`, print `foo()`."
@@ -222,12 +222,12 @@
           "default": true,
           "markdownDescription": "When selecting multiple declaration, print them individually."
         },
-        "pythonEasyPrint.customLogName": {
+        "pythonEasyPrint.logging.customLogName": {
           "type": "string",
           "default": "logging",
           "markdownDescription": "Custom logger instance name. If left empty, will default to: `logging`."
         },
-        "pythonEasyPrint.useRepr": {
+        "pythonEasyPrint.logging.useRepr": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Use repr when logging: `logging.debug('name %s:', repr(name))`."
