@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.8.0] - 2024-01-01
+
+### Added
+
+- New command for the `id` function.
+
+### Removed
+
+- Removed the `uncomment` command. It is now a toggle command for the `comment` command. 
+
+### Changed
+
+- Improved the performance of the `include parent calls` setting.
+- Improved the performance of the `include function call` setting.
+- Refactored most of the code.
+
 ## [0.7.1] - 2023-09-21
 
 ### Fixed
