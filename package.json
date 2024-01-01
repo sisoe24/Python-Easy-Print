@@ -189,13 +189,13 @@
       "properties": {
         "pythonEasyPrint.addCustomMessage": {
           "type": "string",
-          "default": "",
-          "markdownDescription": "Add custom information to the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number.\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root.\n\nExample (file hyperlink):\n\n * `%w:%l`"
+          "default": "%w:%l",
+          "markdownDescription": "Add custom information to the print statements.\n\nPlaceholder variables:\n\n- `%f` - File name\n\n- `%l` - Line Number.\n\n- `%F` - Function name.\n\n- `%w` - Active file relative path from workspace root.\n\nDefaults to (file hyperlink):\n\n * `%w:%l`"
         },
         "pythonEasyPrint.customStatement": {
           "type": "string",
-          "default": "",
-          "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.addCustomMessage#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nReady to use example:\n\n * `print('─' * 50, '\\n┌─ %w:%l - {text}\\n└─', {text})`"
+          "default": "print('\\n┌─ %w:%l - {text}\\n└─', {text})",
+          "markdownDescription": "A custom statement to use with the `Python EasyPrint: custom` command. In addition to the placeholders defined in `#pythonEasyPrint.addCustomMessage#`, the following ones are also available:\n\n* `{text}` - The selected text\n\n* `{symbol}` - The unicode character.\n\nDefaults to:\n\n * `print('\\n┌─ %w:%l - {text}\\n└─', {text})`"
         },
         "pythonEasyPrint.customSymbol": {
           "type": "string",
@@ -224,7 +224,7 @@
         },
         "pythonEasyPrint.customLogName": {
           "type": "string",
-          "default": "",
+          "default": "logging",
           "markdownDescription": "Custom logger instance name. If left empty, will default to: `logging`."
         },
         "pythonEasyPrint.useRepr": {
