@@ -88,13 +88,13 @@ export class SelectedText {
             return "";
         }
 
-        let currentPos = this.cursorPosition;
-        while (this.lineText[currentPos] !== " ") {
+        let currentPos = endChar;
+        while (this.lineText[currentPos] !== " " && currentPos > 0) {
             currentPos--;
         }
 
         const lineRange = new vscode.Range(
-            new vscode.Position(this.lineNumber, currentPos),
+            new vscode.Position(this.lineNumber, currentPos + 1),
             new vscode.Position(this.lineNumber, endChar)
         );
 
