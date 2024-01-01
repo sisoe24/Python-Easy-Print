@@ -39,21 +39,21 @@ export class DataModel {
 
     getLogger(): string {
         return this.config.get(
-            "customLogName",
+            "logging.customLogName",
             config.DEFAULTS.customLogName
         ) as string;
     }
 
     getSymbol(): string {
         return this.config.get(
-            "customSymbol",
+            "prints.customSymbol",
             config.DEFAULTS.printSymbol
         ) as string;
     }
 
     getCustomMessage(): string {
         return this.config.get(
-            "customStatement",
+            "prints.customStatement",
             config.DEFAULTS.customStatement
         ) as string;
     }
@@ -153,7 +153,7 @@ export class PlaceholdersConverter {
     private convertLog(): string {
         let s = this.statement.replace("{logger}", this.data.getLogger());
 
-        if (this.data.config.get("useRepr")) {
+        if (this.data.config.get("logging.useRepr")) {
             s = s.replace("{#text}", "repr({text})");
         } else {
             s = s.replace("{#text}", "{text}");
@@ -180,7 +180,7 @@ export class PlaceholdersConverter {
             .replace(replaceToken, placeholders)
             .replace("{symbol}", this.data.getSymbol());
 
-        if (this.data.config.get("printToNewLine")) {
+        if (this.data.config.get("prints.printToNewLine")) {
             s = s.split(":'").join(":\\n'");
         }
 
