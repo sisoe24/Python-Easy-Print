@@ -42,6 +42,24 @@ function findBrackets(
 }
 
 /**
+ * Return true if character is valid.
+ * 
+ * Valid characters are letters, numbers and dots.
+ */
+const validChar = (text: string) => {
+    const charCode = text.charCodeAt(0);
+    if (
+        (charCode < 65 ||
+            (charCode > 90 && charCode < 97) ||
+            charCode > 122) &&
+        charCode !== 46
+    ) {
+        return false;
+    }
+    return true;
+};
+
+/**
  * Select text object class.
  *
  * The class deals with the selection that could be either manually from the user,
@@ -95,6 +113,7 @@ export class SelectedText {
      * @returns the chain of parents or an empty string if there are none.
      */
     private includeParents(startChar: number, endChar: number): string {
+
         if (
             !this.config.get("hover.includeParentCall") ||
             this.lineText[startChar - 1] !== "."
@@ -102,9 +121,16 @@ export class SelectedText {
             return "";
         }
 
-        let currentPos = endChar;
-        while (this.lineText[currentPos] !== " " && currentPos > 0) {
-            currentPos--;
+
+
+        let currentPos = endChar - 1;
+        while (currentPos > 0) {
+            if (!validChar(this.lineText[currentPos])) {
+                ++currentPos;
+                break;
+            }
+
+            --currentPos;
         }
 
         const lineRange = new vscode.Range(
