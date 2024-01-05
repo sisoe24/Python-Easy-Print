@@ -245,7 +245,7 @@ export class SelectedText {
 
         if (selectedText) {
             if (this.config.get("multipleStatements")) {
-                return selectedText.split(",");
+                return selectedText.split(",").map((s) => s.trim());
             }
 
             return [this.cleanText(selectedText)];
