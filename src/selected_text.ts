@@ -42,24 +42,6 @@ function findBrackets(
 }
 
 /**
- * Return true if character is valid.
- * 
- * Valid characters are letters, numbers and dots.
- */
-const validChar = (text: string) => {
-    const charCode = text.charCodeAt(0);
-    if (
-        (charCode < 65 ||
-            (charCode > 90 && charCode < 97) ||
-            charCode > 122) &&
-        charCode !== 46
-    ) {
-        return false;
-    }
-    return true;
-};
-
-/**
  * Select text object class.
  *
  * The class deals with the selection that could be either manually from the user,
@@ -121,11 +103,9 @@ export class SelectedText {
             return "";
         }
 
-
-
         let currentPos = endChar - 1;
         while (currentPos > 0) {
-            if (!validChar(this.lineText[currentPos])) {
+            if (!/^[0-9a-zA-Z.]$/.test(this.lineText[currentPos])) {
                 ++currentPos;
                 break;
             }
