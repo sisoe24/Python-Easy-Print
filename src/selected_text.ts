@@ -105,7 +105,7 @@ export class SelectedText {
  
         let currentPos = endChar - 1;
         while (currentPos > 0) {
-            if (!/^[0-9a-zA-Z_.]$/.test(this.lineText[currentPos])) {
+            if (!/^[0-9a-zA-Z_.()\\[\]'"]$/.test(this.lineText[currentPos])) {
                 ++currentPos;
                 break;
             }
