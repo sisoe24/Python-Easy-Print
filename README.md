@@ -94,7 +94,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   Examples:
   - VS Code friendly terminal hyperlink: `%w:%l`
 
-
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
   If `true`, when _manually selecting_ multiple statements (e.g., `foo, bar`), print each one individually.
@@ -257,6 +256,7 @@ executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 ## 1.7. Known Issues
 
 - When using the delete or comment commands, the extension will ignore the `help` statement and the `custom` statement.
+- Temporarly removed the test suite 🤞
 
 ## 1.8 Demo
 
