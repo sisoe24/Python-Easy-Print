@@ -25,6 +25,7 @@ Quick Commands to generate Python's most useful prints in Visual Studio Code.
   - [1.6. Example Key Bindings](#16-example-key-bindings)
   - [1.7. Note](#17-note)
   - [1.7. Known Issues](#17-known-issues)
+  - [1.8 Demo](#18-demo)
 
 ## 1.1. Features
 
@@ -76,10 +77,8 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | `python-easy-print.easyLogError`      |                  |
 | `python-easy-print.easyLogCritical`   |                  |
 
-- Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information)
 - The main shortcut to remember is `ctrl+shift+l`, plus the initial letter of the action you want to execute: `p` for `print`, `d` for `dir`, `t` for `type`, `c` for custom, etc.
-- The Python2 command includes the word `py2` to be found in the Command palette faster.
-- See [Example Key Bindings](#16-example-key-bindings) for more shortcuts examples.
+- Every command can be re-assigned to a new shortcut.(see [Key Bindings for Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings) for more information). See [Example Key Bindings](#16-example-key-bindings) for more shortcuts examples
 
 ## 1.4. Extension Settings
 
@@ -95,7 +94,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   Examples:
   - VS Code friendly terminal hyperlink: `%w:%l`
 
-    ![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly2.gif)
 
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
@@ -122,10 +120,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   - `print('─' * 50, '\n┌─ %w:%l - {text}\n└─', {text})`
   - `customFunction({text})`
 
-    ![customPrint](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/customPrint.gif)
-
-  > Note: This statement will be ignored from the comment/uncomment/delete commands.
-
 - `pythonEasyPrint.hover.includeParentCall`: `boolean`
 
     If `true`, when hovering over a word (e.g., hovering over `bar` of `foo.bar`), include the parent/s to the print.
@@ -134,7 +128,7 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
     If `true`, when hovering over a word (e.g., hovering over `bar` of `bar(foo)`), include the function parentheses to the print.
 
-    ![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selections.gif)
+
 
 - `pythonEasyPrint.logging.useRepr`: `boolean`
 
@@ -264,6 +258,8 @@ executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 
 - When using the delete or comment commands, the extension will ignore the `help` statement and the `custom` statement.
 
+## 1.8 Demo
+
 Logging
 
 ![Logging](/images/logging.gif)
@@ -271,3 +267,11 @@ Logging
 Comment, Uncomment & Delete
 
 ![DocumentExtras](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/comment_uncomment_delete.gif)
+
+Vscode Terminal Hyperlink
+
+![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly2.gif)
+
+Extra Selections
+
+![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selections.gif)
