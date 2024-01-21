@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.8.0] - 2024-01-01
+## [0.8.0] - 2024-01-20
 
 ### Added
 
@@ -8,14 +8,14 @@
 
 ### Removed
 
-- Removed the `uncomment` command. It is now a toggle command for the `comment` command. 
+- Removed the `uncomment` command. It is now a toggle command for the `comment` command.
 
 ### Changed
 
 - Improved the performance of the `include parent calls` setting.
 - Improved the performance of the `include function call` setting.
 
-### Fixed 
+### Fixed
 
 - You can print a statement with quotes
 - You can print directly a dict['key']
