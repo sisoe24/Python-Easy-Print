@@ -207,6 +207,11 @@
           "default": false,
           "markdownDescription": "Add a newline character to the prints statements."
         },
+        "pythonEasyPrint.prints.useDoubleQuotes": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Use double quotes for the print statements."
+        },
         "pythonEasyPrint.hover.includeParentCall": {
           "type": "boolean",
           "default": true,

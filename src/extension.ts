@@ -5,6 +5,8 @@ import * as doc from "./document_parser";
 import { SelectedText } from "./selected_text";
 import { printConstructor } from "./print_constructor";
 import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./statements";
+import { getConfig } from "./config";
+import { config } from "process";
 
 export async function executeCommand(
     statement: string
@@ -21,6 +23,10 @@ export async function executeCommand(
         return;
     }
 
+    if (getConfig().get("prints.useDoubleQuotes")) {
+        statement = statement.replace(/'/g, "\"");
+    }
+
     for (const match of text) {
         if (selectedText.hasCodeBlock()) {
             await vscode.commands.executeCommand("editor.action.jumpToBracket");
@@ -30,7 +36,9 @@ export async function executeCommand(
         await vscode.commands
             .executeCommand("editor.action.insertLineAfter")
             .then(() => {
+
                 const stringStatement = printConstructor(statement);
+
                 const insertText = stringStatement.replace(/\{text\}/g, match);
 
                 editor.edit((editBuilder) => {

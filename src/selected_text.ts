@@ -204,8 +204,15 @@ export class SelectedText {
     }
 
     private cleanText(text: string): string {
+
+        // invert the quotes inside the selected text
+        if (config.getConfig().get("prints.useDoubleQuotes")) {
+            text = text.replace(/"/g, "'");
+        } else {
+            text = text.replace(/'/g, '"');
+        }
+
         return text
-            .replace(/'/g, '"')
             .replace(/\r?\n/g, "")
             .replace(/\s+/g, " ")
             .trim();
