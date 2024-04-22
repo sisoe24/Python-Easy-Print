@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.10.0] - 2024-02-20
+
+### Added
+
+- New option to use double quotes instead of single quotes.
+
+
 ## [0.9.0] - 2024-01-20
 
 ### Added
