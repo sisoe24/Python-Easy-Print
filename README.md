@@ -94,6 +94,10 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
   Examples:
   - VS Code friendly terminal hyperlink: `%w:%l`
 
+- `pythonEasyPrint.prints.useDoubleQuotes`: `boolean`
+
+    If `true`, the print statement will use double quotes instead of single quotes.
+
 - `pythonEasyPrint.multipleStatements`: `boolean`
 
   If `true`, when _manually selecting_ multiple statements (e.g., `foo, bar`), print each one individually.
@@ -126,8 +130,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 - `pythonEasyPrint.hover.includeParentheses`: `boolean`
 
     If `true`, when hovering over a word (e.g., hovering over `bar` of `bar(foo)`), include the function parentheses to the print.
-
-
 
 - `pythonEasyPrint.logging.useRepr`: `boolean`
 
@@ -257,6 +259,7 @@ executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 
 - When using the delete or comment commands, the extension will ignore the `help` statement and the `custom` statement.
 - Temporarly removed the test suite 🤞
+- Fails to hover print arguments with attributes inside a callable. (e.g., `args` of `foo(obj.args)`)
 
 ## 1.8 Demo
 
